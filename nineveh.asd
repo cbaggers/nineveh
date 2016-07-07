@@ -1,10 +1,11 @@
 ;;;; nineveh.asd
 
 (asdf:defsystem #:nineveh
-  :description "Describe nineveh here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
+  :description "A library of common gpu functions"
+  :author "Chris Bagley (Baggers) <techsnuffle@gmail.com>"
+  :license "BSD 2 Clause"
   :serial t
+  :depends-on (#:cepl)
   :components ((:file "package")
-               (:file "nineveh")))
-
+               (:file "log10")
+	       (:file "clamping")))
