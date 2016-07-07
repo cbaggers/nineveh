@@ -7,5 +7,5 @@
   :serial t
   :depends-on (#:cepl)
   :components ((:file "package")
-               (:file "log10")
+               (:file "log")
 	       (:file "clamping")))
