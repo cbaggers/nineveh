@@ -7,5 +7,6 @@
   :serial t
   :depends-on (#:cepl)
   :components ((:file "package")
-               (:file "log")
-	       (:file "clamping")))
+	       (:file "cpu/hdr-cross-cube-map-loader")
+               (:file "gpu/log")
+	       (:file "gpu/clamping")))
