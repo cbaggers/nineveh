@@ -5,7 +5,7 @@
   :author "Chris Bagley (Baggers) <techsnuffle@gmail.com>"
   :license "BSD 2 Clause"
   :serial t
-  :depends-on (#:cepl)
+  :depends-on (#:cepl #:cl-soil)
   :components ((:file "package")
 	       (:file "cpu/hdr-cross-cube-map-loader")
                (:file "gpu/log")
