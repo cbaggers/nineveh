@@ -19,4 +19,10 @@
    ;;------------------------------
    :load-hdr-cross-image
    :load-hdr-cross-texture
+
+   ;;
+   ;; Both
+   ;;
+   ;;------------------------------
+   :bind-vec
    ))
