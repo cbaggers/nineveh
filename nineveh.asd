@@ -11,4 +11,6 @@
 	       (:file "cpu/bind")
                (:file "gpu/log")
 	       (:file "gpu/bind")
-	       (:file "gpu/clamping")))
+	       (:file "gpu/clamping")
+	       (:file "gpu/sampling")
+	       (:file "gpu/misc")))
