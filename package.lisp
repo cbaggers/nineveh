@@ -19,6 +19,10 @@
    ;;------------------------------
    ;; misc.lisp
    :radical-inverse-vdc
+   ;;------------------------------
+   ;; mipmaps.lisp
+   :mipmap-level->grey
+   :mipmap-level->color
 
    ;;
    ;; CPU

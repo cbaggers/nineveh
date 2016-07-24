@@ -13,4 +13,5 @@
 	       (:file "gpu/bind")
 	       (:file "gpu/clamping")
 	       (:file "gpu/sampling")
+               (:file "gpu/mipmaps")
 	       (:file "gpu/misc")))
