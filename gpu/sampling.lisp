@@ -1,7 +1,8 @@
 (in-package :nineveh)
 
 (defun-g sample-equirectangular-tex ((tex :sampler-2d) (vec :vec3))
-  (let ((uv (v! (/ (atan (z vec) (x vec)) (* 2s0 +pi+))
+  (let ((vec (normalize vec))
+        (uv (v! (/ (atan (z vec) (x vec)) (* 2s0 +pi+))
 		(- (/ (+ (asin (y vec)) (/ +pi+ 2s0))
 		      +pi+)))))
     (texture tex uv)))
