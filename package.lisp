@@ -1,26 +1,26 @@
 ;;;; package.lisp
 
-(defpackage #:nineveh
-  (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+(uiop:define-package #:nineveh
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
   (:export
    ;;
    ;; GPU
    ;;
    ;;------------------------------
-   ;; log.lisp
+   ;; log
    :log10
    ;;------------------------------
-   ;; clamping.lisp
+   ;; clamping
    :saturate
    ;;------------------------------
-   ;; sampling.lisp
+   ;; sampling
    :sample-equirectangular-tex
    :uv->cube-map-directions
    ;;------------------------------
-   ;; misc.lisp
+   ;; misc
    :radical-inverse-vdc
    ;;------------------------------
-   ;; mipmaps.lisp
+   ;; mipmaps
    :mipmap-level->grey
    :mipmap-level->color
 
@@ -28,12 +28,19 @@
    ;; CPU
    ;;
    ;;------------------------------
+   ;; hdr
    :load-hdr-cross-image
    :load-hdr-cross-texture
    :load-hdr-2d
+   ;;------------------------------
+   ;; fbos.lisp
+   :make-fbos-for-each-mipmap-of-cube-texture
+   ;;------------------------------
+   ;; textures
+   :cube-faces
+
    ;;
    ;; Both
    ;;
    ;;------------------------------
-   :bind-vec
-   ))
+   :bind-vec))

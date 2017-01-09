@@ -9,6 +9,7 @@
   :components ((:file "package")
 	       (:file "cpu/hdr-cross-cube-map-loader")
 	       (:file "cpu/bind")
+               (:file "cpu/fbos")
                (:file "gpu/log")
 	       (:file "gpu/bind")
 	       (:file "gpu/clamping")
