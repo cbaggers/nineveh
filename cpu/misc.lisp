@@ -21,20 +21,21 @@
                       (format t "~%- starting ~a -" ',name)
                       (unwind-protect
                            (loop :until (= ,frame-var-name 0) :do
-                              (decf ,frame-var-name 1)
-                              ;; update swank
-                              (livesupport:continuable
-                                (livesupport:update-repl-link))
-                              ;; update event system
-                              (livesupport:continuable
-                                (cepl:step-host))
-                              ;; update temporal pool
-                              ,(when (find-package :temporal-functions)
-                                     `(livesupport:continuable
-                                        (,(intern "UPDATE" :ttm))))
-                              ;; run step function
-                              (livesupport:continuable
-                                (,step-func-name)))
+                              (progn
+                                (decf ,frame-var-name 1)
+                                ;; update swank
+                                (livesupport:continuable
+                                  (livesupport:update-repl-link))
+                                ;; update event system
+                                (livesupport:continuable
+                                  (cepl:step-host))
+                                ;; update temporal pool
+                                ,(when (find-package :temporal-functions)
+                                       `(livesupport:continuable
+                                          (,(intern "UPDATE" :ttm))))
+                                ;; run step function
+                                (livesupport:continuable
+                                  (,step-func-name))))
                         (setf ,frame-var-name -1)
                         (format t "~%- stopping ~a -" ',name)))
                      (:stop
