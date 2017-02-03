@@ -17,4 +17,5 @@
                (:file "gpu/clamping")
                (:file "gpu/sampling")
                (:file "gpu/mipmaps")
+               (:file "gpu/textures/draw-texture")
                (:file "gpu/misc")))

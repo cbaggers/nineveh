@@ -27,6 +27,17 @@
    ;; mipmaps
    :mipmap-level->grey
    :mipmap-level->color
+   ;;
+   ;; textures
+   :draw-tex
+   :draw-tex-tl
+   :draw-tex-tr
+   :draw-tex-bl
+   :draw-tex-br
+   :draw-tex-top-left
+   :draw-tex-top-right
+   :draw-tex-bottom-left
+   :draw-tex-bottom-right
 
    ;;------------------------------
    ;; CPU
