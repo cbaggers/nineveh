@@ -56,7 +56,7 @@
            (rect-res (rotated-rect-size (v2:* tex-res (v! 3 4)) rotation))
            (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2)))
       (labels ((calc-trans (pos)
-                 (m4:**
+                 (m4:*
                   (m4:translation (v! pos-vec2 0))
                   (m4:scale (v3:*s (v! (/ 1 (x win-res))
                                        (/ 1 (y win-res))
@@ -106,7 +106,7 @@
          (rect-res (rotated-rect-size tex-res rotation))
          (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2))
          (transform
-          (m4:**
+          (m4:*
            (m4:translation (v! pos-vec2 0))
            (m4:scale (v3:*s (v! (/ 1 (x win-res))
                                 (/ 1 (y win-res))
