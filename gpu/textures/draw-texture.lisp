@@ -143,7 +143,7 @@
                      &optional (scale 0.9) (flip-uvs-vertically t))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! -0 0) 1.5707 scale)
-      (%draw-sampler sampler (v! 0 0) 0 scale flip-uvs-vertically)))
+      (%draw-sampler sampler (v! 0 0) 0s0 scale flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
@@ -153,7 +153,7 @@
 (defmethod draw-tex-tl ((sampler sampler) &optional (flip-uvs-vertically t))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! -0.5 0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! -0.5 0.5) 0 0.5 flip-uvs-vertically)))
+      (%draw-sampler sampler (v! -0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
@@ -163,7 +163,7 @@
 (defmethod draw-tex-bl ((sampler sampler) &optional (flip-uvs-vertically t))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! -0.5 -0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! -0.5 -0.5) 0 0.5 flip-uvs-vertically)))
+      (%draw-sampler sampler (v! -0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
@@ -173,7 +173,7 @@
 (defmethod draw-tex-tr ((sampler sampler) &optional (flip-uvs-vertically t))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! 0.5 0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! 0.5 0.5) 0 0.5 flip-uvs-vertically)))
+      (%draw-sampler sampler (v! 0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
@@ -183,6 +183,6 @@
 (defmethod draw-tex-br ((sampler sampler) &optional (flip-uvs-vertically t))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! 0.5 -0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! 0.5 -0.5) 0 0.5 flip-uvs-vertically)))
+      (%draw-sampler sampler (v! 0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
