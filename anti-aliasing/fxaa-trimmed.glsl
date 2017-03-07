@@ -18,67 +18,31 @@ OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF OR INABILITY TO USE
 THIS SOFTWARE, EVEN IF NVIDIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES.
 
-(3.)
-Then call the FXAA pixel shader from within your desired shader.
-Look at the FXAA Quality FxaaPixelShader() for docs on inputs.
-As for FXAA 3.11 all inputs for all shaders are the same
-to enable easy porting between platforms.
-
-  return FxaaPixelShader(...);
-
-(4.)
-Insure pass prior to FXAA outputs RGBL (see next section).
-Or use,
-
-  #define FXAA_GREEN_AS_LUMA 1
-
-(5.)
-Setup engine to provide the following constants
-which are used in the FxaaPixelShader() inputs,
-
-  vec2 fxaaQualityRcpFrame,
-  float fxaaQualitySubpix,
-  float fxaaQualityEdgeThreshold,
-  float fxaaQualityEdgeThresholdMin,
-
-Look at the FXAA Quality FxaaPixelShader() for docs on inputs.
-
-(6.)
+(1.)
 Have FXAA vertex shader run as a full screen triangle,
-and output "pos" and "fxaaConsolePosPos"
-such that inputs in the pixel shader provide,
+and output "pos" such that input in the pixel shader is provided,
 
   // {xy} = center of pixel
   vec2 pos,
 
-  // {xy__} = upper left of pixel
-  // {__zw} = lower right of pixel
-  vec4 fxaaConsolePosPos,
-
-(7.)
+(2.)
 Insure the texture sampler(s) used by FXAA are set to bilinear filtering.
 
 
 ------------------------------------------------------------------------------
                     INTEGRATION - RGBL AND COLORSPACE
 ------------------------------------------------------------------------------
-FXAA3 requires RGBL as input unless the following is set,
-
-  #define FXAA_GREEN_AS_LUMA 1
-
-In which case the engine uses green in place of luma,
-and requires RGB input is in a non-linear colorspace.
+FXAA3 requires RGBL as input
 
 RGB should be LDR (low dynamic range).
 Specifically do FXAA after tonemapping.
 
 RGB data as returned by a texture fetch can be non-linear,
-or linear when FXAA_GREEN_AS_LUMA is not set.
+or linear
 Note an "sRGB format" texture counts as linear,
 because the result of a texture fetch is linear data.
 Regular "RGBA8" textures in the sRGB colorspace are non-linear.
 
-If FXAA_GREEN_AS_LUMA is not set,
 luma must be stored in the alpha channel prior to running FXAA.
 This luma should be in a perceptual space (could be gamma 2.0).
 Example pass before FXAA where output is gamma 2.0 encoded,
@@ -118,9 +82,7 @@ This is very counter intuitive, but happends to be true in this case.
 The reason is because dithering artifacts will be more visiable
 in a linear colorspace.
 
-============================================================================*/
-
-/*============================================================================
+============================================================================
 
                              INTEGRATION KNOBS
 
@@ -790,3 +752,9 @@ vec4 FxaaPixelShader(
     return textureLod(tex, posM, 0.0);
 }
 /*==========================================================================*/
+
+void main() {
+  color_out = FxaaPixelShader(tex_coord, src_tex, inv_viewport_size,
+  			      0.75, 0.166, 0.0833);
+  /* color_out = texture(src_tex, tex_coord); */
+}
