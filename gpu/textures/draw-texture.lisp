@@ -186,3 +186,39 @@
       (%draw-sampler sampler (v! 0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
+
+(defun-g draw-texture-at-vert ((vert g-pt) &uniform (pos :vec2)
+                               (size :vec2)
+                               (viewport-size :vec2)
+                               (uv-flip :bool))
+  (let* ((vpos (* (s~ (pos vert) :xy) 2))
+         (scaled-pos (/ (* vpos size) viewport-size))
+         (final (v! (+ pos scaled-pos) 0f0 1f0))
+         (uv-y (if uv-flip
+                   (- 1 (y (tex vert)))
+                   (y (tex vert)))))
+    (values final (v! (x (tex vert)) uv-y))))
+
+(defun-g draw-texture-at-frag ((tc :vec2) &uniform (tex :sampler-2d))
+  (texture tex tc))
+
+(def-g-> draw-texture-at-pipeline ()
+  #'(draw-texture-at-vert g-pt) #'(draw-texture-at-frag :vec2))
+
+(defmethod draw-tex-at ((sampler sampler)
+                        &optional
+                          (pos (v! 0 0))
+                          (centered t)
+                          (flip-uvs-vertically t))
+  (let* ((size (v! (texture-base-dimensions (sampler-texture sampler))))
+         (vp-size (viewport-resolution (current-viewport)))
+         (ratio (v2:/ size vp-size))
+         (pos (if centered
+                  pos
+                  (v2:+ pos (v! (x ratio) 0)))))
+    (map-g #'draw-texture-at-pipeline (get-gpu-quad)
+           :tex sampler
+           :size size
+           :pos pos
+           :viewport-size vp-size
+           :uv-flip (if flip-uvs-vertically 1 0))))
