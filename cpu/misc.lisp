@@ -6,7 +6,7 @@
      (prog1 (progn ,@body)
        (swap))))
 
-(defmacro def-simple-main-loop (name &body body)
+(defmacro def-simple-main-loop (name (&key on-start) &body body)
   (let ((frame-var-name (symb :* name :-frame-counter*))
         (step-func-name (symb :% name :-step-func*)))
     `(progn
@@ -19,6 +19,11 @@
                      (:start
                       (setf ,frame-var-name (or frames -1))
                       (format t "~%- starting ~a -" ',name)
+                      (unless *gl-context*
+                        (cepl:repl))
+                      (let ((on-start ,on-start))
+                        (when on-start
+                          (funcall on-start)))
                       (unwind-protect
                            (loop :until (= ,frame-var-name 0) :do
                               (progn
