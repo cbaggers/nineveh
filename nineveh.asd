@@ -18,4 +18,5 @@
                (:file "gpu/sampling")
                (:file "gpu/mipmaps")
                (:file "gpu/textures/draw-texture")
-               (:file "gpu/misc")))
+               (:file "gpu/misc")
+               (:file "quad-streams")))
