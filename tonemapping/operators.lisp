@@ -1,4 +1,4 @@
-(in-package #:nineveh)
+(in-package #:nineveh.tonemapping)
 
 ;; Filmic Tonemapping Operators
 ;;

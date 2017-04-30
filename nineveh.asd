@@ -21,4 +21,5 @@
                (:file "quad-streams")
                (:file "gpu/misc")
                (:file "tonemapping/operators")
-               (:file "trig")))
+               (:file "shaping-functions/polynominal")
+               (:file "shaping-functions/to-sort")))
