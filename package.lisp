@@ -27,6 +27,11 @@
   (:export :almost-identity :impulse :cubic-pulse
            :exponential-step :parabola :power-curve))
 
+(uiop:define-package #:nineveh.easing
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          #:easing-f)
+  (:reexport :easing))
+
 (uiop:define-package #:nineveh.shaping-functions.polynomial
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
   (:import-from :varjo
