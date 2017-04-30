@@ -1,11 +1,22 @@
-(in-package :nineveh.trig)
+(in-package :nineveh.shaping-functions.polynomial)
+
+;;
+;;
+;; Some polynomial functions for shaping, tweening, and easing signals in the
+;; range [0..1]
+;;
+;;
 
 (defun-g cos-raised-inverted-blinn-wybill ((x :float))
   "Approximation of 'raised inverted cosine'. Diverges from real function
    by less that 0.1% within the range [0..1].
 
    It also shares some of the Raised Inverted Cosine's key properties, having
-   flat derivatives at 0 and 1, and the value 0.5 at x=0.5."
+   flat derivatives at 0 and 1, and the value 0.5 at x=0.5.
+
+   Credit:
+   Golan Levin and Collaborators: http://www.flong.com/texts/code/shapers_poly/
+   "
   (let* ((x² (* x x))
          (x⁴ (* x² x²))
          (x⁶ (* x⁴ x²))
@@ -17,10 +28,14 @@
                (* fc x²))))
     y))
 
-(defun-g seat-double-cubic ((x :float) (inflection-point :vec2))
+(defun-g seat-double-cubic ((inflection-point :vec2) (x :float))
   "This seat-shaped function is formed by joining two 3rd-order polynomial
    (cubic) curves. The curves meet with a horizontal inflection point at the
-   control coordinate specified by 'inflection-point' in the unit square."
+   control coordinate specified by 'inflection-point' in the unit square.
+
+   Credit:
+   Golan Levin and Collaborators: http://www.flong.com/texts/code/shapers_poly/
+   "
   (let* ((epsilon (glsl-expr "0.00001" :float))
          (min-a epsilon)
          (max-a (- 1f0 epsilon))
@@ -32,9 +47,9 @@
         (- b (* b (pow (- 1 (/ x a)) 3f0)))
         (+ b (* (- 1 b) (pow (/ (- x a) (- 1 a)) 3f0))))))
 
-(defun-g seat-double-cubic-with-linear-bend ((x :float)
-                                             (inflection-point :float)
-                                             (amount-of-blend :float))
+(defun-g seat-double-cubic-with-linear-bend ((inflection-point :float)
+                                             (amount-of-blend :float)
+                                             (x :float))
   "This is a modified version of #'seat-double-cubic.
 
    It uses 'inflection-point' to control the location of its inflection point
@@ -45,7 +60,11 @@
    the curve's plateau in the vicinity of its inflection point.
 
    The adjustable flattening around the inflection point makes this a useful
-   shaping function for lensing or magnifying evenly-spaced data."
+   shaping function for lensing or magnifying evenly-spaced data.
+
+   Credit:
+   Golan Levin and Collaborators: http://www.flong.com/texts/code/shapers_poly/
+   "
   (let* ((epsilon (glsl-expr "0.00001" :float))
          (min-a epsilon)
          (max-a (- 1f0 epsilon))
@@ -59,3 +78,26 @@
         (+ (* b x)
            (* (- 1 b)
               (+ a (* (- 1 a) (pow (/ (- x a) (- 1 a)) 3f0))))))))
+
+(defun-g seat-double-odd-exponent ((inflection-point :vec2)
+                                   (exponent :int)
+                                   (x :float))
+  "This is the seat-double-cubic generalized to work with any odd exponent.
+   The viable value for 'exponent' are the odd integers from 1 to 19.
+
+   Credit:
+   Golan Levin and Collaborators: http://www.flong.com/texts/code/shapers_poly/
+   "
+  (let* ((epsilon (glsl-expr "0.00001" :float))
+         (min-a epsilon)
+         (max-a (- 1f0 epsilon))
+         (min-b 0f0)
+         (max-b 1f0)
+         (a (clamp (x inflection-point) min-a max-a))
+         (b (clamp (y inflection-point) min-b max-b))
+         (p (+ (* 2 exponent) 1)))
+    (if (<= x a)
+        (- b (* b (pow (- 1 (/ x a)) p)))
+        (+ b (* (- 1 b) (pow (/ (- x a) (- 1 a)) p))))))
+
+;; {TODO} Investifate switching away from conditions
