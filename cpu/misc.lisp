@@ -19,6 +19,8 @@
                      (:start
                       (setf ,frame-var-name (or frames -1))
                       (format t "~%- starting ~a -" ',name)
+                      (unless cepl.context::*gl-context*
+                        (cepl:repl))
                       (unwind-protect
                            (loop :until (= ,frame-var-name 0) :do
                               (progn

@@ -1,11 +1,33 @@
 ;;;; package.lisp
 
+(uiop:define-package #:nineveh.tonemapping
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :tone-map-linear
+           :tone-map-reinhard
+           :tone-map-haarm-peter-duiker
+           :tone-map-hejl-burgess-dawson
+           :tone-map-uncharted2))
+
+(uiop:define-package #:nineveh.trig
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :cos-blinn-wybill :cos-raised-inverted-blinn-wybill
+           :seat-double-cubic :seat-double-cubic-with-linear-bend))
+
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
                 :with-setf)
+  (:reexport :nineveh.tonemapping :nineveh.trig)
   (:export
    ;;------------------------------
    ;; GPU
