@@ -26,6 +26,8 @@ from the classic version
 
 It can run on 16bit and 24bit floating point hardware.
 
+Generates a random number for each of the 4 cell corners
+
 -- Credit --
 
 Marc Olano - http://www.cs.umbc.edu/~olano/papers/mNoise.pdf
@@ -45,6 +47,8 @@ grid-cell :vec2  -  Assumed to be an integer coordinate
 
 This is an implementation of a permutation polynomial hash function.
 It calculates pseudo-random values in the 0.0->1.0 range.
+
+Generates a random number for each of the 4 cell corners
 
 -- Credit --
 

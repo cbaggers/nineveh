@@ -37,6 +37,7 @@
 ;; 2D
 
 (defun-g quadratic-permutation-polynomial-hash ((grid-cell :vec2))
+  ;; generates a random number for each of the 4 cell corners
   ;; grid-cell is assumed to be an integer coordinate
   (let* (;; coord-prepare
          (v4 (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1f0))))
@@ -49,6 +50,7 @@
     (sgpp-resolve hash)))
 
 (defun-g quadratic-permutation-polynomial-hash-2-val ((grid-cell :vec2))
+  ;; generates 2 random numbers for each of the 4 cell corners
   ;; grid-cell is assumed to be an integer coordinate
   (let* (;; coord-prepare
          (v4 (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1f0))))
@@ -65,6 +67,7 @@
 ;; 3D
 
 (defun-g quadratic-permutation-polynomial-hash ((grid-cell :vec3))
+  ;; generates a random number for each of the 8 cell corners
   ;; grid-cell is assumed to be an integer coordinate
   (let* (;; coord-prepare
          (grid-cell (sgpp-coord-prepare grid-cell))
