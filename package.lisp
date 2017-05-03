@@ -14,7 +14,8 @@
           :nineveh.math-primitives
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
-  (:export :blum-blum-shub-hash))
+  (:export :blum-blum-shub-hash
+           :quadratic-permutation-polynomial-hash))
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
