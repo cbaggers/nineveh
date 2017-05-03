@@ -1,4 +1,4 @@
-(in-package #:nineveh.math-primtives)
+(in-package #:nineveh.math-primitives)
 
 (defun-g saturate ((val :float))
   (clamp val 0s0 1s0))

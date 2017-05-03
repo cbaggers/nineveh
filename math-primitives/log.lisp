@@ -1,4 +1,4 @@
-(in-package #:nineveh.math-primtives)
+(in-package #:nineveh.math-primitives)
 
 (defconstant +k-log-base-10+ (/ 1.0 (log 10.0 2)))
 

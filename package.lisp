@@ -1,13 +1,30 @@
 ;;;; package.lisp
 
-(uiop:define-package #:nineveh.math-primtives
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+(uiop:define-package #:nineveh.math-primitives
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10 :saturate))
 
+(uiop:define-package #:nineveh.hashing
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives
+          :documentation-utils)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  ;;(:export)
+  )
+
+(uiop:define-package #:nineveh.random
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives
+          :documentation-utils)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :rand))
+
 (uiop:define-package #:nineveh.tonemapping
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :nineveh.math-primtives)
+          :nineveh.math-primitives
+          :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
@@ -19,7 +36,8 @@
            :tone-map-uncharted2))
 
 (uiop:define-package #:nineveh.shaping-functions
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
@@ -29,11 +47,13 @@
 
 (uiop:define-package #:nineveh.easing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          #:easing-f)
+          #:easing-f
+          :documentation-utils)
   (:reexport :easing))
 
 (uiop:define-package #:nineveh.shaping-functions.polynomial
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
@@ -43,23 +63,24 @@
            :seat-double-cubic-with-linear-bend))
 
 (uiop:define-package #:nineveh
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths)
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives
+          :nineveh.random
+          :nineveh.tonemapping
+          :nineveh.shaping-functions.polynomial
+          :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
                 :with-setf)
-  (:reexport :nineveh.tonemapping
+  (:reexport :nineveh.math-primitives
+             :nineveh.random
+             :nineveh.tonemapping
              :nineveh.shaping-functions.polynomial)
   (:export
    ;;------------------------------
    ;; GPU
    ;;------------------------------
-   ;;
-   ;; log
-   :log10
-   ;;
-   ;; clamping
-   :saturate
    ;;
    ;; sampling
    :sample-equirectangular-tex
