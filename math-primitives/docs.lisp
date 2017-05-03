@@ -3,6 +3,14 @@
 (define-docs
   (defmacro mod-fixed-denominator
       "
+-- Args --
+
+val - a form (should evaluate to a :float)
+
+denominator - a constant float or integer
+
+-- Purpose --
+
 This macro emits an implementation of mod with a fixed denominator in a form
 that shader compilers can trivially optimize away the divide.
 
@@ -18,6 +26,14 @@ https://briansharpe.wordpress.com/2011/10/01/gpu-texture-free-noise/")
 
   (defmacro mod-fixed-denominator-low-quality
       "
+-- Args --
+
+val - a form (should evaluate to a :float)
+
+denominator - a constant float or integer
+
+-- Purpose --
+
 Like the regular mod-fixed-denominator macro, this macro emits an
 implementation of mod with a fixed denominator in a form that shader compilers
 can trivially optimize away the divide..HOWEVER it is also faster and lower

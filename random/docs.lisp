@@ -3,6 +3,12 @@
 (define-docs
   (defun rand
       "
+-- Arg --
+
+seed :vec2
+
+-- Purpose --
+
 Returns a 'random' float.
 
 -- Explaination --
