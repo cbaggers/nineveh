@@ -68,6 +68,7 @@
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.random
+          :nineveh.hashing
           :nineveh.tonemapping
           :nineveh.shaping-functions.polynomial
           :documentation-utils)
@@ -78,6 +79,7 @@
   (:reexport :nineveh.math-primitives
              :nineveh.random
              :nineveh.tonemapping
+             :nineveh.hashing
              :nineveh.shaping-functions.polynomial)
   (:export
    ;;------------------------------

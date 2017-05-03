@@ -21,6 +21,9 @@ where M=pq is the product of two large primes p and q
 This is an implementation of the hashing function described in Marc Olano’s
 MNoise Paper. It calculates pseudo-random values in the 0.0->1.0 range.
 
+It includes an extra permutation pass to reduce the worst of the artifacts
+from the classic version
+
 -- Credit --
 
 Marc Olano - http://www.cs.umbc.edu/~olano/papers/mNoise.pdf
