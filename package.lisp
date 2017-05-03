@@ -2,9 +2,11 @@
 
 (uiop:define-package #:nineveh.math-primitives
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+          :documentation-utils #:varjo)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
-  (:export :log10 :saturate))
+  (:export :log10
+           :saturate
+           :mod-fixed-denominator))
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths

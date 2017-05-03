@@ -15,6 +15,7 @@
                (:file "cpu/misc")
                (:file "math-primitives/log")
                (:file "math-primitives/clamping")
+               (:file "math-primitives/docs")
                (:file "hashing/hashing")
                (:file "hashin/docs")
                (:file "random/random")

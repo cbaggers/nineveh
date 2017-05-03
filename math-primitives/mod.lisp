@@ -1,0 +1,11 @@
+(in-package :nineveh.math-primitives)
+
+(v-defmacro mod-fixed-denominator (val denominator)
+  (assert (and (or (integerp denominator) (typep denominator 'single-float))
+               (> denominator 0)))
+  (let ((denom (float denominator)))
+    (if (or (numberp val) (symbolp val))
+        `(- ,val (* (floor (* ,val (/ 1f0 ,denom))) ,denom))
+        (let ((gval (gensym "val")))
+          `(let ((,gval ,val))
+             (- ,gval (* (floor (* ,gval (/ 1f0 ,denom))) ,denom)))))))
