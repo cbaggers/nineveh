@@ -6,7 +6,8 @@
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10
            :saturate
-           :mod-fixed-denominator))
+           :mod-fixed-denominator
+           :mod-fixed-denominator-low-quality))
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths

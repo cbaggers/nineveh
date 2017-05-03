@@ -9,3 +9,9 @@
         (let ((gval (gensym "val")))
           `(let ((,gval ,val))
              (- ,gval (* (floor (* ,gval (/ 1f0 ,denom))) ,denom)))))))
+
+(v-defmacro mod-fixed-denominator-low-quality (val denominator)
+  (assert (and (or (integerp denominator) (typep denominator 'single-float))
+               (> denominator 0)))
+  (let ((denom (float denominator)))
+    `(* (fract (* ,val (/ 1f0 ,denom)) ) ,denom)))
