@@ -71,6 +71,7 @@
            :perlin-noise
            :perlin-noise-surflet
            :perlin-noise-revised
+           :perlin-noise-simplex
            ;;
            :value-perlin-noise
            ;;
@@ -78,8 +79,10 @@
            ;;
            :cellular-noise
            :cellular-noise-fast
+           :cellular-noise-simplex
            ;;
            :polka-dot-noise
+           :polka-dot-noise-simplex
            :stars-noise
            ))
 

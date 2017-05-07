@@ -30,6 +30,7 @@
                (:file "shaping-functions/falloff")
                (:file "shaping-functions/polynominal")
                ;;
+               (:file "noise/simplex-helpers")
                (:file "noise/value-noise")
                (:file "noise/perlin")
                (:file "noise/value-perlin")

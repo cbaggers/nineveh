@@ -97,6 +97,43 @@
 ;;            (blend2 (v! blend (- (v2! 1.0) blend))))
 ;;       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
 
+(defun-g perlin-noise-simplex ((p :vec2))
+  (let* ((skew-factor 0.36602542)
+         (unskew-factor 0.21132489)
+         (simplex-tri-height 0.7071068)
+         (simplex-points
+          (v3! (- 1.0 unskew-factor) (- unskew-factor)
+               (- 1.0 (* 2.0 unskew-factor)))))
+    (multf p (v2! simplex-tri-height))
+    (let* ((pi (floor (+ p (v2! (dot p (v2! skew-factor)))))))
+      (multiple-value-bind (hash-x hash-y)
+          (bs-fast32-hash-2-per-corner pi)
+        (let* ((v0 (- pi (- (v2! (dot pi (v2! unskew-factor))) p)))
+               (v1pos-v1hash
+                (if (< (x v0) (y v0))
+                    (v! (s~ simplex-points :xy) (y hash-x) (y hash-y))
+                    (v! (s~ simplex-points :yx) (z hash-x) (z hash-y))))
+               (v12
+                (+ (v! (s~ v1pos-v1hash :xy) (s~ simplex-points :zz))
+                   (s~ v0 :xyxy)))
+               (grad-x (- (v3! (x hash-x) (z v1pos-v1hash) (w hash-x))
+                          (v3! 0.49999)))
+               (grad-y (- (v3! (x hash-y) (w v1pos-v1hash) (w hash-y))
+                          (v3! 0.49999)))
+               (grad-results
+                (* (inversesqrt (+ (* grad-x grad-x) (* grad-y grad-y)))
+                   (+ (* grad-x (v! (x v0) (s~ v12 :xz)))
+                      (* grad-y (v! (y v0) (s~ v12 :yw))))))
+               (final-normalization 99.20434)
+               (m
+                (+ (* (v! (x v0) (s~ v12 :xz))
+                      (v! (x v0) (s~ v12 :xz)))
+                   (* (v! (y v0) (s~ v12 :yw))
+                      (v! (y v0) (s~ v12 :yw))))))
+          (setf m (max (- (v3! 0.5) m) 0.0))
+          (setf m (* m m))
+          (* (dot (* m m) grad-results) final-normalization))))))
+
 ;;------------------------------------------------------------
 ;; 3D
 
@@ -134,6 +171,25 @@
              (final (dot res0 (* (s~ blend2 :zxzx) (s~ blend2 :wwyy)))))
         (multf final 1.1547005)
         final))))
+
+(defun-g perlin-noise-simplex ((p :vec3))
+  (multiple-value-bind (pi pi-1 pi-2 v1234-x v1234-y v1234-z)
+      (simplex-3d-get-corner-vectors p)
+    (multiple-value-bind (hash-0 hash-1 hash-2)
+        (bs-fast32-hash-3-per-corner pi pi-1 pi-2)
+      (decf hash-0 (v4! 0.49999))
+      (decf hash-1 (v4! 0.49999))
+      (decf hash-2 (v4! 0.49999))
+      (let* ((grad-results
+              (*
+               (inversesqrt
+                (+ (* hash-0 hash-0) (+ (* hash-1 hash-1) (* hash-2 hash-2))))
+               (+ (* hash-0 v1234-x)
+                  (+ (* hash-1 v1234-y) (* hash-2 v1234-z)))))
+             (final-normalization 37.837227))
+        (* (dot (simplex-3d-get-surflet-weights v1234-x v1234-y v1234-z)
+                grad-results)
+         final-normalization)))))
 
 (defun-g perlin-noise-surflet ((p :vec3))
   (let* ((pi (floor p))
