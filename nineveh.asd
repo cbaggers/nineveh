@@ -37,6 +37,7 @@
                (:file "noise/cubist")
                (:file "noise/cellular")
                (:file "noise/misc")
+               (:file "noise/hermite")
                ;;
                (:file "random/random")
                (:file "random/docs")

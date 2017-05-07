@@ -86,7 +86,9 @@
            :polka-dot-noise
            :polka-dot-noise-simplex
            :stars-noise
-           ))
+           ;;
+           :hermite-noise
+           :hermite-noise-unnormalized-gradients))
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
