@@ -3,7 +3,14 @@
 ;;------------------------------------------------------------
 ;; 2D
 
-(defun-g perlin-2d-classic-interp ((p :vec2))
+;; Perlin Noise 2D  ( gradient noise )
+;; Return value range of -1.0->1.0
+
+(defun-g perlin-2d ((p :vec2))
+  ;; looks much better than revised noise in 2D, and with an efficent hash
+  ;; function runs at about the same speed.
+  ;;
+  ;; requires 2 random numbers per point.
   (let* ((pi (floor p))
          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0))))))
     (multiple-value-bind (hash-x hash-y) (bs-fast32-hash-2-per-corner pi)
@@ -18,7 +25,29 @@
                (blend2 (v! blend (- (v2! 1.0) blend))))
           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
-(defun-g perlin-2d-classic-surflet ((p :vec2))
+;; (defun-g perlin-2d ((hash-func (function (:vec2) (:vec4 :vec4)))
+;;                            (p :vec2))
+;;   ;; looks much better than revised noise in 2D, and with an efficent hash
+;;   ;; function runs at about the same speed.
+;;   ;;
+;;   ;; requires 2 random numbers per point.
+;;   (let* ((pi (floor p))
+;;          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0))))))
+;;     (multiple-value-bind (hash-x hash-y) (funcall hash-func pi)
+;;       (let* ((grad-x (- hash-x (v4! 0.49999)))
+;;              (grad-y (- hash-y (v4! 0.49999)))
+;;              (grad-results
+;;               (* (inversesqrt (+ (* grad-x grad-x) (* grad-y grad-y)))
+;;                  (+ (* grad-x (s~ pf-pfmin1 :xzxz))
+;;                     (* grad-y (s~ pf-pfmin1 :yyww))))))
+;;         (multf grad-results (v4! 1.4142135))
+;;         (let* ((blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+;;                (blend2 (v! blend (- (v2! 1.0) blend))))
+;;           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
+
+(defun-g perlin-2d-surflet ((p :vec2))
+  ;; Classic Perlin Surflet
+  ;; http://briansharpe.wordpress.com/2012/03/09/modifications-to-classic-perlin-noise/
   (let* ((pi (floor p))
          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0))))))
     (multiple-value-bind (hash-x hash-y) (bs-fast32-hash-2-per-corner pi)
@@ -33,7 +62,12 @@
           (setf vecs-len-sq (+ (s~ vecs-len-sq :xzxz) (s~ vecs-len-sq :yyww)))
           (dot (falloff-xsq-c2 (min (v4! 1.0) vecs-len-sq)) grad-results))))))
 
-(defun-g perlin-2d-improved-sorta ((p :vec2))
+(defun-g perlin-2d-revised ((p :vec2))
+  ;; 2D improved perlin noise.
+  ;; requires 1 random value per point.
+  ;; does not look as good as classic in 2D due to only a small number of
+  ;; possible cell types.  But can run a lot faster than classic perlin noise
+  ;; if the hash function is slow
   (let* ((pi (floor p))
          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0)))))
          (hash (bs-fast32-hash pi)))
@@ -45,10 +79,28 @@
            (blend2 (v! blend (- (v2! 1.0) blend))))
       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
 
+;; (defun-g perlin-2d-revised ((hash-func (function (:vec2) :vec4))
+;;                             (p :vec2))
+;;   ;; 2D 'improved' perlin noise.
+;;   ;; requires 1 random value per point.
+;;   ;; does not look as good as classic in 2D due to only a small number of
+;;   ;; possible cell types.  But can run a lot faster than classic perlin noise
+;;   ;; if the hash function is slow
+;;   (let* ((pi (floor p))
+;;          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0)))))
+;;          (hash (funcall hash-func pi)))
+;;     (decf hash (v4! 0.5))
+;;     (let* ((grad-results
+;;             (+ (* (s~ pf-pfmin1 :xzxz) (sign hash))
+;;                (* (s~ pf-pfmin1 :yyww) (sign (- (abs hash) (v4! 0.25))))))
+;;            (blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+;;            (blend2 (v! blend (- (v2! 1.0) blend))))
+;;       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
+
 ;;------------------------------------------------------------
 ;; 3D
 
-(defun-g perlin-3d-classic-interp ((p :vec3))
+(defun-g perlin-3d ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0))))
@@ -83,7 +135,7 @@
         (multf final 1.1547005)
         final))))
 
-(defun-g perlin-3d-classic-surflet ((p :vec3))
+(defun-g perlin-3d-surflet ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0)))
@@ -135,7 +187,7 @@
           (multf final 2.3703704)
           final)))))
 
-(defun-g perlin-3d-improved-sorta ((p :vec3))
+(defun-g perlin-3d-revised ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0))))

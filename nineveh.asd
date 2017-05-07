@@ -30,6 +30,9 @@
                (:file "shaping-functions/falloff")
                (:file "shaping-functions/polynominal")
                ;;
+               (:file "noise/value-noise")
+               (:file "noise/perlin")
+               ;;
                (:file "random/random")
                (:file "random/docs")
                (:file "gpu/bind")

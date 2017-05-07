@@ -66,7 +66,17 @@
           :nineveh.hashing
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
-  (:export :value-noise))
+  (:export :value-noise
+           ;;
+           :perlin-2d
+           :perlin-2d-surflet
+           :perlin-2d-revised
+           :perlin-3d
+           :perlin-3d-surflet
+           :perlin-3d-revised
+           :perlin-4d
+           ;;
+           ))
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
