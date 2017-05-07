@@ -35,6 +35,7 @@
                (:file "noise/value-perlin")
                (:file "noise/cubist")
                (:file "noise/cellular")
+               (:file "noise/misc")
                ;;
                (:file "random/random")
                (:file "random/docs")

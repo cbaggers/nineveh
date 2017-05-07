@@ -79,6 +79,8 @@
            :cellular-noise
            :cellular-noise-fast
            ;;
+           :polka-dot-noise
+           :stars-noise
            ))
 
 (uiop:define-package #:nineveh.random
