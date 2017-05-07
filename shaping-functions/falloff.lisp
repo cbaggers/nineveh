@@ -1,4 +1,4 @@
-(in-package :nineveh.hashing)
+(in-package :nineveh.shaping-functions)
 
 (defun-g falloff-xsq-c1 ((xsq :float))
   (setf xsq (- 1.0 xsq))

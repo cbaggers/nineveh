@@ -27,6 +27,7 @@
                ;;
                (:file "shaping-functions/to-sort")
                (:file "shaping-functions/interpolation")
+               (:file "shaping-functions/falloff")
                (:file "shaping-functions/polynominal")
                ;;
                (:file "random/random")

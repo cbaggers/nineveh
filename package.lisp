@@ -53,7 +53,11 @@
            :perlin-quintic
            :perlin-quintic-deriv
            :perlin-quintic-fast
-           :perlin-quintic-interp-and-deriv))
+           :perlin-quintic-interp-and-deriv
+           ;;
+           :falloff-xsq-c1
+           :falloff-xsq-c2
+           :falloff-xsq-c2))
 
 (uiop:define-package #:nineveh.noise
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
