@@ -38,6 +38,7 @@
                (:file "noise/cellular")
                (:file "noise/misc")
                (:file "noise/hermite")
+               (:file "noise/value-hermite")
                ;;
                (:file "random/random")
                (:file "random/docs")

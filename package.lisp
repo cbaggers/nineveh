@@ -88,7 +88,11 @@
            :stars-noise
            ;;
            :hermite-noise
-           :hermite-noise-unnormalized-gradients))
+           :hermite-noise-unnormalized-gradients
+           ;;
+           :value-hermite-noise
+           ;;
+           ))
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
