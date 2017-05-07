@@ -54,6 +54,8 @@
            :perlin-quintic-deriv
            :perlin-quintic-fast
            :perlin-quintic-interp-and-deriv
+           :quintic-hermite
+           :quintic-hermite-deriv
            ;;
            :falloff-xsq-c1
            :falloff-xsq-c2
