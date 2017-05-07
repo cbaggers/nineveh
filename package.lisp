@@ -75,6 +75,9 @@
            :perlin-noise-surflet
            :perlin-noise-revised
            :perlin-noise-simplex
+           :perlin-noise-deriv
+           :perlin-noise-surflet-deriv
+           :perlin-noise-simplex-deriv
            ;;
            :value-perlin-noise
            ;;
@@ -90,10 +93,10 @@
            ;;
            :hermite-noise
            :hermite-noise-unnormalized-gradients
+           :hermite-noise-deriv
+           :hermite-noise-unnormalized-gradients-deriv
            ;;
-           :value-hermite-noise
-           ;;
-           ))
+           :value-hermite-noise))
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
