@@ -170,8 +170,8 @@
           (setf highz-hash-1 (fract (* p (s~ highz-mod :yyyy))))
           (setf lowz-hash-2 (fract (* p (s~ lowz-mod :zzzz))))
           (setf highz-hash-2 (fract (* p (s~ highz-mod :zzzz)))))))
-    (values lowz-hash-0 lowz-hash-1 lowz-hash-2 highz-hash-0 highz-hash-1
-            highz-hash-2)))
+    (values lowz-hash-0 lowz-hash-1 lowz-hash-2
+            highz-hash-0 highz-hash-1 highz-hash-2)))
 
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec3)
                                       (v1-mask :vec3)
@@ -275,8 +275,8 @@
             (progn
               (setf lowz-hash-3 (fract (* p (s~ lowz-hash-3 :wwww))))
               (setf highz-hash-3 (fract (* p (s~ highz-hash-3 :wwww)))))))))
-    (values lowz-hash-0 lowz-hash-1 lowz-hash-2 lowz-hash-3 highz-hash-0
-            highz-hash-1 highz-hash-2 highz-hash-3)))
+    (values lowz-hash-0 lowz-hash-1 lowz-hash-2 lowz-hash-3
+            highz-hash-0 highz-hash-1 highz-hash-2 highz-hash-3)))
 
 (defun-g bs-fast32-hash-cell ((grid-cell :vec3))
   (let* ((offset (v2! 50.0 161.0))

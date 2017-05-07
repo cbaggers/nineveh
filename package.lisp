@@ -75,6 +75,10 @@
            :value-perlin-noise
            ;;
            :cubist-noise
+           ;;
+           :cellular-noise
+           :cellular-noise-fast
+           ;;
            ))
 
 (uiop:define-package #:nineveh.random

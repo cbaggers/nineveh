@@ -34,6 +34,7 @@
                (:file "noise/perlin")
                (:file "noise/value-perlin")
                (:file "noise/cubist")
+               (:file "noise/cellular")
                ;;
                (:file "random/random")
                (:file "random/docs")
@@ -43,5 +44,4 @@
                (:file "textures/draw-texture")
                (:file "quad-streams")
                (:file "gpu/misc")
-               (:file "tonemapping/operators")
-               ))
+               (:file "tonemapping/operators")))
