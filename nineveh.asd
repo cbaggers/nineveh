@@ -32,6 +32,7 @@
                ;;
                (:file "noise/value-noise")
                (:file "noise/perlin")
+               (:file "noise/value-perlin")
                ;;
                (:file "random/random")
                (:file "random/docs")

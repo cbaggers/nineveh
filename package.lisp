@@ -71,6 +71,8 @@
            :perlin-noise
            :perlin-noise-surflet
            :perlin-noise-revised
+           ;;
+           :value-perlin-noise
            ))
 
 (uiop:define-package #:nineveh.random
