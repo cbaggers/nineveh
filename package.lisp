@@ -69,6 +69,7 @@
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :value-noise
+           :value-noise-deriv
            ;;
            :perlin-noise
            :perlin-noise-surflet
