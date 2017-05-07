@@ -6,7 +6,7 @@
 ;; Perlin Noise 2D  ( gradient noise )
 ;; Return value range of -1.0->1.0
 
-(defun-g perlin-2d ((p :vec2))
+(defun-g perlin-noise ((p :vec2))
   ;; looks much better than revised noise in 2D, and with an efficent hash
   ;; function runs at about the same speed.
   ;;
@@ -25,7 +25,7 @@
                (blend2 (v! blend (- (v2! 1.0) blend))))
           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
-;; (defun-g perlin-2d ((hash-func (function (:vec2) (:vec4 :vec4)))
+;; (defun-g perlin-noise ((hash-func (function (:vec2) (:vec4 :vec4)))
 ;;                            (p :vec2))
 ;;   ;; looks much better than revised noise in 2D, and with an efficent hash
 ;;   ;; function runs at about the same speed.
@@ -45,7 +45,7 @@
 ;;                (blend2 (v! blend (- (v2! 1.0) blend))))
 ;;           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
-(defun-g perlin-2d-surflet ((p :vec2))
+(defun-g perlin-noise-surflet ((p :vec2))
   ;; Classic Perlin Surflet
   ;; http://briansharpe.wordpress.com/2012/03/09/modifications-to-classic-perlin-noise/
   (let* ((pi (floor p))
@@ -62,7 +62,7 @@
           (setf vecs-len-sq (+ (s~ vecs-len-sq :xzxz) (s~ vecs-len-sq :yyww)))
           (dot (falloff-xsq-c2 (min (v4! 1.0) vecs-len-sq)) grad-results))))))
 
-(defun-g perlin-2d-revised ((p :vec2))
+(defun-g perlin-noise-revised ((p :vec2))
   ;; 2D improved perlin noise.
   ;; requires 1 random value per point.
   ;; does not look as good as classic in 2D due to only a small number of
@@ -79,7 +79,7 @@
            (blend2 (v! blend (- (v2! 1.0) blend))))
       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
 
-;; (defun-g perlin-2d-revised ((hash-func (function (:vec2) :vec4))
+;; (defun-g perlin-noise-revised ((hash-func (function (:vec2) :vec4))
 ;;                             (p :vec2))
 ;;   ;; 2D 'improved' perlin noise.
 ;;   ;; requires 1 random value per point.
@@ -100,7 +100,7 @@
 ;;------------------------------------------------------------
 ;; 3D
 
-(defun-g perlin-3d ((p :vec3))
+(defun-g perlin-noise ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0))))
@@ -135,7 +135,7 @@
         (multf final 1.1547005)
         final))))
 
-(defun-g perlin-3d-surflet ((p :vec3))
+(defun-g perlin-noise-surflet ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0)))
@@ -187,7 +187,7 @@
           (multf final 2.3703704)
           final)))))
 
-(defun-g perlin-3d-revised ((p :vec3))
+(defun-g perlin-noise-revised ((p :vec3))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v3! 1.0))))
@@ -222,7 +222,7 @@
 ;;------------------------------------------------------------
 ;; 4D
 
-(defun-g perlin-4d ((p :vec4))
+(defun-g perlin-noise ((p :vec4))
   (let* ((pi (floor p))
          (pf (- p pi))
          (pf-min1 (- pf (v4! 1.0)))
