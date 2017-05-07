@@ -33,6 +33,7 @@
                (:file "noise/value-noise")
                (:file "noise/perlin")
                (:file "noise/value-perlin")
+               (:file "noise/cubist")
                ;;
                (:file "random/random")
                (:file "random/docs")

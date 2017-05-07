@@ -73,6 +73,8 @@
            :perlin-noise-revised
            ;;
            :value-perlin-noise
+           ;;
+           :cubist-noise
            ))
 
 (uiop:define-package #:nineveh.random
