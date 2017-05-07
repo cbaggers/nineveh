@@ -14,4 +14,4 @@
   (assert (and (or (integerp denominator) (typep denominator 'single-float))
                (> denominator 0)))
   (let ((denom (float denominator)))
-    `(* (fract (* ,val (/ 1f0 ,denom)) ) ,denom)))
+    `(* (fract (* ,val (/ 1f0 ,denom))) ,denom)))

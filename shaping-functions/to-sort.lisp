@@ -61,7 +61,7 @@
    Credit:
    IQ
    http://www.iquilezles.org/www/articles/functions/functions.htm"
-  ;; {TODO} I'd like a better name for 'k'
+  ;; {TODO} I'd like better name for 'k'
   (pow (* 4f0 x (- 1f0 x)) k))
 
 (defun-g power-curve ((a :float) (b :float) (x :float))
@@ -71,7 +71,7 @@
    Credit:
    IQ
    http://www.iquilezles.org/www/articles/functions/functions.htm"
-  ;; {TODO} I'd like a better names for 'a' & 'b'
+  ;; {TODO} I'd like better names for 'a' & 'b'
   (let ((k (/ (pow (+ a b) (+ a b))
               (* (pow a a) (pow b b)))))
     (* k (pow x a) (pow (- 1f0 x) b))))

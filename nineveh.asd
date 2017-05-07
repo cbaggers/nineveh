@@ -13,12 +13,18 @@
                (:file "cpu/fbos")
                (:file "cpu/viewport")
                (:file "cpu/misc")
+               ;;
                (:file "math-primitives/log")
                (:file "math-primitives/clamping")
                (:file "math-primitives/mod")
                (:file "math-primitives/docs")
-               (:file "hashing/hashing")
+               ;;
+               (:file "hashing/blum-blum-shub-hash")
+               (:file "hashing/permutation-polynomial-hash")
+               (:file "hashing/bsharpe-fast-32-hash")
+               (:file "hashing/bsharpe-quick32-hash")
                (:file "hashing/docs")
+               ;;
                (:file "random/random")
                (:file "random/docs")
                (:file "gpu/bind")
