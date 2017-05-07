@@ -1,4 +1,4 @@
-(in-package :nineveh.hashing)
+(in-package :nineveh.shaping-functions)
 
 ;;  3x^2-2x^3  ( Hermine Curve.  Same as SmoothStep().  As used by Perlin in Original Noise. )
 

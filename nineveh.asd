@@ -25,6 +25,10 @@
                (:file "hashing/bsharpe-quick32-hash")
                (:file "hashing/docs")
                ;;
+               (:file "shaping-functions/to-sort")
+               (:file "shaping-functions/interpolation")
+               (:file "shaping-functions/polynominal")
+               ;;
                (:file "random/random")
                (:file "random/docs")
                (:file "gpu/bind")
@@ -34,5 +38,4 @@
                (:file "quad-streams")
                (:file "gpu/misc")
                (:file "tonemapping/operators")
-               (:file "shaping-functions/polynominal")
-               (:file "shaping-functions/to-sort")))
+               ))

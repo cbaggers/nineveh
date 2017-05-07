@@ -15,12 +15,62 @@
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :blum-blum-shub-hash
-           :quadratic-permutation-polynomial-hash
-           :fast-32-hash))
+           :blum-blum-shub-hash-low-quality
+           ;;
+           :bs-fast32-hash
+           :bs-fast32-hash-2-per-corner
+           :bs-fast32-hash-3-per-corner
+           :bs-fast32-hash-4-per-corner
+           :bs-fast32-hash-cell
+           ;;
+           :bs-quick32-hash
+           :bs-quick32-hash-4-per-corner
+           ;;
+           :sgim-qpp-hash
+           :sgim-qpp-hash-2-per-corner
+           :sgim-qpp-hash-3-per-corner))
+
+(uiop:define-package #:nineveh.shaping-functions
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :cos-raised-inverted-blinn-wybill
+           :seat-double-cubic
+           :seat-double-cubic-with-linear-bend
+           :seat-double-odd-exponent
+           ;;
+           :almost-identity
+           :cubic-pulse
+           :exponential-step
+           :impulse
+           :parabola
+           :power-curve
+           ;;
+           :perlin-hermine
+           :perlin-quintic
+           :perlin-quintic-deriv
+           :perlin-quintic-fast
+           :perlin-quintic-interp-and-deriv))
+
+(uiop:define-package #:nineveh.noise
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives
+          :nineveh.shaping-functions
+          :nineveh.hashing
+          :documentation-utils)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  ;; (:export :blum-blum-shub-hash
+  ;;          :quadratic-permutation-polynomial-hash
+  ;;          :fast-32-hash)
+  )
 
 (uiop:define-package #:nineveh.random
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
+          :nineveh.shaping-functions
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rand))
@@ -39,40 +89,21 @@
            :tone-map-hejl-burgess-dawson
            :tone-map-uncharted2))
 
-(uiop:define-package #:nineveh.shaping-functions
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
-  (:import-from :varjo
-                :dbind :vbind :dbind* :vbind* :symb)
-  (:import-from :cepl-utils
-                :with-setf)
-  (:export :almost-identity :impulse :cubic-pulse
-           :exponential-step :parabola :power-curve))
-
 (uiop:define-package #:nineveh.easing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           #:easing-f
           :documentation-utils)
   (:reexport :easing))
 
-(uiop:define-package #:nineveh.shaping-functions.polynomial
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
-  (:import-from :varjo
-                :dbind :vbind :dbind* :vbind* :symb)
-  (:import-from :cepl-utils
-                :with-setf)
-  (:export :cos-raised-inverted-blinn-wybill
-           :seat-double-cubic :seat-double-odd-exponent
-           :seat-double-cubic-with-linear-bend))
 
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.random
           :nineveh.hashing
+          :nineveh.noise
           :nineveh.tonemapping
-          :nineveh.shaping-functions.polynomial
+          :nineveh.shaping-functions
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
@@ -82,7 +113,8 @@
              :nineveh.random
              :nineveh.tonemapping
              :nineveh.hashing
-             :nineveh.shaping-functions.polynomial)
+             :nineveh.noise
+             :nineveh.shaping-functions)
   (:export
    ;;------------------------------
    ;; GPU

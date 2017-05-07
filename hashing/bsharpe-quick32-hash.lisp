@@ -1,7 +1,7 @@
 (in-package :nineveh.hashing)
 
 ;;
-;; bs-quick-hash (known in Brian's work as FastHash32_2)
+;; bs-quick32-hash (known in Brian's work as FastHash32_2)
 ;;
 ;; An alternative to FastHash32
 ;; - slightly slower
@@ -12,7 +12,7 @@
 ;;------------------------------------------------------------
 ;; 2D
 
-(defun-g bs-quick-hash ((grid-cell :vec2))
+(defun-g bs-quick32-hash ((grid-cell :vec2))
   (let* ((offset (glsl-expr "vec2(403.839172, 377.242706)" :vec2))
          (domain 69.0)
          (somelargefloat (glsl-expr "32745.708984" :float))
@@ -26,7 +26,7 @@
 ;;------------------------------------------------------------
 ;; 3D
 
-(defun-g bs-quick-hash ((grid-cell :vec3))
+(defun-g bs-quick32-hash ((grid-cell :vec3))
   (let (((z0-hash :vec4)) ((z1-hash :vec4)))
     (let* ((offset (glsl-expr "vec3(55.882355, 63.167774, 52.941177)" :vec3))
            (domain 69.0)
@@ -59,7 +59,7 @@
 ;;------------------------------------------------------------
 ;; 4D
 
-(defun-g bs-quick-hash ((grid-cell :vec4))
+(defun-g bs-quick32-hash ((grid-cell :vec4))
   (let (((z0w0-hash :vec4))
         ((z1w0-hash :vec4))
         ((z0w1-hash :vec4))
@@ -103,7 +103,7 @@
                  (* x0y0-x1y0-x0y1-x1y1 (s~ z0w0-z1w0-z0w1-z1w1 :wwww)))))))
     (values z0w0-hash z1w0-hash z0w1-hash z1w1-hash)))
 
-(defun-g bs-quick-hash-4-per-corner ((grid-cell :vec4))
+(defun-g bs-quick32-hash-4-per-corner ((grid-cell :vec4))
   (let (((z0w0-hash-0 :vec4))
         ((z0w0-hash-1 :vec4))
         ((z0w0-hash-2 :vec4))

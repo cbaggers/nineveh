@@ -1,4 +1,4 @@
-(in-package :nineveh.shaping-functions.polynomial)
+(in-package :nineveh.shaping-functions)
 
 ;;
 ;;
