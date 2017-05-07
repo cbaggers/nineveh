@@ -8,8 +8,8 @@
          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0))))))
     (multiple-value-bind (hash-x hash-y hash-value)
         (bs-fast32-hash-3-per-corner pi)
-      (let* ((grad-x (- hash-x (v4! 0.49999)))
-             (grad-y (- hash-y (v4! 0.49999)))
+      (let* ((grad-x (- hash-x (v4! "0.49999")))
+             (grad-y (- hash-y (v4! "0.49999")))
              (grad-results
               (* (inversesqrt (+ (* grad-x grad-x) (* grad-y grad-y)))
                  (+ (* grad-x (s~ pf-pfmin1 :xzxz))
@@ -34,12 +34,12 @@
                                  hashx1 hashy1 hashz1
                                  hash-value1)
         (bs-fast32-hash-4-per-corner pi)
-      (let* ((grad-x0 (- hashx0 (v4! 0.49999)))
-             (grad-y0 (- hashy0 (v4! 0.49999)))
-             (grad-z0 (- hashz0 (v4! 0.49999)))
-             (grad-x1 (- hashx1 (v4! 0.49999)))
-             (grad-y1 (- hashy1 (v4! 0.49999)))
-             (grad-z1 (- hashz1 (v4! 0.49999)))
+      (let* ((grad-x0 (- hashx0 (v4! "0.49999")))
+             (grad-y0 (- hashy0 (v4! "0.49999")))
+             (grad-z0 (- hashz0 (v4! "0.49999")))
+             (grad-x1 (- hashx1 (v4! "0.49999")))
+             (grad-y1 (- hashy1 (v4! "0.49999")))
+             (grad-z1 (- hashz1 (v4! "0.49999")))
              (grad-results-0
               (*
                (inversesqrt

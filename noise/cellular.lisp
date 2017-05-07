@@ -77,7 +77,7 @@
   (let* ((skew-factor 0.36602542)
          (unskew-factor 0.21132489)
          (simplex-tri-height 0.7071068)
-         (inv-simplex-tri-height 1.4142135)
+         (inv-simplex-tri-height "1.4142135623730950488016887242097")
          (simplex-points
           (*
            (v3! (- 1.0 unskew-factor) (- unskew-factor)
@@ -107,7 +107,7 @@
          (pf (- p pi)))
     (multiple-value-bind (hash-x0 hash-y0 hash-z0 hash-x1 hash-y1 hash-z1)
         (bs-fast32-hash-3-per-corner pi)
-      (let* ((jitter-window 0.16666667))
+      (let* ((jitter-window "0.166666666"))
         (setf hash-x0
               (+ (* (cellular-weight-samples hash-x0) jitter-window)
                  (v4! 0.0 1.0 0.0 1.0)))
@@ -144,7 +144,7 @@
          (pf (- p pi)))
     (multiple-value-bind (hash-x0 hash-y0 hash-z0 hash-x1 hash-y1 hash-z1)
         (bs-fast32-hash-3-per-corner pi)
-      (let* ((jitter-window 0.16666667))
+      (let* ((jitter-window "0.166666666"))
         (setf hash-x0
               (+ (* (cellular-weight-samples hash-x0) jitter-window)
                  (v4! 0.0 1.0 0.0 1.0)))
@@ -206,7 +206,7 @@
       (simplex-3d-get-corner-vectors p)
     (multiple-value-bind (hash-x hash-y hash-z)
         (bs-fast32-hash-3-per-corner pi pi-1 pi-2)
-      (let* ((inv-simplex-pyramid-height 1.4142135)
+      (let* ((inv-simplex-pyramid-height "1.4142135623730950488016887242097")
              (jitter-window (* 0.059786577 inv-simplex-pyramid-height)))
         (setf hash-x (* (cellular-weight-samples hash-x) jitter-window))
         (setf hash-y (* (cellular-weight-samples hash-y) jitter-window))

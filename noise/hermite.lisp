@@ -8,8 +8,8 @@
          (pf (- p pi)))
     (multiple-value-bind (hash-gradx hash-grady)
         (bs-fast32-hash-2-per-corner pi)
-      (setf hash-gradx (- hash-gradx (v4! 0.49999)))
-      (setf hash-grady (- hash-grady (v4! 0.49999)))
+      (setf hash-gradx (- hash-gradx (v4! "0.49999")))
+      (setf hash-grady (- hash-grady (v4! "0.49999")))
       (let* ((norm
               (inversesqrt
                (+ (* hash-gradx hash-gradx) (* hash-grady hash-grady)))))
@@ -29,8 +29,8 @@
          (pf (- p pi)))
     (multiple-value-bind (hash-gradx hash-grady)
         (bs-fast32-hash-2-per-corner pi)
-      (setf hash-gradx (- hash-gradx (v4! 0.49999)))
-      (setf hash-grady (- hash-grady (v4! 0.49999)))
+      (setf hash-gradx (- hash-gradx (v4! "0.49999")))
+      (setf hash-grady (- hash-grady (v4! "0.49999")))
       (let* ((norm
               (inversesqrt
                (+ (* hash-gradx hash-gradx) (* hash-grady hash-grady)))))
@@ -59,8 +59,8 @@
          (pf (- p pi)))
     (multiple-value-bind (hash-gradx hash-grady)
         (bs-fast32-hash-2-per-corner pi)
-      (setf hash-gradx (- hash-gradx (v4! 0.49999)))
-      (setf hash-grady (- hash-grady (v4! 0.49999)))
+      (setf hash-gradx (- hash-gradx (v4! "0.49999")))
+      (setf hash-grady (- hash-grady (v4! "0.49999")))
       (let* ((final-norm-val 3.2)
              (qh-results
               (quintic-hermite (y pf) (s~ hash-gradx :xy) (s~ hash-gradx :zw)
@@ -74,8 +74,8 @@
   (let* ((pi (floor p)) (pf (- p pi)) ((hash-gradx :vec4)) ((hash-grady :vec4)))
     (multiple-value-bind (hash-gradx hash-grady)
         (bs-fast32-hash-2-per-corner pi)
-      (setf hash-gradx (- hash-gradx (v4! 0.49999)))
-      (setf hash-grady (- hash-grady (v4! 0.49999)))
+      (setf hash-gradx (- hash-gradx (v4! "0.49999")))
+      (setf hash-grady (- hash-grady (v4! "0.49999")))
       (let* ((final-norm-val 3.2)
              (qh-results-x
               (quintic-hermite (y pf) (s~ hash-gradx :xy) (s~ hash-gradx :zw)
@@ -107,12 +107,12 @@
                           hash-grady1
                           hash-gradz1)
         (bs-fast32-hash-3-per-corner pi)
-      (setf hash-gradx0 (- hash-gradx0 (v4! 0.49999)))
-      (setf hash-grady0 (- hash-grady0 (v4! 0.49999)))
-      (setf hash-gradz0 (- hash-gradz0 (v4! 0.49999)))
-      (setf hash-gradx1 (- hash-gradx1 (v4! 0.49999)))
-      (setf hash-grady1 (- hash-grady1 (v4! 0.49999)))
-      (setf hash-gradz1 (- hash-gradz1 (v4! 0.49999)))
+      (setf hash-gradx0 (- hash-gradx0 (v4! "0.49999")))
+      (setf hash-grady0 (- hash-grady0 (v4! "0.49999")))
+      (setf hash-gradz0 (- hash-gradz0 (v4! "0.49999")))
+      (setf hash-gradx1 (- hash-gradx1 (v4! "0.49999")))
+      (setf hash-grady1 (- hash-grady1 (v4! "0.49999")))
+      (setf hash-gradz1 (- hash-gradz1 (v4! "0.49999")))
       (let* ((norm0
               (inversesqrt
                (+ (* hash-gradx0 hash-gradx0)
@@ -152,12 +152,12 @@
     (multiple-value-bind (hash-gradx0 hash-grady0 hash-gradz0
                                       hash-gradx1 hash-grady1 hash-gradz1)
         (bs-fast32-hash-3-per-corner pi)
-      (setf hash-gradx0 (- hash-gradx0 (v4! 0.49999)))
-      (setf hash-grady0 (- hash-grady0 (v4! 0.49999)))
-      (setf hash-gradz0 (- hash-gradz0 (v4! 0.49999)))
-      (setf hash-gradx1 (- hash-gradx1 (v4! 0.49999)))
-      (setf hash-grady1 (- hash-grady1 (v4! 0.49999)))
-      (setf hash-gradz1 (- hash-gradz1 (v4! 0.49999)))
+      (setf hash-gradx0 (- hash-gradx0 (v4! "0.49999")))
+      (setf hash-grady0 (- hash-grady0 (v4! "0.49999")))
+      (setf hash-gradz0 (- hash-gradz0 (v4! "0.49999")))
+      (setf hash-gradx1 (- hash-gradx1 (v4! "0.49999")))
+      (setf hash-grady1 (- hash-grady1 (v4! "0.49999")))
+      (setf hash-gradz1 (- hash-gradz1 (v4! "0.49999")))
       (let* ((norm0
               (inversesqrt
                (+ (* hash-gradx0 hash-gradx0)
@@ -231,12 +231,12 @@
     (multiple-value-bind (hash-gradx0 hash-grady0 hash-gradz0
                                       hash-gradx1 hash-grady1 hash-gradz1)
         (bs-fast32-hash-3-per-corner pi)
-      (setf hash-gradx0 (- hash-gradx0 (v4! 0.49999)))
-      (setf hash-grady0 (- hash-grady0 (v4! 0.49999)))
-      (setf hash-gradz0 (- hash-gradz0 (v4! 0.49999)))
-      (setf hash-gradx1 (- hash-gradx1 (v4! 0.49999)))
-      (setf hash-grady1 (- hash-grady1 (v4! 0.49999)))
-      (setf hash-gradz1 (- hash-gradz1 (v4! 0.49999)))
+      (setf hash-gradx0 (- hash-gradx0 (v4! "0.49999")))
+      (setf hash-grady0 (- hash-grady0 (v4! "0.49999")))
+      (setf hash-gradz0 (- hash-gradz0 (v4! "0.49999")))
+      (setf hash-gradx1 (- hash-gradx1 (v4! "0.49999")))
+      (setf hash-grady1 (- hash-grady1 (v4! "0.49999")))
+      (setf hash-gradz1 (- hash-gradz1 (v4! "0.49999")))
       (let* ((final-norm-val (/ 1.0 0.46875)))
         (multiple-value-bind (ival-results igrad-results-x igrad-results-y)
             (quintic-hermite
@@ -261,12 +261,12 @@
     (multiple-value-bind (hash-gradx0 hash-grady0 hash-gradz0 hash-gradx1
                                       hash-grady1 hash-gradz1)
         (bs-fast32-hash-3-per-corner pi)
-      (setf hash-gradx0 (- hash-gradx0 (v4! 0.49999)))
-      (setf hash-grady0 (- hash-grady0 (v4! 0.49999)))
-      (setf hash-gradz0 (- hash-gradz0 (v4! 0.49999)))
-      (setf hash-gradx1 (- hash-gradx1 (v4! 0.49999)))
-      (setf hash-grady1 (- hash-grady1 (v4! 0.49999)))
-      (setf hash-gradz1 (- hash-gradz1 (v4! 0.49999)))
+      (setf hash-gradx0 (- hash-gradx0 (v4! "0.49999")))
+      (setf hash-grady0 (- hash-grady0 (v4! "0.49999")))
+      (setf hash-gradz0 (- hash-gradz0 (v4! "0.49999")))
+      (setf hash-gradx1 (- hash-gradx1 (v4! "0.49999")))
+      (setf hash-grady1 (- hash-grady1 (v4! "0.49999")))
+      (setf hash-gradz1 (- hash-gradz1 (v4! "0.49999")))
       (let* ((final-norm-val (/ 1.0 0.46875)))
         (multiple-value-bind (ival-results-z
                               igrad-results-x-z

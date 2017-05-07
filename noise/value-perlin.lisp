@@ -8,13 +8,13 @@
          (pf-pfmin1 (- (s~ p :xyxy) (v! pi (+ pi (v2! 1.0))))))
     (multiple-value-bind (hash-value hash-x hash-y)
         (bs-fast32-hash-3-per-corner pi)
-      (let* ((grad-x (- hash-x (v4! 0.49999)))
-             (grad-y (- hash-y (v4! 0.49999)))
+      (let* ((grad-x (- hash-x (v4! "0.49999")))
+             (grad-y (- hash-y (v4! "0.49999")))
              (grad-results
               (* (inversesqrt (+ (* grad-x grad-x) (* grad-y grad-y)))
                  (+ (* grad-x (s~ pf-pfmin1 :xzxz))
                     (* grad-y (s~ pf-pfmin1 :yyww))))))
-        (multf grad-results (v4! 1.4142135))
+        (multf grad-results (v4! "1.4142135623730950488016887242097"))
         (setf grad-results
               (mix (- (* hash-value 2.0) (v4! 1.0)) grad-results blend-val))
         (let* ((blend (perlin-quintic (s~ pf-pfmin1 :xy)))
@@ -33,12 +33,12 @@
                           hash-value1
                           hashx1 hashy1 hashz1)
         (bs-fast32-hash-4-per-corner pi)
-      (let* ((grad-x0 (- hashx0 (v4! 0.49999)))
-             (grad-y0 (- hashy0 (v4! 0.49999)))
-             (grad-z0 (- hashz0 (v4! 0.49999)))
-             (grad-x1 (- hashx1 (v4! 0.49999)))
-             (grad-y1 (- hashy1 (v4! 0.49999)))
-             (grad-z1 (- hashz1 (v4! 0.49999)))
+      (let* ((grad-x0 (- hashx0 (v4! "0.49999")))
+             (grad-y0 (- hashy0 (v4! "0.49999")))
+             (grad-z0 (- hashz0 (v4! "0.49999")))
+             (grad-x1 (- hashx1 (v4! "0.49999")))
+             (grad-y1 (- hashy1 (v4! "0.49999")))
+             (grad-z1 (- hashz1 (v4! "0.49999")))
              (grad-results-0
               (*
                (inversesqrt
@@ -55,8 +55,8 @@
                (+ (* (s~ (v2! (x pf) (x pf-min1)) :xyxy) grad-x1)
                   (+ (* (s~ (v2! (y pf) (y pf-min1)) :xxyy) grad-y1)
                      (* (s~ pf-min1 :zzzz) grad-z1))))))
-        (multf grad-results-0 (v4! 1.1547005))
-        (multf grad-results-1 (v4! 1.1547005))
+        (multf grad-results-0 (v4! "1.1547005383792515290182975610039"))
+        (multf grad-results-1 (v4! "1.1547005383792515290182975610039"))
         (setf grad-results-0
               (mix (- (* hash-value0 2.0) (v4! 1.0)) grad-results-0 blend-val))
         (setf grad-results-1
