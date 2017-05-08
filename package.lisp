@@ -141,11 +141,11 @@
   (:import-from :cepl-utils
                 :with-setf)
   (:reexport :nineveh.math-primitives
-             :nineveh.random
-             :nineveh.tonemapping
              :nineveh.hashing
+             :nineveh.shaping-functions
              :nineveh.noise
-             :nineveh.shaping-functions)
+             :nineveh.random
+             :nineveh.tonemapping)
   (:export
    ;;------------------------------
    ;; GPU
