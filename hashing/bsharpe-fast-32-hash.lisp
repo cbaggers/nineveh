@@ -29,36 +29,31 @@
     (fract (* (s~ p :xzxz) (* (s~ p :yyww) (/ 1.0 somelargefloat))))))
 
 (defun-g bs-fast32-hash-2-per-corner ((grid-cell :vec2))
-  (let (((hash-0 :vec4)) ((hash-1 :vec4)))
-    (let* ((offset (v2! 26.0 161.0))
-           (domain 71.0)
-           (some-large-floats (glsl-expr "vec2(951.135664, 642.949883)" :vec2))
-           (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
-      (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
-      (incf p (s~ offset :xyxy))
-      (multf p p)
-      (setf p (* (s~ p :xzxz) (s~ p :yyww)))
-      (progn
-        (setf hash-0 (fract (* p (/ 1.0 (x some-large-floats)))))
-        (setf hash-1 (fract (* p (/ 1.0 (y some-large-floats)))))))
-    (values hash-0 hash-1)))
+  (let* ((offset (v2! 26.0 161.0))
+         (domain 71.0)
+         (some-large-floats (glsl-expr "vec2(951.135664, 642.949883)" :vec2))
+         (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
+    (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
+    (incf p (s~ offset :xyxy))
+    (multf p p)
+    (setf p (* (s~ p :xzxz) (s~ p :yyww)))
+    (values (fract (* p (/ 1.0 (x some-large-floats))))
+            (fract (* p (/ 1.0 (y some-large-floats)))))))
 
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec2))
-  (let (((hash-0 :vec4)) ((hash-1 :vec4)) ((hash-2 :vec4)))
-    (let* ((offset (v2! 26.0 161.0))
-           (domain 71.0)
-           (some-large-floats
-            (glsl-expr "vec3(951.135664, 642.949883, 803.202459)" :vec3))
-           (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
-      (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
-      (incf p (s~ offset :xyxy))
-      (multf p p)
-      (setf p (* (s~ p :xzxz) (s~ p :yyww)))
-      (progn
-        (setf hash-0 (fract (* p (/ 1.0 (x some-large-floats)))))
-        (setf hash-1 (fract (* p (/ 1.0 (y some-large-floats)))))
-        (setf hash-2 (fract (* p (/ 1.0 (z some-large-floats)))))))
-    (values hash-0 hash-1 hash-2)))
+  (let* ((offset (v2! 26.0 161.0))
+         (domain 71.0)
+         (some-large-floats
+          (glsl-expr "vec3(951.135664, 642.949883, 803.202459)" :vec3))
+         (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
+    (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
+    (incf p (s~ offset :xyxy))
+    (multf p p)
+    (setf p (* (s~ p :xzxz) (s~ p :yyww)))
+    (values
+     (fract (* p (/ 1.0 (x some-large-floats))))
+     (fract (* p (/ 1.0 (y some-large-floats))))
+     (fract (* p (/ 1.0 (z some-large-floats)))))))
 
 (defun-g bs-fast32-hash-cell ((grid-cell :vec2))
   (let* ((offset (v2! 26.0 161.0))
@@ -75,28 +70,29 @@
 ;; 3D
 
 (defun-g bs-fast32-hash ((grid-cell :vec3))
-  (let (((lowz-hash :vec4)) (highz-hash (v4! 0)))
-    (let* ((offset (v2! 50.0 161.0))
-           (domain 69.0)
-           (somelargefloat (glsl-expr "635.298681" :float))
-           (zinc (glsl-expr "48.500388" :float)))
-      (setf (s~ grid-cell :xyz)
-            (- (s~ grid-cell :xyz)
-               (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
-      (let* ((grid-cell-inc1
-              (* (step grid-cell (v3! (- domain 1.5))) (+ grid-cell (v3! 1.0))))
-             (p
-              (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
-                 (s~ offset :xyxy))))
-        (multf p p)
-        (setf p (* (s~ p :xzxz) (s~ p :yyww)))
-        (setf (s~ highz-hash :xy)
-              (/ (v2! 1.0)
-                 (+ (v2! somelargefloat)
-                    (* (v2! (z grid-cell) (z grid-cell-inc1)) zinc))))
-        (setf lowz-hash (fract (* p (s~ highz-hash :xxxx))))
-        (setf highz-hash (fract (* p (s~ highz-hash :yyyy))))))
-    (values lowz-hash highz-hash)))
+  (let* ((offset (v2! 50.0 161.0))
+         (domain 69.0)
+         (somelargefloat (glsl-expr "635.298681" :float))
+         (zinc (glsl-expr "48.500388" :float)))
+    (setf (s~ grid-cell :xyz)
+          (- (s~ grid-cell :xyz)
+             (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
+    (let* ((grid-cell-inc1
+            (* (step grid-cell (v3! (- domain 1.5))) (+ grid-cell (v3! 1.0))))
+           (p
+            (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
+               (s~ offset :xyxy)))
+           ((lowz-hash :vec4))
+           (highz-hash (v4! 0)))
+      (multf p p)
+      (setf p (* (s~ p :xzxz) (s~ p :yyww)))
+      (setf (s~ highz-hash :xy)
+            (/ (v2! 1.0)
+               (+ (v2! somelargefloat)
+                  (* (v2! (z grid-cell) (z grid-cell-inc1)) zinc))))
+      (setf lowz-hash (fract (* p (s~ highz-hash :xxxx))))
+      (setf highz-hash (fract (* p (s~ highz-hash :yyyy))))
+      (values lowz-hash highz-hash))))
 
 
 (defun-g bs-fast32-hash ((grid-cell :vec3) (v1-mask :vec3) (v2-mask :vec3))
@@ -135,100 +131,89 @@
           (fract (* p mod-vals)))))))
 
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec3))
-  (let (((lowz-hash-0 :vec4))
-        ((lowz-hash-1 :vec4))
-        ((lowz-hash-2 :vec4))
-        ((highz-hash-0 :vec4))
-        ((highz-hash-1 :vec4))
-        ((highz-hash-2 :vec4)))
-    (let* ((offset (v2! 50.0 161.0))
-           (domain 69.0)
-           (some-large-floats
-            (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
-           (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
-      (setf (s~ grid-cell :xyz)
-            (- (s~ grid-cell :xyz)
-               (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
-      (let* ((grid-cell-inc1
-              (* (step grid-cell (v3! (- domain 1.5))) (+ grid-cell (v3! 1.0))))
-             (p
-              (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
+  (let* ((offset (v2! 50.0 161.0))
+         (domain 69.0)
+         (some-large-floats
+          (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
+         (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
+    (setf (s~ grid-cell :xyz)
+          (- (s~ grid-cell :xyz)
+             (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
+    (let* ((grid-cell-inc1 (* (step grid-cell (v3! (- domain 1.5)))
+                              (+ grid-cell (v3! 1.0))))
+           (p (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
                  (s~ offset :xyxy))))
-        (multf p p)
-        (setf p (* (s~ p :xzxz) (s~ p :yyww)))
-        (let* ((lowz-mod
-                (/ (v3! 1.0)
-                   (+ (s~ some-large-floats :xyz)
-                      (* (s~ grid-cell :zzz) (s~ zinc :xyz)))))
-               (highz-mod
-                (/ (v3! 1.0)
-                   (+ (s~ some-large-floats :xyz)
-                      (* (s~ grid-cell-inc1 :zzz) (s~ zinc :xyz))))))
-          (setf lowz-hash-0 (fract (* p (s~ lowz-mod :xxxx))))
-          (setf highz-hash-0 (fract (* p (s~ highz-mod :xxxx))))
-          (setf lowz-hash-1 (fract (* p (s~ lowz-mod :yyyy))))
-          (setf highz-hash-1 (fract (* p (s~ highz-mod :yyyy))))
-          (setf lowz-hash-2 (fract (* p (s~ lowz-mod :zzzz))))
-          (setf highz-hash-2 (fract (* p (s~ highz-mod :zzzz)))))))
-    (values lowz-hash-0 lowz-hash-1 lowz-hash-2
-            highz-hash-0 highz-hash-1 highz-hash-2)))
+      (multf p p)
+      (setf p (* (s~ p :xzxz) (s~ p :yyww)))
+      (let* ((lowz-mod
+              (/ (v3! 1.0)
+                 (+ (s~ some-large-floats :xyz)
+                    (* (s~ grid-cell :zzz) (s~ zinc :xyz)))))
+             (highz-mod
+              (/ (v3! 1.0)
+                 (+ (s~ some-large-floats :xyz)
+                    (* (s~ grid-cell-inc1 :zzz) (s~ zinc :xyz))))))
+        (values
+         (fract (* p (s~ lowz-mod :xxxx)))       ;; lowz-hash-0
+         (fract (* p (s~ lowz-mod :yyyy)))       ;; lowz-hash-1
+         (fract (* p (s~ lowz-mod :zzzz)))       ;; lowz-hash-2
+         (fract (* p (s~ highz-mod :xxxx)))      ;; highz-hash-0
+         (fract (* p (s~ highz-mod :yyyy)))      ;; highz-hash-1
+         (fract (* p (s~ highz-mod :zzzz)))))))) ;; highz-hash-2
+
 
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec3)
                                       (v1-mask :vec3)
                                       (v2-mask :vec3))
-  (let (((hash-0 :vec4)) ((hash-1 :vec4)) ((hash-2 :vec4)))
-    (let* ((offset (v2! 50.0 161.0))
-           (domain 69.0)
-           (some-large-floats
-            (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
-           (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
-      (setf (s~ grid-cell :xyz)
-            (- (s~ grid-cell :xyz)
-               (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
-      (let* ((grid-cell-inc1
-              (* (step grid-cell (v3! (- domain 1.5))) (+ grid-cell (v3! 1.0))))
-             (p
-              (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
-                 (s~ offset :xyxy))))
-        (multf p p)
-        (let* ((v1xy-v2xy
-                (mix (s~ p :xyxy) (s~ p :zwzw)
-                     (v! (s~ v1-mask :xy) (s~ v2-mask :xy)))))
-          (setf p
-                (* (v! (x p) (s~ v1xy-v2xy :xz) (z p))
-                   (v! (y p) (s~ v1xy-v2xy :yw) (w p))))
-          (let* ((lowz-mods
-                  (/ (v3! 1.0)
-                     (+ (s~ some-large-floats :xyz)
-                        (* (s~ grid-cell :zzz) (s~ zinc :xyz)))))
-                 (highz-mods
-                  (/ (v3! 1.0)
-                     (+ (s~ some-large-floats :xyz)
-                        (* (s~ grid-cell-inc1 :zzz) (s~ zinc :xyz))))))
-            (setf v1-mask
-                  (if (< (z v1-mask) 0.5)
-                      lowz-mods
-                      highz-mods))
-            (setf v2-mask
-                  (if (< (z v2-mask) 0.5)
-                      lowz-mods
-                      highz-mods))
-            (setf hash-0
-                  (fract
-                   (* p
-                      (v4! (x lowz-mods) (x v1-mask) (x v2-mask)
-                           (x highz-mods)))))
-            (setf hash-1
-                  (fract
-                   (* p
-                      (v4! (y lowz-mods) (y v1-mask) (y v2-mask)
-                           (y highz-mods)))))
-            (setf hash-2
-                  (fract
-                   (* p
-                      (v4! (z lowz-mods) (z v1-mask) (z v2-mask)
-                           (z highz-mods)))))))))
-    (values hash-0 hash-1 hash-2)))
+  (let* ((offset (v2! 50.0 161.0))
+         (domain 69.0)
+         (some-large-floats
+          (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
+         (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
+    (setf (s~ grid-cell :xyz)
+          (- (s~ grid-cell :xyz)
+             (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
+    (let* ((grid-cell-inc1
+            (* (step grid-cell (v3! (- domain 1.5))) (+ grid-cell (v3! 1.0))))
+           (p
+            (+ (v! (s~ grid-cell :xy) (s~ grid-cell-inc1 :xy))
+               (s~ offset :xyxy))))
+      (multf p p)
+      (let* ((v1xy-v2xy
+              (mix (s~ p :xyxy) (s~ p :zwzw)
+                   (v! (s~ v1-mask :xy) (s~ v2-mask :xy)))))
+        (setf p
+              (* (v! (x p) (s~ v1xy-v2xy :xz) (z p))
+                 (v! (y p) (s~ v1xy-v2xy :yw) (w p))))
+        (let* ((lowz-mods
+                (/ (v3! 1.0)
+                   (+ (s~ some-large-floats :xyz)
+                      (* (s~ grid-cell :zzz) (s~ zinc :xyz)))))
+               (highz-mods
+                (/ (v3! 1.0)
+                   (+ (s~ some-large-floats :xyz)
+                      (* (s~ grid-cell-inc1 :zzz) (s~ zinc :xyz))))))
+          (setf v1-mask
+                (if (< (z v1-mask) 0.5)
+                    lowz-mods
+                    highz-mods))
+          (setf v2-mask
+                (if (< (z v2-mask) 0.5)
+                    lowz-mods
+                    highz-mods))
+          (values
+           (fract
+            (* p
+               (v4! (x lowz-mods) (x v1-mask) (x v2-mask)
+                    (x highz-mods))))
+           (fract
+            (* p
+               (v4! (y lowz-mods) (y v1-mask) (y v2-mask)
+                    (y highz-mods))))
+           (fract
+            (* p
+               (v4! (z lowz-mods) (z v1-mask) (z v2-mask)
+                    (z highz-mods))))))))))
 
 (defun-g bs-fast32-hash-4-per-corner ((grid-cell :vec3))
   (let (((lowz-hash-0 :vec4))
@@ -264,17 +249,14 @@
               (/ (v4! 1.0)
                  (+ (s~ some-large-floats :xyzw)
                     (* (s~ grid-cell-inc1 :zzzz) (s~ zinc :xyzw)))))
-        (progn
-          (setf lowz-hash-0 (fract (* p (s~ lowz-hash-3 :xxxx))))
-          (setf highz-hash-0 (fract (* p (s~ highz-hash-3 :xxxx))))
-          (setf lowz-hash-1 (fract (* p (s~ lowz-hash-3 :yyyy))))
-          (progn
-            (setf highz-hash-1 (fract (* p (s~ highz-hash-3 :yyyy))))
-            (setf lowz-hash-2 (fract (* p (s~ lowz-hash-3 :zzzz))))
-            (setf highz-hash-2 (fract (* p (s~ highz-hash-3 :zzzz))))
-            (progn
-              (setf lowz-hash-3 (fract (* p (s~ lowz-hash-3 :wwww))))
-              (setf highz-hash-3 (fract (* p (s~ highz-hash-3 :wwww)))))))))
+        (setf lowz-hash-0 (fract (* p (s~ lowz-hash-3 :xxxx))))
+        (setf highz-hash-0 (fract (* p (s~ highz-hash-3 :xxxx))))
+        (setf lowz-hash-1 (fract (* p (s~ lowz-hash-3 :yyyy))))
+        (setf highz-hash-1 (fract (* p (s~ highz-hash-3 :yyyy))))
+        (setf lowz-hash-2 (fract (* p (s~ lowz-hash-3 :zzzz))))
+        (setf highz-hash-2 (fract (* p (s~ highz-hash-3 :zzzz))))
+        (setf lowz-hash-3 (fract (* p (s~ lowz-hash-3 :wwww))))
+        (setf highz-hash-3 (fract (* p (s~ highz-hash-3 :wwww))))))
     (values lowz-hash-0 lowz-hash-1 lowz-hash-2 lowz-hash-3
             highz-hash-0 highz-hash-1 highz-hash-2 highz-hash-3)))
 
@@ -291,7 +273,10 @@
     (incf (s~ grid-cell :xy) (s~ offset :xy))
     (multf (s~ grid-cell :xy) (s~ grid-cell :xy))
     (fract
-     (* (* (x grid-cell) (y grid-cell))
-        (/ (v4! 1.0) (+ some-large-floats (* (s~ grid-cell :zzzz) zinc)))))))
+     (* (x grid-cell)
+        (y grid-cell)
+        (/ (v4! 1.0) (+ some-large-floats
+                        (* (s~ grid-cell :zzzz)
+                           zinc)))))))
 
 ;;------------------------------------------------------------
