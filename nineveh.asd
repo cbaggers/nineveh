@@ -40,6 +40,7 @@
                (:file "noise/hermite")
                (:file "noise/value-hermite")
                ;;
+               (:file "easing/easing")
                (:file "random/random")
                (:file "random/docs")
                (:file "gpu/bind")
