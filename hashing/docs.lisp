@@ -42,6 +42,47 @@ https://briansharpe.wordpress.com/2011/10/01/gpu-texture-free-noise/
 
 ")
 
+    (defun blum-blum-shub-hash-low-quality
+      "
+-- Signatures --
+
+ ((grid-cell :vec2)) --> :vec4
+
+ ((grid-cell :vec3)) --> (values :vec4 :vec4)
+
+grid-cell is assumed to be an integer coordinate
+
+-- Wikipedia Explanation --
+
+Blum Blum Shub (BBS) is a pseudorandom number generator proposed in 1986 by
+Lenore Blum, Manuel Blum and Michael Shub.  It takes the form:
+
+    x_n_plus_1 = mod( x_n^2, M )
+
+where M=pq is the product of two large primes p and q
+
+-- GPU Version --
+
+This is an implementation of the hashing function described in Marc Olano’s
+MNoise Paper. It calculates pseudo-random values in the 0.0->1.0 range.
+
+This version lacks the extra permutation pass that is in #'blum-blum-shub-hash
+so suffers from the artifacts present in the version from the paper.
+
+It can run on 16bit and 24bit floating point hardware.
+
+Generates a random number for each of the cell corners, each are returned as
+one element of the resulting vectors.
+
+-- Credit --
+
+Marc Olano - http://www.cs.umbc.edu/~olano/papers/mNoise.pdf
+
+Brain Sharpe - For his phenominal explanations
+https://briansharpe.wordpress.com/2011/10/01/gpu-texture-free-noise/
+
+")
+
   (defun sgim-qpp-hash
       "
 -- Signatures --
