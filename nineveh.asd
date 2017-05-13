@@ -61,6 +61,7 @@
                (:file "gpu/sampling")
                (:file "gpu/mipmaps")
                (:file "textures/draw-texture")
+               (:file "buffer-streams/buffer-streamer")
                (:file "quad-streams")
                (:file "gpu/misc")
                (:file "tonemapping/operators")))
