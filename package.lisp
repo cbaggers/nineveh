@@ -129,7 +129,8 @@
 (uiop:define-package #:nineveh.graphing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :documentation-utils)
-  (:export :graph))
+  (:export :graph
+           :plot))
 
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths

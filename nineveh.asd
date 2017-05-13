@@ -44,6 +44,7 @@
                (:file "random/docs")
                ;;
                (:file "graphing/simple")
+               (:file "graphing/plot")
                ;;
                (:file "gpu/bind")
                (:file "gpu/sampling")
