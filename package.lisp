@@ -126,6 +126,10 @@
           :documentation-utils)
   (:reexport :easing))
 
+(uiop:define-package #:nineveh.graphing
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
+  (:export :graph))
 
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
@@ -135,6 +139,7 @@
           :nineveh.noise
           :nineveh.tonemapping
           :nineveh.shaping-functions
+          :nineveh.graphing
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
@@ -145,7 +150,8 @@
              :nineveh.shaping-functions
              :nineveh.noise
              :nineveh.random
-             :nineveh.tonemapping)
+             :nineveh.tonemapping
+             :nineveh.graphing)
   (:export
    ;;------------------------------
    ;; GPU

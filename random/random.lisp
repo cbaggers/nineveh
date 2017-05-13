@@ -1,8 +1,8 @@
 (in-package :nineveh.random)
 
 (defun-g rand ((seed :vec2))
-  (fract (* (sin (dot (s~ seed :xy) (glsl-expr "vec2(12.9898,78.233)" :vec2)))
-            (glsl-expr "43758.5453" :float))))
+  (fract (* (sin (dot (s~ seed :xy) (v! "12.9898" "78.233")))
+            "43758.5453")))
 
 ;;
 ;; Safe alternative for when Varjo supports precision modifiers

@@ -42,6 +42,9 @@
                ;;
                (:file "random/random")
                (:file "random/docs")
+               ;;
+               (:file "graphing/simple")
+               ;;
                (:file "gpu/bind")
                (:file "gpu/sampling")
                (:file "gpu/mipmaps")
