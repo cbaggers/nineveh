@@ -138,6 +138,8 @@
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :uiop
+                :ensure-list)
   (:import-from :cepl-utils
                 :with-setf)
   (:reexport :nineveh.math-primitives
