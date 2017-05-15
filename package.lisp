@@ -1,7 +1,7 @@
 ;;;; package.lisp
 
 (uiop:define-package #:nineveh.math-primitives
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl #:rtg-math :rtg-math.base-maths
           :documentation-utils #:varjo)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10
@@ -36,7 +36,7 @@
            :rgb->hcl))
 
 (uiop:define-package #:nineveh.hashing
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
@@ -57,7 +57,7 @@
            :sgim-qpp-hash-3-per-corner))
 
 (uiop:define-package #:nineveh.shaping-functions
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
@@ -88,7 +88,7 @@
            :falloff-xsq-c2))
 
 (uiop:define-package #:nineveh.noise
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.shaping-functions
           :nineveh.hashing
@@ -125,7 +125,7 @@
            :value-hermite-noise))
 
 (uiop:define-package #:nineveh.random
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.shaping-functions
           :documentation-utils)
@@ -157,13 +157,13 @@
            :sphere-c-arrays))
 
 (uiop:define-package #:nineveh.easing
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           #:easing-f
           :documentation-utils)
   (:reexport :easing))
 
 (uiop:define-package #:nineveh.graphing
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :documentation-utils)
   (:export :graph
            :axis
@@ -226,7 +226,7 @@
            :tone-map-uncharted2))
 
 (uiop:define-package #:nineveh
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+    (:use #:cl #:cepl :varjo #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.conditionals
           :nineveh.random
