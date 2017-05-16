@@ -39,14 +39,15 @@
                 (incf my-samples 1f0)
                 (let ((diff (- fx (+ (y uv) (* j (y step))))))
                   (incf count (- (* (step 0f0 diff) 2f0) 1))))))
-    (+ (* (if (/= (abs count) my-samples)
-              (- 1f0 (/ (abs (float count)) (float my-samples)))
-              0f0)
-          line-color)
-       (* axis-color (smoothstep (* 0.5 axis-thickness (x diff)) 0
-                                 (abs (x uv))))
-       (* axis-color (smoothstep (* 0.5 axis-thickness (y diff)) 0
-                                 (abs (y uv)))))))
+    (values (+ (* (if (/= (abs count) my-samples)
+                      (- 1f0 (/ (abs (float count)) (float my-samples)))
+                      0f0)
+                  line-color)
+               (* axis-color (smoothstep (* 0.5 axis-thickness (x diff)) 0
+                                         (abs (x uv))))
+               (* axis-color (smoothstep (* 0.5 axis-thickness (y diff)) 0
+                                         (abs (y uv)))))
+            (funcall func (x uv)))))
 
 ;; {TODO} these can go away once varjo has &optional support
 
