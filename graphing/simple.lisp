@@ -5,6 +5,13 @@
 ;;
 ;; We don't use dithering on this version
 
+(defun-g axis ((uv :vec2) (xy-range :vec4) (axis-style :vec4))
+  (let* ((axis-thickness (w axis-style))
+         (axis-color (v! (s~ axis-style :xyz) 1))
+         (diff (/ (s~ xy-range :xz) (- (s~ xy-range :yw) (s~ xy-range :xz))))
+         (uv (+ uv diff)))
+    (+ (* axis-color (smoothstep axis-thickness 0 (abs (x uv))))
+       (* axis-color (smoothstep axis-thickness 0 (abs (y uv)))))))
 
 (defun-g graph ((func (function (:float) :float))
                 (uv :vec2)
@@ -12,7 +19,8 @@
                 (line-style :vec4)
                 (axis-style :vec4)
                 (samples :int))
-  (let* (;;
+  (let* ((axis (axis uv xy-range axis-style))
+         ;;
          (line-thickness (w line-style))
          (line-color (v! (s~ line-style :xyz) 1))
          ;;
@@ -43,10 +51,7 @@
               (- 1f0 (/ (abs (float count)) (float my-samples)))
               0f0)
           line-color)
-       (* axis-color (smoothstep (* 0.5 axis-thickness (x diff)) 0
-                                 (abs (x uv))))
-       (* axis-color (smoothstep (* 0.5 axis-thickness (y diff)) 0
-                                 (abs (y uv)))))))
+       axis)))
 
 ;; {TODO} these can go away once varjo has &optional support
 

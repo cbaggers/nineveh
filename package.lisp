@@ -132,6 +132,7 @@
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :documentation-utils)
   (:export :graph
+           :axis
            :plot))
 
 (uiop:define-package #:nineveh
