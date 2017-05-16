@@ -5,6 +5,13 @@
 ;;
 ;; We don't use dithering on this version
 
+(defun-g axis ((uv :vec2) (xy-range :vec4) (axis-style :vec4))
+  (let* ((axis-thickness (w axis-style))
+         (axis-color (v! (s~ axis-style :xyz) 1))
+         (diff (/ (s~ xy-range :xz) (- (s~ xy-range :yw) (s~ xy-range :xz))))
+         (uv (+ uv diff)))
+    (+ (* axis-color (smoothstep axis-thickness 0 (abs (x uv))))
+       (* axis-color (smoothstep axis-thickness 0 (abs (y uv)))))))
 
 (defun-g graph ((func (function (:float) :float))
                 (uv :vec2)
@@ -12,42 +19,10 @@
                 (line-style :vec4)
                 (axis-style :vec4)
                 (samples :int))
-  (let* (;;
-         (line-thickness (w line-style))
-         (line-color (v! (s~ line-style :xyz) 1))
-         ;;
-         (axis-thickness (w axis-style))
-         (axis-color (v! (s~ axis-style :xyz) 1))
-         ;;
-         (diff (v! (- (y xy-range) (x xy-range))
-                   (- (w xy-range) (z xy-range))))
-         ;;
-         (uv (+ (* uv diff) (s~ xy-range :xz)))
-         ;;
-         (samples (float samples))
-         (max-dist (* (v2! line-thickness) diff))
-         (step (/ max-dist (v2! samples)))
-         (count 0f0)
-         (initial-offset (* step samples -0.5))
-         (my-samples 0f0))
-    (incf initial-offset uv)
-    (for (i 0f0) (< i samples) (++ i)
-         (let ((fx (funcall func (+ (x uv) (* i (x step))))))
-           (for (j 0f0) (< j samples) (++ j)
-                (when (> (+ (* i i) (* j j)) (* samples samples))
-                  (continue))
-                (incf my-samples 1f0)
-                (let ((diff (- fx (+ (y uv) (* j (y step))))))
-                  (incf count (- (* (step 0f0 diff) 2f0) 1))))))
-    (values (+ (* (if (/= (abs count) my-samples)
-                      (- 1f0 (/ (abs (float count)) (float my-samples)))
-                      0f0)
-                  line-color)
-               (* axis-color (smoothstep (* 0.5 axis-thickness (x diff)) 0
-                                         (abs (x uv))))
-               (* axis-color (smoothstep (* 0.5 axis-thickness (y diff)) 0
-                                         (abs (y uv)))))
-            (funcall func (x uv)))))
+  (multiple-value-bind (g v)
+      (graph-no-axis func uv xy-range line-style samples)
+    (values (+ g (axis uv xy-range axis-style))
+            v)))
 
 ;; {TODO} these can go away once varjo has &optional support
 
