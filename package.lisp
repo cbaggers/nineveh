@@ -9,6 +9,29 @@
            :mod-fixed-denominator
            :mod-fixed-denominator-low-quality))
 
+(uiop:define-package #:nineveh.blending
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils #:varjo)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb))
+
+(uiop:define-package #:nineveh.blending.gl
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils #:varjo)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :opengl-blend
+           :zero
+           :one
+           :src-color
+           :dst-color
+           :one-minus-src-color
+           :one-minus-dst-color
+           :src-alpha
+           :dst-alpha
+           :one-minus-dst-alpha
+           :func-add
+           :func-subtract
+           :func-reverse-subtract))
+
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
