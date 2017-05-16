@@ -17,6 +17,7 @@
                (:file "math-primitives/log")
                (:file "math-primitives/clamping")
                (:file "math-primitives/mod")
+               (:file "math-primitives/remap")
                (:file "math-primitives/docs")
                ;;
                (:file "hashing/blum-blum-shub-hash")
