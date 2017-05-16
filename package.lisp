@@ -7,7 +7,9 @@
   (:export :log10
            :saturate
            :mod-fixed-denominator
-           :mod-fixed-denominator-low-quality))
+           :mod-fixed-denominator-low-quality
+           :remap
+           :remap-uv))
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
