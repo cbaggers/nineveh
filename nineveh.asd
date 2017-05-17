@@ -20,6 +20,8 @@
                (:file "math-primitives/remap")
                (:file "math-primitives/docs")
                ;;
+               (:file "color/color-space-conversions")
+               ;;
                (:file "hashing/blum-blum-shub-hash")
                (:file "hashing/permutation-polynomial-hash")
                (:file "hashing/bsharpe-fast-32-hash")

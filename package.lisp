@@ -11,6 +11,12 @@
            :remap
            :remap-uv))
 
+(uiop:define-package #:nineveh.color
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils #:varjo)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :rgb->greyscale))
+
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
