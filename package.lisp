@@ -11,9 +11,16 @@
            :remap
            :remap-uv))
 
-(uiop:define-package #:nineveh.color
+(uiop:define-package #:nineveh.conditionals
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :documentation-utils #:varjo #:nineveh.math-primitives)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :mix-step-if))
+
+(uiop:define-package #:nineveh.color
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils #:varjo #:nineveh.math-primitives
+          :nineveh.conditionals)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rgb->greyscale))
 
@@ -144,6 +151,7 @@
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
+          :nineveh.conditionals
           :nineveh.random
           :nineveh.hashing
           :nineveh.noise
@@ -156,6 +164,7 @@
   (:import-from :cepl-utils
                 :with-setf)
   (:reexport :nineveh.math-primitives
+             :nineveh.conditionals
              :nineveh.hashing
              :nineveh.shaping-functions
              :nineveh.noise

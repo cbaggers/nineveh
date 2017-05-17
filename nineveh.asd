@@ -20,6 +20,8 @@
                (:file "math-primitives/remap")
                (:file "math-primitives/docs")
                ;;
+               (:file "conditionals/conditional-optimizations")
+               ;;
                (:file "color/color-space-conversions")
                ;;
                (:file "hashing/blum-blum-shub-hash")
