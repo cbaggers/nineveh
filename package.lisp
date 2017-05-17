@@ -13,7 +13,7 @@
 
 (uiop:define-package #:nineveh.color
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :documentation-utils #:varjo)
+          :documentation-utils #:varjo #:nineveh.math-primitives)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rgb->greyscale))
 
