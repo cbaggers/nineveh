@@ -17,7 +17,7 @@
         (multf grad-results (v4! "1.4142135623730950488016887242097"))
         (setf grad-results
               (mix (- (* hash-value 2.0) (v4! 1.0)) grad-results blend-val))
-        (let* ((blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+        (let* ((blend (quintic (s~ pf-pfmin1 :xy)))
                (blend2 (v! blend (- (v2! 1.0) blend))))
           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
@@ -61,7 +61,7 @@
               (mix (- (* hash-value0 2.0) (v4! 1.0)) grad-results-0 blend-val))
         (setf grad-results-1
               (mix (- (* hash-value1 2.0) (v4! 1.0)) grad-results-1 blend-val))
-        (let* ((blend (perlin-quintic pf))
+        (let* ((blend (quintic pf))
                (res0 (mix grad-results-0 grad-results-1 (z blend)))
                (blend2 (v! (s~ blend :xy) (- (v2! 1.0) (s~ blend :xy)))))
           (dot res0 (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))

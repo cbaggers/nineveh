@@ -21,7 +21,7 @@
                  (+ (* grad-x (s~ pf-pfmin1 :xzxz))
                     (* grad-y (s~ pf-pfmin1 :yyww))))))
         (multf grad-results (v4! "1.4142135623730950488016887242097"))
-        (let* ((blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+        (let* ((blend (quintic (s~ pf-pfmin1 :xy)))
                (blend2 (v! blend (- (v2! 1.0) blend))))
           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
@@ -44,7 +44,7 @@
                (k0-gk0 (- dotval1-grad1 dotval0-grad0))
                (k1-gk1 (- dotval2-grad2 dotval0-grad0))
                (k2-gk2 (- dotval3-grad3 (- dotval2-grad2 k0-gk0)))
-               (blend (perlin-quintic-interp-and-deriv (s~ pf-pfmin1 :xy)))
+               (blend (quintic-interp-and-deriv (s~ pf-pfmin1 :xy)))
                (results
                 (+ dotval0-grad0
                    (+ (* (x blend) k0-gk0)
@@ -71,7 +71,7 @@
 ;;                  (+ (* grad-x (s~ pf-pfmin1 :xzxz))
 ;;                     (* grad-y (s~ pf-pfmin1 :yyww))))))
 ;;         (multf grad-results (v4! "1.4142135623730950488016887242097"))
-;;         (let* ((blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+;;         (let* ((blend (quintic (s~ pf-pfmin1 :xy)))
 ;;                (blend2 (v! blend (- (v2! 1.0) blend))))
 ;;           (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))))
 
@@ -130,7 +130,7 @@
     (let* ((grad-results
             (+ (* (s~ pf-pfmin1 :xzxz) (sign hash))
                (* (s~ pf-pfmin1 :yyww) (sign (- (abs hash) (v4! 0.25))))))
-           (blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+           (blend (quintic (s~ pf-pfmin1 :xy)))
            (blend2 (v! blend (- (v2! 1.0) blend))))
       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
 
@@ -148,7 +148,7 @@
 ;;     (let* ((grad-results
 ;;             (+ (* (s~ pf-pfmin1 :xzxz) (sign hash))
 ;;                (* (s~ pf-pfmin1 :yyww) (sign (- (abs hash) (v4! 0.25))))))
-;;            (blend (perlin-quintic (s~ pf-pfmin1 :xy)))
+;;            (blend (quintic (s~ pf-pfmin1 :xy)))
 ;;            (blend2 (v! blend (- (v2! 1.0) blend))))
 ;;       (dot grad-results (* (s~ blend2 :zxzx) (s~ blend2 :wwyy))))))
 
@@ -266,7 +266,7 @@
                (+ (* (s~ (v2! (x pf) (x pf-min1)) :xyxy) grad-x1)
                   (+ (* (s~ (v2! (y pf) (y pf-min1)) :xxyy) grad-y1)
                      (* (s~ pf-min1 :zzzz) grad-z1)))))
-             (blend (perlin-quintic pf))
+             (blend (quintic pf))
              (res0 (mix grad-results-0 grad-results-1 (z blend)))
              (blend2 (v! (s~ blend :xy) (- (v2! 1.0) (s~ blend :xy))))
              (final (dot res0 (* (s~ blend2 :zxzx) (s~ blend2 :wwyy)))))
@@ -333,8 +333,8 @@
                  (k6-gk6
                   (- (- dotval7-grad7 dotval6-grad6)
                      (- (- dotval5-grad5 dotval4-grad4) k3-gk3)))
-                 (blend (perlin-quintic pf))
-                 (blend-deriv (perlin-quintic-deriv pf))
+                 (blend (quintic pf))
+                 (blend-deriv (quintic-deriv pf))
                  (u (x blend))
                  (v (y blend))
                  (w (z blend))
@@ -559,7 +559,7 @@
                                                    (v4! 0.125)))))
                    (grad-results-1
                     (+ grad-results-1-0 (+ grad-results-1-1 grad-results-1-2)))
-                   (blend (perlin-quintic pf))
+                   (blend (quintic pf))
                    (res0 (mix grad-results-0 grad-results-1 (z blend)))
                    (blend2 (v! (s~ blend :xy) (- (v2! 1.0) (s~ blend :xy)))))
               (* (dot res0 (* (s~ blend2 :zxzx) (s~ blend2 :wwyy)))
@@ -668,7 +668,7 @@
                           highz-highw-hash-1)
                        (+ (* (s~ pf-min1 :zzzz) highz-highw-hash-2)
                           (* (s~ pf-min1 :wwww) highz-highw-hash-3)))))
-            (let* ((blend (perlin-quintic pf))
+            (let* ((blend (quintic pf))
                    (res0
                     (+ grad-results-lowz-loww
                        (*

@@ -64,11 +64,11 @@
            :parabola
            :power-curve
            ;;
-           :perlin-hermine
-           :perlin-quintic
-           :perlin-quintic-deriv
-           :perlin-quintic-fast
-           :perlin-quintic-interp-and-deriv
+           :hermine
+           :quintic
+           :quintic-deriv
+           :quintic-fast
+           :quintic-interp-and-deriv
            :quintic-hermite
            :quintic-hermite-deriv
            ;;
