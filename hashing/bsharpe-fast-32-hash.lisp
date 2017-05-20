@@ -21,7 +21,7 @@
 (defun-g bs-fast32-hash ((grid-cell :vec2))
   (let* ((offset (v2! 26.0 161.0))
          (domain 71.0)
-         (somelargefloat (glsl-expr "951.135664" :float))
+         (somelargefloat "951.135664")
          (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
     (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
     (incf p (s~ offset :xyxy))
@@ -31,7 +31,7 @@
 (defun-g bs-fast32-hash-2-per-corner ((grid-cell :vec2))
   (let* ((offset (v2! 26.0 161.0))
          (domain 71.0)
-         (some-large-floats (glsl-expr "vec2(951.135664, 642.949883)" :vec2))
+         (some-large-floats (v! "951.135664" "642.949883"))
          (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
     (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
     (incf p (s~ offset :xyxy))
@@ -43,8 +43,7 @@
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec2))
   (let* ((offset (v2! 26.0 161.0))
          (domain 71.0)
-         (some-large-floats
-          (glsl-expr "vec3(951.135664, 642.949883, 803.202459)" :vec3))
+         (some-large-floats (v! "951.135664" "642.949883" "803.202459"))
          (p (v! (s~ grid-cell :xy) (+ (s~ grid-cell :xy) (v2! 1.0)))))
     (setf p (- p (* (floor (* p (/ 1.0 domain))) domain)))
     (incf p (s~ offset :xyxy))
@@ -58,9 +57,10 @@
 (defun-g bs-fast32-hash-cell ((grid-cell :vec2))
   (let* ((offset (v2! 26.0 161.0))
          (domain 71.0)
-         (some-large-floats
-          (glsl-expr "vec4(951.135664, 642.949883, 803.202459, 986.973274)"
-                     :vec4))
+         (some-large-floats (v! "951.135664"
+                                "642.949883"
+                                "803.202459"
+                                "986.973274"))
          (p (- grid-cell (* (floor (* grid-cell (/ 1.0 domain))) domain))))
     (incf p (s~ offset :xy))
     (multf p p)
@@ -72,8 +72,8 @@
 (defun-g bs-fast32-hash ((grid-cell :vec3))
   (let* ((offset (v2! 50.0 161.0))
          (domain 69.0)
-         (somelargefloat (glsl-expr "635.298681" :float))
-         (zinc (glsl-expr "48.500388" :float)))
+         (somelargefloat "635.298681")
+         (zinc "48.500388"))
     (setf (s~ grid-cell :xyz)
           (- (s~ grid-cell :xyz)
              (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
@@ -98,8 +98,8 @@
 (defun-g bs-fast32-hash ((grid-cell :vec3) (v1-mask :vec3) (v2-mask :vec3))
   (let* ((offset (v2! 50.0 161.0))
          (domain 69.0)
-         (somelargefloat (glsl-expr "635.298681" :float))
-         (zinc (glsl-expr "48.500388" :float)))
+         (somelargefloat "635.298681")
+         (zinc "48.500388"))
     (setf (s~ grid-cell :xyz)
           (- (s~ grid-cell :xyz)
              (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
@@ -133,9 +133,8 @@
 (defun-g bs-fast32-hash-3-per-corner ((grid-cell :vec3))
   (let* ((offset (v2! 50.0 161.0))
          (domain 69.0)
-         (some-large-floats
-          (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
-         (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
+         (some-large-floats (v! "635.298681" "682.357502" "668.926525"))
+         (zinc (v! "48.500388" "65.294118" "63.934599")))
     (setf (s~ grid-cell :xyz)
           (- (s~ grid-cell :xyz)
              (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
@@ -167,9 +166,8 @@
                                       (v2-mask :vec3))
   (let* ((offset (v2! 50.0 161.0))
          (domain 69.0)
-         (some-large-floats
-          (glsl-expr "vec3(635.298681, 682.357502, 668.926525)" :vec3))
-         (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599)" :vec3)))
+         (some-large-floats (v! "635.298681" "682.357502" "668.926525"))
+         (zinc (v! "48.500388" "65.294118" "63.934599")))
     (setf (s~ grid-cell :xyz)
           (- (s~ grid-cell :xyz)
              (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
@@ -226,11 +224,11 @@
         (highz-hash-3 (v4! 0)))
     (let* ((offset (v2! 50.0 161.0))
            (domain 69.0)
-           (some-large-floats
-            (glsl-expr "vec3(635.298681, 682.357502, 668.926525, 588.255119 )"
-                       :vec4))
-           (zinc (glsl-expr "vec3(48.500388, 65.294118, 63.934599, 63.279683 )"
-                            :vec4)))
+           (some-large-floats (v! "635.298681"
+                                  "682.357502"
+                                  "668.926525"
+                                  "588.255119"))
+           (zinc (v! "48.500388" "65.294118" "63.934599" "63.279683")))
       (setf (s~ grid-cell :xyz)
             (- (s~ grid-cell :xyz)
                (* (floor (* (s~ grid-cell :xyz) (/ 1.0 domain))) domain)))
@@ -263,11 +261,11 @@
 (defun-g bs-fast32-hash-cell ((grid-cell :vec3))
   (let* ((offset (v2! 50.0 161.0))
          (domain 69.0)
-         (some-large-floats
-          (glsl-expr "vec4(635.298681, 682.357502, 668.926525, 588.255119)"
-                     :vec4))
-         (zinc (glsl-expr "vec4( 48.500388, 65.294118, 63.934599, 63.279683 )"
-                          :vec4)))
+         (some-large-floats (v! "635.298681"
+                                "682.357502"
+                                "668.926525"
+                                "588.255119"))
+         (zinc (v! "48.500388" "65.294118" "63.934599" "63.279683")))
     (setf (s~ grid-cell :xyz)
           (- grid-cell (* (floor (* grid-cell (/ 1.0 domain))) domain)))
     (incf (s~ grid-cell :xy) (s~ offset :xy))
