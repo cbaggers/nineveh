@@ -6,7 +6,7 @@
   :license "BSD 2 Clause"
   :serial t
   :depends-on (#:cepl #:cl-soil #:livesupport #:easing
-                      #:documentation-utils)
+                      #:documentation-utils #:dendrite.primitives)
   :components ((:file "package")
                (:file "cpu/hdr-cross-cube-map-loader")
                (:file "cpu/bind")
@@ -48,6 +48,8 @@
                (:file "easing/easing")
                (:file "random/random")
                (:file "random/docs")
+               ;;
+               (:file "mesh/data/primitives")
                ;;
                (:file "graphing/axis")
                (:file "graphing/graph")

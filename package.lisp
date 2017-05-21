@@ -135,6 +135,20 @@
            :tone-map-hejl-burgess-dawson
            :tone-map-uncharted2))
 
+
+(uiop:define-package :nineveh.mesh.data.primitives
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math #:rtg-math.base-maths
+          #:nineveh.math-primitives
+          #:documentation-utils
+          #:dendrite.primitives)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :latice-c-arrays
+           :latice-gpu-arrays))
+
+
 (uiop:define-package #:nineveh.easing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           #:easing-f
