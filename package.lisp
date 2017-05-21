@@ -162,6 +162,12 @@
            :axis
            :plot))
 
+(uiop:define-package #:nineveh.normals
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :simple-sample-normals))
+
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
@@ -172,6 +178,7 @@
           :nineveh.tonemapping
           :nineveh.shaping-functions
           :nineveh.graphing
+          :nineveh.normals
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
@@ -184,7 +191,8 @@
              :nineveh.noise
              :nineveh.random
              :nineveh.tonemapping
-             :nineveh.graphing)
+             :nineveh.graphing
+             :nineveh.normals)
   (:export
    ;;------------------------------
    ;; GPU

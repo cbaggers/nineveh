@@ -51,6 +51,8 @@
                ;;
                (:file "mesh/data/primitives")
                ;;
+               (:file "normals/calculate-normals")
+               ;;
                (:file "graphing/axis")
                (:file "graphing/graph")
                (:file "graphing/plot")
