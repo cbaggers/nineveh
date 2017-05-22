@@ -22,7 +22,16 @@
           :documentation-utils #:varjo #:nineveh.math-primitives
           :nineveh.conditionals)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
-  (:export :rgb->greyscale))
+  (:export :rgb->greyscale
+           :hue->rgb
+           :rgb->hcv
+           :rgb->hsv
+           :hsv->rgb
+           :rgb->hsl
+           :hsl->rgb
+           :rgb->hcy
+           :hcy->rgb
+           :rgb->hcl))
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
