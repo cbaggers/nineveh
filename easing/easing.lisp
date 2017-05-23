@@ -1,5 +1,9 @@
 (in-package :nineveh.easing)
 
+;; Note: it is know that these are really inefficient implementations for the
+;;       GPU. This was a 5min coversions from the originals (which was super
+;;       cool!) and will be fixed up in due course
+
 (defmacro defeasing-f (name args &body body)
   (let ((ease-in (alexandria:symbolicate 'in- name))
         (ease-out (alexandria:symbolicate 'out- name))
