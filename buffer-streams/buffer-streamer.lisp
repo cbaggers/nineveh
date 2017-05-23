@@ -17,10 +17,12 @@
             (gpu-array-element-type arr)
             (first (gpu-array-dimensions arr)))))
 
-(defun make-buffer-streamer (dimensions element-type)
+(defun make-buffer-streamer (dimensions element-type
+                             &optional (draw-mode :triangles))
   (when (listp dimensions)
     (assert (= (length dimensions) 1)))
   (assert element-type)
+  (assert (cepl.streams::valid-draw-mode-p draw-mode) (draw-mode))
   (let* ((len (first (ensure-list dimensions)))
          (array (make-gpu-array nil :element-type element-type
                                 :dimensions len
@@ -30,7 +32,7 @@
      (%init-streamer
       (cepl.streams::init-buffer-stream-from-id
        %pre% (cepl.vaos:make-vao gpu-arrays nil)
-       gpu-arrays nil 0 len t))
+       gpu-arrays nil 0 len t draw-mode))
      (make-uninitialized-streamer)
      gpu-arrays)))
 
@@ -51,7 +53,7 @@
    :arr cepl.types::+null-buffer-backed-gpu-array+
    :gpu-arrays nil))
 
-(defun buffer-streamer-push (c-array streamer)
+(defun buffer-streamer-push (c-array streamer &optional draw-mode)
   (assert (= (length (c-array-dimensions c-array)) 1))
   (let* ((g-arr (buffer-streamer-arr streamer))
          (g-len (first (gpu-array-dimensions g-arr)))
@@ -71,6 +73,9 @@
 
     (setf (cepl.streams::buffer-stream-start streamer) new-start-pos
           (cepl.streams:buffer-stream-length streamer) c-len)
+
+    (when draw-mode
+      (setf (cepl.streams::buffer-stream-draw-mode streamer) draw-mode))
 
     (cepl.gpu-arrays::with-gpu-array-range-as-pointer
         (g-ptr g-arr new-start-pos c-len
