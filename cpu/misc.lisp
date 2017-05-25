@@ -10,11 +10,11 @@
   (let ((frame-var-name (symb :* name :-frame-counter*))
         (step-func-name (symb :% name :-step-func*)))
     `(progn
-       (defvar ,frame-var-name -1)
+       (defvar ,frame-var-name 0)
        (defun ,name (action &optional frames)
          (ecase action
            (:start
-            (if (= ,frame-var-name -1)
+            (if (= ,frame-var-name 0)
                 (progn
                   (setf ,frame-var-name (or frames -1))
                   (format t "~%- starting ~a -" ',name)
@@ -40,7 +40,7 @@
                             ;; run step function
                             (livesupport:continuable
                               (,step-func-name))))
-                    (setf ,frame-var-name -1)
+                    (setf ,frame-var-name 0)
                     (format t "~%~%- stopping ~a -~%" ',name)))
                 (format t "~%~%- ~a is already running -~%" ',name)))
            (:stop
