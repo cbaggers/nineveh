@@ -146,7 +146,19 @@
   (:import-from :cepl-utils
                 :with-setf)
   (:export :latice-c-arrays
-           :latice-gpu-arrays))
+           :latice-gpu-arrays
+           :box-c-arrays
+           :box-gpu-arrays
+           :cone-c-arrays
+           :cone-gpu-arrays
+           :cylinder-c-arrays
+           :cylinder-gpu-arrays
+           :plain-gpu-arrays
+           :plain-c-arrays
+           :cube-gpu-arrays
+           :cube-c-arrays
+           :sphere-gpu-arrays
+           :sphere-c-arrays))
 
 
 (uiop:define-package #:nineveh.easing
