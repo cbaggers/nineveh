@@ -13,9 +13,10 @@
                            ((and ,norms-p ,uvs-p) 'g-pnt)
                            (,uvs-p 'g-pt)
                            (,norms-p 'g-pn)))
+              (elem-size (+ 3 (if ,norms-p 3 0) (if ,uvs-p 2 0)))
               (,indx-type ,index-type))
          (list (make-c-array-from-pointer
-                data-len elem-type data-ptr)
+                (/ data-len elem-size) elem-type data-ptr)
                (make-c-array-from-pointer
                 index-len ,indx-type indices-ptr))))))
 
@@ -86,6 +87,24 @@
   (%gpu-array-internals
    (cylinder-c-arrays :segments segments :height height :radius radius
                       :normals normals :tex-coords tex-coords :cap cap)))
+
+;;------------------------------------------------------------
+
+(defun sphere-c-arrays (&key (radius 0.5) (lines-of-latitude 30)
+                          (lines-of-longitude 30) (normals t) (tex-coords t))
+  (%c-array-internals (:ushort normals tex-coords)
+    (sphere-foreign
+     :radius radius :lines-of-longitude lines-of-longitude
+     :lines-of-latitude lines-of-latitude
+     :normals normals :tex-coords tex-coords)))
+
+(defun sphere-gpu-arrays (&key (radius 0.5) (lines-of-latitude 30)
+                            (lines-of-longitude 30) (normals t) (tex-coords t))
+  (%gpu-array-internals
+   (sphere-c-arrays
+    :radius radius :lines-of-longitude lines-of-longitude
+    :lines-of-latitude lines-of-latitude
+    :normals normals :tex-coords tex-coords)))
 
 ;;------------------------------------------------------------
 

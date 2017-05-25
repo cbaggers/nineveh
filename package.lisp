@@ -156,7 +156,9 @@
            :plain-gpu-arrays
            :plain-c-arrays
            :cube-gpu-arrays
-           :cube-c-arrays))
+           :cube-c-arrays
+           :sphere-gpu-arrays
+           :sphere-c-arrays))
 
 
 (uiop:define-package #:nineveh.easing
