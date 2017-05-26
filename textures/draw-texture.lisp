@@ -1,5 +1,16 @@
 (in-package :nineveh)
 
+;;------------------------------------------------------------
+
+(defgeneric draw-tex (tex &optional scale flip-uvs-vertically))
+(defgeneric draw-tex-tl (sampler &optional flip-uvs-vertically))
+(defgeneric draw-tex-bl (sampler &optional flip-uvs-vertically))
+(defgeneric draw-tex-tr (sampler &optional flip-uvs-vertically))
+(defgeneric draw-tex-br (sampler &optional flip-uvs-vertically))
+(defgeneric draw-tex-at (sampler &optional pos centered flip-uvs-vertically))
+
+;;------------------------------------------------------------
+
 (defun make-gpu-quad ()
   (make-buffer-stream
    (make-gpu-array
