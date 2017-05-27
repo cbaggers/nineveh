@@ -1,4 +1,4 @@
-(in-package :nineveh)
+(in-package :nineveh.math-primitives)
 
 (defun-g radical-inverse-vdc ((bits :uint))
   "Given a uint (e.g 5) it takes the binary representation of the

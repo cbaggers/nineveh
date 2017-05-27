@@ -1,4 +1,4 @@
-(in-package :nineveh)
+(in-package :nineveh.textures)
 
 (defun-g sample-equirectangular-tex ((tex :sampler-2d) (vec :vec3))
   (let* ((vec (normalize vec))

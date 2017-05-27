@@ -10,7 +10,8 @@
            :mod-fixed-denominator
            :mod-fixed-denominator-low-quality
            :remap
-           :remap-uv))
+           :remap-uv
+           :radical-inverse-vdc))
 
 (uiop:define-package #:nineveh.conditionals
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
@@ -131,21 +132,6 @@
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rand))
 
-(uiop:define-package #:nineveh.tonemapping
-    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
-          :nineveh.math-primitives
-          :documentation-utils)
-  (:import-from :varjo
-                :dbind :vbind :dbind* :vbind* :symb)
-  (:import-from :cepl-utils
-                :with-setf)
-  (:export :tone-map-linear
-           :tone-map-reinhard
-           :tone-map-haarm-peter-duiker
-           :tone-map-hejl-burgess-dawson
-           :tone-map-uncharted2))
-
-
 (uiop:define-package :nineveh.mesh.data.primitives
     (:use #:cl #:cepl #:varjo-lang #:rtg-math #:rtg-math.base-maths
           #:nineveh.math-primitives
@@ -170,7 +156,6 @@
            :sphere-gpu-arrays
            :sphere-c-arrays))
 
-
 (uiop:define-package #:nineveh.easing
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           #:easing-f
@@ -190,6 +175,56 @@
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :simple-sample-normals))
 
+(uiop:define-package #:nineveh.textures
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :sample-equirectangular-tex
+           :uv->cube-map-directions
+           ;;
+           :draw-tex
+           :draw-tex-tl
+           :draw-tex-tr
+           :draw-tex-bl
+           :draw-tex-br
+           :draw-tex-top-left
+           :draw-tex-top-right
+           :draw-tex-bottom-left
+           :draw-tex-bottom-right
+           ;;
+           :load-hdr-cross-image
+           :load-hdr-cross-texture
+           :load-hdr-2d
+           ;;
+           :make-fbos-for-each-mipmap-of-cube-texture
+           :cube-faces))
+
+(uiop:define-package #:nineveh.streams
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :documentation-utils)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :uiop
+                :ensure-list)
+  (:export :get-quad-stream-v2
+           :buffer-streamer
+           :make-buffer-streamer
+           :buffer-streamer-push))
+
+(uiop:define-package #:nineveh.tonemapping
+    (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives
+          :documentation-utils)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :tone-map-linear
+           :tone-map-reinhard
+           :tone-map-haarm-peter-duiker
+           :tone-map-hejl-burgess-dawson
+           :tone-map-uncharted2))
+
 (uiop:define-package #:nineveh
     (:use #:cl #:cepl #:varjo-lang #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
@@ -201,75 +236,25 @@
           :nineveh.shaping-functions
           :nineveh.graphing
           :nineveh.normals
+          :nineveh.textures
+          :nineveh.streams
           :documentation-utils)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
-  (:import-from :uiop
-                :ensure-list)
   (:import-from :cepl-utils
                 :with-setf)
   (:reexport :nineveh.math-primitives
              :nineveh.conditionals
+             :nineveh.color
              :nineveh.hashing
              :nineveh.shaping-functions
              :nineveh.noise
              :nineveh.random
-             :nineveh.tonemapping
              :nineveh.graphing
-             :nineveh.normals)
+             :nineveh.normals
+             :nineveh.textures
+             :nineveh.streams
+             :nineveh.tonemapping)
   (:export
-   ;;------------------------------
-   ;; GPU
-   ;;------------------------------
-   ;;
-   ;; sampling
-   :sample-equirectangular-tex
-   :uv->cube-map-directions
-   ;;
-   ;; misc
-   :radical-inverse-vdc
-   ;;
-   ;; mipmaps
-   :mipmap-level->grey
-   :mipmap-level->color
-   ;;
-   ;; textures
-   :draw-tex
-   :draw-tex-tl
-   :draw-tex-tr
-   :draw-tex-bl
-   :draw-tex-br
-   :draw-tex-top-left
-   :draw-tex-top-right
-   :draw-tex-bottom-left
-   :draw-tex-bottom-right
-
-   ;;------------------------------
-   ;; CPU
-   ;;------------------------------
-   ;;
-   ;; hdr
-   :load-hdr-cross-image
-   :load-hdr-cross-texture
-   :load-hdr-2d
-   ;;
-   ;; fbos.lisp
-   :make-fbos-for-each-mipmap-of-cube-texture
-   ;;
-   ;; textures
-   :cube-faces
-   ;;
-   ;; misc
    :as-frame
-   :def-simple-main-loop
-
-   ;;------------------------------
-   ;; Quads
-   ;;------------------------------
-   :get-quad-stream-v2
-
-   ;;------------------------------
-   ;; Both
-   ;;------------------------------
-   ;;
-   :bind-vec))
+   :def-simple-main-loop))

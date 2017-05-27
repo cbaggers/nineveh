@@ -47,3 +47,14 @@
             (setf ,frame-var-name (max 0 (or frames 0))))))
        (defun ,step-func-name ()
          ,@body))))
+
+(defun set-viewport-dimensions-to-same-as-window
+    (&key (viewport (current-viewport))
+       (window (cepl.context:current-surface
+                cepl.context:*cepl-context*))
+       (step-host nil))
+  (when window
+    (when step-host
+      (cepl:step-host))
+    (let ((win-dim (cepl.host:window-size window)))
+      (setf (viewport-dimensions viewport) win-dim))))

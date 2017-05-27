@@ -8,22 +8,19 @@
   :depends-on (#:cepl #:cl-soil #:livesupport #:easing
                       #:documentation-utils #:dendrite.primitives)
   :components ((:file "package")
-               (:file "cpu/hdr-cross-cube-map-loader")
-               (:file "cpu/bind")
-               (:file "cpu/fbos")
-               (:file "cpu/viewport")
-               (:file "cpu/misc")
                ;;
                (:file "math-primitives/log")
                (:file "math-primitives/clamping")
                (:file "math-primitives/mod")
                (:file "math-primitives/atan2")
                (:file "math-primitives/remap")
+               (:file "math-primitives/radical-inverse")
                (:file "math-primitives/docs")
                ;;
                (:file "conditionals/conditional-optimizations")
                ;;
                (:file "color/color-space-conversions")
+               (:file "color/sets")
                ;;
                (:file "hashing/blum-blum-shub-hash")
                (:file "hashing/permutation-polynomial-hash")
@@ -58,11 +55,14 @@
                (:file "graphing/graph")
                (:file "graphing/plot")
                ;;
-               (:file "gpu/bind")
-               (:file "gpu/sampling")
-               (:file "gpu/mipmaps")
+               (:file "textures/sampling")
                (:file "textures/draw-texture")
-               (:file "buffer-streams/buffer-streamer")
-               (:file "quad-streams")
-               (:file "gpu/misc")
-               (:file "tonemapping/operators")))
+               (:file "textures/cube-tex-fbos")
+               (:file "textures/hdr-cross-cube-map-loader")
+               ;;
+               (:file "streams/buffer-streamer")
+               (:file "streams/quad-streams")
+               ;;
+               (:file "tonemapping/operators")
+               ;;
+               (:file "misc")))

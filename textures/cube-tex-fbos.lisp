@@ -1,4 +1,4 @@
-(in-package :nineveh)
+(in-package :nineveh.textures)
 
 (defun cube-texture-p (texture)
   (and (texture-p texture)

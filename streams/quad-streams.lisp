@@ -1,4 +1,4 @@
-(in-package :nineveh)
+(in-package :nineveh.streams)
 
 (defvar *quad-stream-v2-data*
   (list (v! -1.0   1.0)

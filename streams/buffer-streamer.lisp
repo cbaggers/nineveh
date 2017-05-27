@@ -1,4 +1,4 @@
-(in-package :nineveh)
+(in-package :nineveh.streams)
 
 ;; Based on the wonderful article from here:  Jonathan Dupuy
 ;;
