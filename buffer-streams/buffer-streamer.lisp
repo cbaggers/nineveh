@@ -18,11 +18,10 @@
             (first (gpu-array-dimensions arr)))))
 
 (defun make-buffer-streamer (dimensions element-type
-                             &optional (draw-mode :triangles))
+                             &optional (primitive :triangles))
   (when (listp dimensions)
     (assert (= (length dimensions) 1)))
   (assert element-type)
-  (assert (cepl.streams::valid-draw-mode-p draw-mode) (draw-mode))
   (let* ((len (first (ensure-list dimensions)))
          (array (make-gpu-array nil :element-type element-type
                                 :dimensions len
@@ -32,8 +31,8 @@
      (%init-streamer
       (cepl.streams::init-buffer-stream-from-id
        %pre% (cepl.vaos:make-vao gpu-arrays nil)
-       gpu-arrays nil 0 len t draw-mode))
-     (make-uninitialized-streamer)
+       gpu-arrays nil 0 len t))
+     (make-uninitialized-streamer primitive)
      gpu-arrays)))
 
 (defun %init-streamer (streamer)
@@ -41,19 +40,30 @@
         (caar (buffer-stream-gpu-arrays streamer)))
   streamer)
 
-(defun make-uninitialized-streamer ()
-  (%make-buffer-streamer
-   :vao nil
-   :%start 0
-   :%start-byte 0
-   :length 0
-   :%index-type :uninitialized
-   :%index-type-size 0
-   :managed t
-   :arr cepl.types::+null-buffer-backed-gpu-array+
-   :gpu-arrays nil))
+(defun make-uninitialized-streamer (primitive)
+  (let* ((prim (varjo::primitive-name-to-instance primitive))
+         (prim-group-id (%cepl.types::draw-mode-group-id prim))
+         (enum-kwd (varjo::lisp-name prim))
+         (enum-val (cffi:foreign-enum-value '%gl:enum enum-kwd :errorp t))
+         (patch-length (if (typep prim 'varjo::patches)
+                           (varjo::vertex-count prim)
+                           0)))
+    (%make-buffer-streamer
+     :vao nil
+     :%start 0
+     :%start-byte 0
+     :length 0
+     :%index-type :uninitialized
+     :%index-type-size 0
+     :managed t
+     :primitive primitive
+     :primitive-group-id prim-group-id
+     :draw-mode-val enum-val
+     :patch-length patch-length
+     :arr cepl.types::+null-buffer-backed-gpu-array+
+     :gpu-arrays nil)))
 
-(defun buffer-streamer-push (c-array streamer &optional draw-mode)
+(defun buffer-streamer-push (c-array streamer)
   (assert (= (length (c-array-dimensions c-array)) 1))
   (let* ((g-arr (buffer-streamer-arr streamer))
          (g-len (first (gpu-array-dimensions g-arr)))
@@ -73,9 +83,6 @@
 
     (setf (cepl.streams::buffer-stream-start streamer) new-start-pos
           (cepl.streams:buffer-stream-length streamer) c-len)
-
-    (when draw-mode
-      (setf (cepl.streams::buffer-stream-draw-mode streamer) draw-mode))
 
     (cepl.gpu-arrays::with-gpu-array-range-as-pointer
         (g-ptr g-arr new-start-pos c-len
