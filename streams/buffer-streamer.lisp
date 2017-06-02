@@ -41,7 +41,7 @@
   streamer)
 
 (defun make-uninitialized-streamer (primitive)
-  (let* ((prim (varjo::primitive-name-to-instance primitive))
+  (let* ((prim (varjo.internals:primitive-name-to-instance primitive))
          (prim-group-id (%cepl.types::draw-mode-group-id prim))
          (enum-kwd (varjo::lisp-name prim))
          (enum-val (cffi:foreign-enum-value '%gl:enum enum-kwd :errorp t))
