@@ -62,13 +62,13 @@
 
 ;;------------------------------------------------------------
 
-(defun cone-c-arrays (&key (segments 10) (height 1) (radius 0.5f0)
+(defun cone-c-arrays (&key (segments 30) (height 1) (radius 0.5f0)
                         (normals t) (tex-coords t) (cap t))
   (%c-array-internals (:ushort normals tex-coords)
     (cone-foreign :segments segments :height height :radius radius
                   :normals normals :tex-coords tex-coords :cap cap)))
 
-(defun cone-gpu-arrays (&key (segments 10) (height 1) (radius 0.5f0)
+(defun cone-gpu-arrays (&key (segments 30) (height 1) (radius 0.5f0)
                           (normals t) (tex-coords t) (cap t))
   (%gpu-array-internals
    (cone-c-arrays :segments segments :height height :radius radius
@@ -76,13 +76,13 @@
 
 ;;------------------------------------------------------------
 
-(defun cylinder-c-arrays (&key (segments 10) (height 1) (radius 0.5f0)
+(defun cylinder-c-arrays (&key (segments 30) (height 1) (radius 0.5f0)
                             (normals t) (tex-coords t) (cap t))
   (%c-array-internals (:ushort normals tex-coords)
     (cylinder-foreign :segments segments :height height :radius radius
                       :normals normals :tex-coords tex-coords :cap cap)))
 
-(defun cylinder-gpu-arrays (&key (segments 10) (height 1) (radius 0.5f0)
+(defun cylinder-gpu-arrays (&key (segments 30) (height 1) (radius 0.5f0)
                               (normals t) (tex-coords t) (cap t))
   (%gpu-array-internals
    (cylinder-c-arrays :segments segments :height height :radius radius
