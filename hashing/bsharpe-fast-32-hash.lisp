@@ -271,8 +271,8 @@
     (incf (s~ grid-cell :xy) (s~ offset :xy))
     (multf (s~ grid-cell :xy) (s~ grid-cell :xy))
     (fract
-     (* (x grid-cell)
-        (y grid-cell)
+     (* (* (x grid-cell)
+           (y grid-cell))
         (/ (v4! 1.0) (+ some-large-floats
                         (* (s~ grid-cell :zzzz)
                            zinc)))))))

@@ -47,7 +47,8 @@
 (defun-g draw-cube-face-vert ((vert g-pt) &uniform (transform :mat4)
                               (uv-mult :vec2))
   (values (* transform (v! (pos vert) 1s0))
-          (* (s~ (pos vert) :xy) uv-mult 2)))
+          (* (* (s~ (pos vert) :xy) uv-mult)
+             2f0)))
 
 (defun-g draw-cube-face-frag ((tc :vec2) &uniform (tex :sampler-cube)
                               (mat :mat3))

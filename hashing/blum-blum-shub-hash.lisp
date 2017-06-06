@@ -12,7 +12,7 @@
   (mod-fixed-denominator-low-quality (* x x) 61f0))
 
 (defun-g bbs-permute-and-resolve ((x :vec4))
-  (fract (* x x (/ 1.0 61.0))))
+  (fract (* (* x x) (/ 1.0 61.0))))
 
 ;;------------------------------------------------------------
 ;; 2D
