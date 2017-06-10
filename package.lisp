@@ -130,7 +130,9 @@
           :nineveh.shaping-functions
           :documentation-utils)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
-  (:export :rand))
+  (:export :rand
+           :hammersley-nth-2d
+           :hammersley-nth-hemisphere))
 
 (uiop:define-package :nineveh.mesh.data.primitives
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math #:rtg-math.base-maths

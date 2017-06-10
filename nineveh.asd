@@ -45,6 +45,7 @@
                ;;
                (:file "easing/easing")
                (:file "random/random")
+               (:file "random/hammersley")
                (:file "random/docs")
                ;;
                (:file "mesh/data/primitives")
