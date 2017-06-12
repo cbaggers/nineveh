@@ -2,7 +2,7 @@
 
 ;; Filmic Tonemapping Operators
 ;;
-;; Please see here http://filmicgames.com/archives/75 for excellent explanations
+;; Please see here http://filmicworlds.com/blog/filmic-tonemapping-operators/ for excellent explanations
 ;; of the behaviours of the following
 ;;
 

@@ -75,3 +75,6 @@
   (let ((k (/ (pow (+ a b) (+ a b))
               (* (pow a a) (pow b b)))))
     (* k (pow x a) (pow (- 1f0 x) b))))
+
+(defun-g inverse-square ((x :float))
+  (/ 1f0 (* x x)))

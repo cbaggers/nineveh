@@ -85,7 +85,9 @@
            ;;
            :falloff-xsq-c1
            :falloff-xsq-c2
-           :falloff-xsq-c2))
+           :falloff-xsq-c2
+           ;;
+           :inverse-square))
 
 (uiop:define-package #:nineveh.noise
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
