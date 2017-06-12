@@ -2,12 +2,12 @@
 
 ;;------------------------------------------------------------
 
-(defgeneric draw-tex (tex &optional scale flip-uvs-vertically))
-(defgeneric draw-tex-tl (sampler &optional flip-uvs-vertically))
-(defgeneric draw-tex-bl (sampler &optional flip-uvs-vertically))
-(defgeneric draw-tex-tr (sampler &optional flip-uvs-vertically))
-(defgeneric draw-tex-br (sampler &optional flip-uvs-vertically))
-(defgeneric draw-tex-at (sampler &optional pos centered flip-uvs-vertically))
+(defgeneric draw-tex (tex &key scale flip-uvs-vertically))
+(defgeneric draw-tex-tl (sampler &key flip-uvs-vertically))
+(defgeneric draw-tex-bl (sampler &key flip-uvs-vertically))
+(defgeneric draw-tex-tr (sampler &key flip-uvs-vertically))
+(defgeneric draw-tex-br (sampler &key flip-uvs-vertically))
+(defgeneric draw-tex-at (sampler &key pos centered flip-uvs-vertically))
 
 ;;------------------------------------------------------------
 
@@ -58,59 +58,56 @@
 
 ;;------------------------------------------------------------
 
-(defgeneric %draw-cube-face (sampler &optional pos-vec2 rotation scale)
-  (:method ((sampler sampler)
-            &optional (pos-vec2 (v! 0 0)) (rotation 1s0) (scale 1))
-    (let* ((tex (sampler-texture sampler))
-           (tex-res (resolution tex))
-           (win-res (resolution (current-viewport)))
-           (rect-res (rotated-rect-size (v2:* tex-res (v! 3 4)) rotation))
-           (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2)))
-      (labels ((calc-trans (pos)
-                 (m4:*
-                  (m4:translation (v! pos-vec2 0))
-                  (m4:scale (v3:*s (v! (/ 1 (x win-res))
-                                       (/ 1 (y win-res))
-                                       0)
-                                   (* scale fit-scale)))
-                  (m4:rotation-z rotation)
-                  (m4:scale (v! tex-res 0))
-                  (m4:translation pos))))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-x (radians 90))
-               :tex sampler
-               :uv-mult (v! 1 -1)
-               :transform (calc-trans (v! 0 1.5 0)))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-y (radians 90))
-               :tex sampler
-               :uv-mult (v! -1 1)
-               :transform (calc-trans (v! -1 0.5 0)))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-y (radians -90))
-               :tex sampler
-               :uv-mult (v! -1 1)
-               :transform (calc-trans (v! 1 0.5 0)))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-x (radians 180))
-               :tex sampler
-               :uv-mult (v! 1 -1)
-               :transform (calc-trans (v! 0 0.5 0)))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-x (radians -90))
-               :tex sampler
-               :uv-mult (v! 1 -1)
-               :transform (calc-trans (v! 0 -0.5 0)))
-        (map-g #'draw-cube-face-pipeline (get-gpu-quad)
-               :mat (m3:rotation-x (radians 0))
-               :tex sampler
-               :uv-mult (v! 1 -1)
-               :transform (calc-trans (v! 0 -1.5 0)))))))
+(defun %draw-cube-face (sampler pos-vec2 rotation scale)
+  (let* ((tex (sampler-texture sampler))
+         (tex-res (resolution tex))
+         (win-res (resolution (current-viewport)))
+         (rect-res (rotated-rect-size (v2:* tex-res (v! 3 4)) rotation))
+         (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2)))
+    (labels ((calc-trans (pos)
+               (m4:*
+                (m4:translation (v! pos-vec2 0))
+                (m4:scale (v3:*s (v! (/ 1 (x win-res))
+                                     (/ 1 (y win-res))
+                                     0)
+                                 (* scale fit-scale)))
+                (m4:rotation-z rotation)
+                (m4:scale (v! tex-res 0))
+                (m4:translation pos))))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-x (radians 90))
+             :tex sampler
+             :uv-mult (v! 1 -1)
+             :transform (calc-trans (v! 0 1.5 0)))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-y (radians 90))
+             :tex sampler
+             :uv-mult (v! -1 1)
+             :transform (calc-trans (v! -1 0.5 0)))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-y (radians -90))
+             :tex sampler
+             :uv-mult (v! -1 1)
+             :transform (calc-trans (v! 1 0.5 0)))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-x (radians 180))
+             :tex sampler
+             :uv-mult (v! 1 -1)
+             :transform (calc-trans (v! 0 0.5 0)))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-x (radians -90))
+             :tex sampler
+             :uv-mult (v! 1 -1)
+             :transform (calc-trans (v! 0 -0.5 0)))
+      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+             :mat (m3:rotation-x (radians 0))
+             :tex sampler
+             :uv-mult (v! 1 -1)
+             :transform (calc-trans (v! 0 -1.5 0))))))
 
 ;;------------------------------------------------------------
 
-(defun %draw-sampler (sampler pos-vec2 rotation scale
-                      &optional (flip-uvs-vertically t))
+(defun %draw-sampler (sampler pos-vec2 rotation scale flip-uvs-vertically)
   (let* ((tex (sampler-texture sampler))
          (tex-res (resolution tex))
          (win-res (resolution (current-viewport)))
@@ -128,7 +125,7 @@
     (map-g #'draw-texture-pipeline (get-gpu-quad)
            :tex sampler
            :transform transform
-           :uv-y-mult (if flip-uvs-vertically -1s0 1s0))))
+           :uv-y-mult (if flip-uvs-vertically -1s0 1s0)))) ;; this is a bug as it samples outside of texture
 
 (defun rotated-rect-size (size-v2 φ)
   ;; returns width & height
@@ -146,12 +143,12 @@
 ;;------------------------------------------------------------
 
 (defmethod draw-tex ((tex texture)
-                     &optional (scale 0.9) (flip-uvs-vertically t))
+                     &key (scale 0.9) (flip-uvs-vertically nil))
   (with-sampling (s tex)
-    (draw-tex s scale flip-uvs-vertically)))
+    (draw-tex s :scale scale :flip-uvs-vertically flip-uvs-vertically)))
 
 (defmethod draw-tex ((sampler sampler)
-                     &optional (scale 0.9) (flip-uvs-vertically t))
+                     &key (scale 0.9) (flip-uvs-vertically nil))
   (cepl-utils:with-setf (depth-test-function *cepl-context*) nil
     (if (eq (sampler-type sampler) :sampler-cube)
         (%draw-cube-face sampler (v! -0 0) 1.5707 scale)
@@ -159,40 +156,40 @@
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-top-left (sampler/tex &optional (flip-uvs-vertically t))
+(defun draw-tex-top-left (sampler/tex &key (flip-uvs-vertically nil))
   (draw-tex-tl sampler/tex flip-uvs-vertically))
 
-(defmethod draw-tex-tl ((sampler sampler) &optional (flip-uvs-vertically t))
+(defmethod draw-tex-tl ((sampler sampler) &key (flip-uvs-vertically nil))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! -0.5 0.5) 1.5707 0.5)
       (%draw-sampler sampler (v! -0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-bottom-left (sampler/tex &optional (flip-uvs-vertically t))
-  (draw-tex-bl sampler/tex flip-uvs-vertically))
+(defun draw-tex-bottom-left (sampler/tex &key (flip-uvs-vertically nil))
+  (draw-tex-bl sampler/tex :flip-uvs-vertically flip-uvs-vertically))
 
-(defmethod draw-tex-bl ((sampler sampler) &optional (flip-uvs-vertically t))
+(defmethod draw-tex-bl ((sampler sampler) &key (flip-uvs-vertically nil))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! -0.5 -0.5) 1.5707 0.5)
       (%draw-sampler sampler (v! -0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-top-right (sampler/tex &optional (flip-uvs-vertically t))
-  (draw-tex-tr sampler/tex flip-uvs-vertically))
+(defun draw-tex-top-right (sampler/tex &key (flip-uvs-vertically nil))
+  (draw-tex-tr sampler/tex :flip-uvs-vertically flip-uvs-vertically))
 
-(defmethod draw-tex-tr ((sampler sampler) &optional (flip-uvs-vertically t))
+(defmethod draw-tex-tr ((sampler sampler) &key (flip-uvs-vertically nil))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! 0.5 0.5) 1.5707 0.5)
       (%draw-sampler sampler (v! 0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-bottom-right (sampler/tex &optional (flip-uvs-vertically t))
-  (draw-tex-br sampler/tex flip-uvs-vertically))
+(defun draw-tex-bottom-right (sampler/tex &key (flip-uvs-vertically nil))
+  (draw-tex-br sampler/tex :flip-uvs-vertically flip-uvs-vertically))
 
-(defmethod draw-tex-br ((sampler sampler) &optional (flip-uvs-vertically t))
+(defmethod draw-tex-br ((sampler sampler) &key (flip-uvs-vertically nil))
   (if (eq (sampler-type sampler) :sampler-cube)
       (%draw-cube-face sampler (v! 0.5 -0.5) 1.5707 0.5)
       (%draw-sampler sampler (v! 0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
@@ -215,13 +212,14 @@
   (texture tex tc))
 
 (def-g-> draw-texture-at-pipeline ()
-  #'(draw-texture-at-vert g-pt) #'(draw-texture-at-frag :vec2))
+  #'(draw-texture-at-vert g-pt)
+  #'(draw-texture-at-frag :vec2))
 
 (defmethod draw-tex-at ((sampler sampler)
-                        &optional
+                        &key
                           (pos (v! 0 0))
                           (centered t)
-                          (flip-uvs-vertically t))
+                          (flip-uvs-vertically nil))
   (let* ((size (v! (texture-base-dimensions (sampler-texture sampler))))
          (vp-size (viewport-resolution (current-viewport)))
          (ratio (v2:/ size vp-size))
