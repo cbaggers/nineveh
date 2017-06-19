@@ -157,7 +157,7 @@
 ;;------------------------------------------------------------
 
 (defun draw-tex-top-left (sampler/tex &key (flip-uvs-vertically nil))
-  (draw-tex-tl sampler/tex flip-uvs-vertically))
+  (draw-tex-tl sampler/tex :flip-uvs-vertically flip-uvs-vertically))
 
 (defmethod draw-tex-tl ((sampler sampler) &key (flip-uvs-vertically nil))
   (if (eq (sampler-type sampler) :sampler-cube)
