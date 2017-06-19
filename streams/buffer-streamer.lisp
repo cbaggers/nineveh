@@ -56,7 +56,7 @@
      :%index-type :uninitialized
      :%index-type-size 0
      :managed t
-     :primitive primitive
+     :%primitive primitive
      :primitive-group-id prim-group-id
      :draw-mode-val enum-val
      :patch-length patch-length
