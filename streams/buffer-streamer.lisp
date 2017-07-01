@@ -30,7 +30,7 @@
     (cepl.context::if-gl-context
      (%init-streamer
       (cepl.streams::init-buffer-stream-from-id
-       %pre% (cepl.vaos:make-vao gpu-arrays nil)
+       %pre% (cepl.vaos:make-vao gpu-arrays)
        gpu-arrays nil 0 len t))
      (make-uninitialized-streamer primitive)
      gpu-arrays)))
@@ -49,7 +49,7 @@
                            (varjo::vertex-count prim)
                            0)))
     (%make-buffer-streamer
-     :vao nil
+     :vao 0
      :%start 0
      :%start-byte 0
      :length 0
@@ -63,7 +63,7 @@
      :arr cepl.types::+null-buffer-backed-gpu-array+
      :gpu-arrays nil)))
 
-(defun buffer-streamer-push (c-array streamer)
+(defun buffer-streamer-push (c-array streamer &optional new-primitive)
   (assert (= (length (c-array-dimensions c-array)) 1))
   (let* ((g-arr (buffer-streamer-arr streamer))
          (g-len (first (gpu-array-dimensions g-arr)))
@@ -83,6 +83,9 @@
 
     (setf (cepl.streams::buffer-stream-start streamer) new-start-pos
           (cepl.streams:buffer-stream-length streamer) c-len)
+
+    (when new-primitive
+      (setf (cepl.streams:buffer-stream-primitive streamer) new-primitive))
 
     (cepl.gpu-arrays::with-gpu-array-range-as-pointer
         (g-ptr g-arr new-start-pos c-len
