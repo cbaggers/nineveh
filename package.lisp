@@ -205,7 +205,7 @@
 
 (uiop:define-package #:nineveh.streams
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+          :documentation-utils #:%rtg-math)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :uiop
@@ -213,7 +213,8 @@
   (:export :get-quad-stream-v2
            :buffer-streamer
            :make-buffer-streamer
-           :buffer-streamer-push))
+           :buffer-streamer-push
+           :buffer-streamer-push-from-range))
 
 (uiop:define-package #:nineveh.tonemapping
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths

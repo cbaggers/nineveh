@@ -56,18 +56,34 @@
      :%index-type :uninitialized
      :%index-type-size 0
      :managed t
-     :%primitive primitive
+     :%primitive enum-kwd
      :primitive-group-id prim-group-id
      :draw-mode-val enum-val
      :patch-length patch-length
      :arr cepl.types::+null-buffer-backed-gpu-array+
      :gpu-arrays nil)))
 
-(defun buffer-streamer-push (c-array streamer &optional new-primitive)
+(defn buffer-streamer-push ((c-array c-array)
+                            (streamer buffer-streamer)
+                            &optional new-primitive)
+    buffer-streamer
+  (buffer-streamer-push-from-range
+   c-array streamer 0 (first (c-array-dimensions c-array)) new-primitive))
+
+(defn buffer-streamer-push-from-range ((c-array c-array)
+                                       (streamer buffer-streamer)
+                                       (c-array-start c-array-index)
+                                       (c-array-end c-array-index)
+                                       &optional new-primitive)
+    buffer-streamer
+  (declare (optimize (speed 3) (safety 1) (debug 1) (compilation-speed 0))
+           (inline gpu-array-element-type)
+           (profile t))
   (assert (= (length (c-array-dimensions c-array)) 1))
+  (assert (<= c-array-end (first (c-array-dimensions c-array))))
   (let* ((g-arr (buffer-streamer-arr streamer))
          (g-len (first (gpu-array-dimensions g-arr)))
-         (c-len (first (c-array-dimensions c-array)))
+         (c-len c-array-end)
          (s-start (cepl.streams::buffer-stream-start streamer))
          (s-len (buffer-stream-length streamer))
          (old-tail-pos (+ s-start s-len))
@@ -87,12 +103,13 @@
     (when new-primitive
       (setf (cepl.streams:buffer-stream-primitive streamer) new-primitive))
 
-    (cepl.gpu-arrays::with-gpu-array-range-as-pointer
-        (g-ptr g-arr new-start-pos c-len
-               :access-set '(:map-write :map-unsynchronized))
-      (cepl.types::%memcpy g-ptr (c-array-pointer c-array)
-                           (* (cepl.c-arrays:element-byte-size c-array)
-                              c-len)))
+    (let ((c-ptr (cepl.c-arrays::ptr-index-1d c-array c-array-start)))
+      (cepl.gpu-arrays::with-gpu-array-range-as-pointer
+          (g-ptr g-arr new-start-pos c-len
+                 :access-set '(:map-write :map-unsynchronized))
+        (cepl.types::%memcpy g-ptr c-ptr
+                             (* (cepl.c-arrays::c-array-element-byte-size c-array)
+                                c-len))))
     streamer))
 
 (defmethod push-g ((c-arr c-array) (destination buffer-streamer))
