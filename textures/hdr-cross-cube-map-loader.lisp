@@ -1,7 +1,7 @@
 (in-package :nineveh.textures)
 
 (defun load-hdr-cross-texture (filepath)
-  (with-c-arrays (c-arrays (load-hdr-cross-image filepath))
+  (with-c-arrays-freed (c-arrays (load-hdr-cross-image filepath))
     (make-texture c-arrays :element-type :rgb16f :cubes t)))
 
 (defun load-hdr-cross-image (filepath)
@@ -64,6 +64,6 @@
   (destructuring-bind (ptr width height components-per-pixel)
       (stbi:loadf filepath)
     (assert (and (= components-per-pixel 3)))
-    (with-c-array (c-array (make-c-array-from-pointer
+    (with-c-array-freed (c-array (make-c-array-from-pointer
                             (list width height) :vec3 ptr))
       (make-texture c-array :element-type :rgb16f))))

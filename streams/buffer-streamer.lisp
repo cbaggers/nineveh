@@ -117,14 +117,14 @@
 
 (defmethod push-g ((object list) (destination buffer-streamer))
   (let ((garr (buffer-streamer-arr destination)))
-    (with-c-array (tmp (make-c-array object
+    (with-c-array-freed (tmp (make-c-array object
                                      :dimensions (length object)
                                      :element-type (element-type garr)))
       (push-g tmp destination))))
 
 (defmethod push-g ((object array) (destination buffer-streamer))
   (let ((garr (buffer-streamer-arr destination)))
-    (with-c-array (tmp (make-c-array object
+    (with-c-array-freed (tmp (make-c-array object
                                      :dimensions (length object)
                                      :element-type (element-type garr)))
       (push-g tmp destination))))
