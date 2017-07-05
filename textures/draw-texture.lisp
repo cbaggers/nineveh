@@ -144,7 +144,7 @@
 
 (defmethod draw-tex ((tex texture)
                      &key (scale 0.9) (flip-uvs-vertically nil))
-  (with-sampling (s tex)
+  (with-temp-sampler (s tex)
     (draw-tex s :scale scale :flip-uvs-vertically flip-uvs-vertically)))
 
 (defmethod draw-tex ((sampler sampler)
