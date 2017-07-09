@@ -4,6 +4,10 @@
 ;;
 ;; http://onrendering.blogspot.no/2011/10/buffer-object-streaming-in-opengl.html
 
+;; {TODO} the is a lot of accessing non exported symbols in here. This means
+;;        that CEPL is not exposing everything user's need. Revisit CEPL and
+;;        see how to help users use the 'make before gl-context' stuff.
+
 (defstruct (buffer-streamer (:include buffer-stream)
                             (:constructor %make-buffer-streamer))
   (arr (error "buffer-streamer: bug[0]")
