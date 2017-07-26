@@ -29,18 +29,18 @@
 
 ;;------------------------------------------------------------
 
-(defun lattice-c-arrays (&key (width 1.0) (height 1.0) (x-segments 30)
+(defun latice-c-arrays (&key (width 1.0) (height 1.0) (x-segments 30)
                           (y-segments 30) (normals t) (tex-coords t))
   (%c-array-internals (:uint normals tex-coords)
-    (lattice-foreign
+    (latice-foreign
      :width width :height height
      :x-segments x-segments :y-segments y-segments
      :normals normals :tex-coords tex-coords)))
 
-(defun lattice-gpu-arrays (&key (width 1.0) (height 1.0) (x-segments 30)
+(defun latice-gpu-arrays (&key (width 1.0) (height 1.0) (x-segments 30)
                             (y-segments 30) (normals t) (tex-coords t))
   (%gpu-array-internals
-   (lattice-c-arrays :width width :height height
+   (latice-c-arrays :width width :height height
                     :x-segments x-segments :y-segments y-segments
                     :normals normals :tex-coords tex-coords)))
 
@@ -110,13 +110,13 @@
 
 (defun plain-gpu-arrays (&key (width 1.0) (height 1.0) (normals t)
                            (tex-coords t))
-  (lattice-gpu-arrays :width width :height height
+  (latice-gpu-arrays :width width :height height
                      :x-segments 1 :y-segments 1
                      :normals normals :tex-coords tex-coords))
 
 (defun plain-c-arrays (&key (width 1.0) (height 1.0) (normals t)
                          (tex-coords t))
-  (lattice-c-arrays :width width :height height
+  (latice-c-arrays :width width :height height
                    :x-segments 1 :y-segments 1
                    :normals normals :tex-coords tex-coords))
 
