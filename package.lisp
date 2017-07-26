@@ -145,8 +145,8 @@
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
                 :with-setf)
-  (:export :lattice-c-arrays
-           :lattice-gpu-arrays
+  (:export :latice-c-arrays
+           :latice-gpu-arrays
            :box-c-arrays
            :box-gpu-arrays
            :cone-c-arrays
