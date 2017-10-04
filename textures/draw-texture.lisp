@@ -36,8 +36,9 @@
   (values (* transform (v! (pos vert) 1s0))
           (* (tex vert) (v! 1 uv-y-mult))))
 
-(defun-g draw-texture-frag ((tc :vec2) &uniform (tex :sampler-2d))
-  (texture tex tc))
+(defun-g draw-texture-frag ((tc :vec2) &uniform (tex :sampler-2d)
+                            (color-scale :vec4))
+  (* (texture tex tc) color-scale))
 
 (def-g-> draw-texture-pipeline ()
   #'(draw-texture-vert g-pt) #'(draw-texture-frag :vec2))
@@ -50,15 +51,16 @@
           (* (s~ (pos vert) :xy) uv-mult 2)))
 
 (defun-g draw-cube-face-frag ((tc :vec2) &uniform (tex :sampler-cube)
-                              (mat :mat3))
-  (texture tex (* mat (v! tc -1))))
+                              (mat :mat3) (color-scale :vec4))
+  (* (texture tex (* mat (v! tc -1)))
+     color-scale))
 
 (def-g-> draw-cube-face-pipeline ()
   #'(draw-cube-face-vert g-pt) #'(draw-cube-face-frag :vec2))
 
 ;;------------------------------------------------------------
 
-(defun %draw-cube-face (sampler pos-vec2 rotation scale)
+(defun %draw-cube-face (sampler pos-vec2 rotation scale color-scale)
   (let* ((tex (sampler-texture sampler))
          (tex-res (resolution tex))
          (win-res (resolution (current-viewport)))
@@ -78,36 +80,43 @@
              :mat (m3:rotation-x (radians 90))
              :tex sampler
              :uv-mult (v! 1 -1)
-             :transform (calc-trans (v! 0 1.5 0)))
+             :transform (calc-trans (v! 0 1.5 0))
+             :color-scale color-scale)
       (map-g #'draw-cube-face-pipeline (get-gpu-quad)
              :mat (m3:rotation-y (radians 90))
              :tex sampler
              :uv-mult (v! -1 1)
-             :transform (calc-trans (v! -1 0.5 0)))
+             :transform (calc-trans (v! -1 0.5 0))
+             :color-scale color-scale)
       (map-g #'draw-cube-face-pipeline (get-gpu-quad)
              :mat (m3:rotation-y (radians -90))
              :tex sampler
              :uv-mult (v! -1 1)
-             :transform (calc-trans (v! 1 0.5 0)))
+             :transform (calc-trans (v! 1 0.5 0))
+             :color-scale color-scale)
       (map-g #'draw-cube-face-pipeline (get-gpu-quad)
              :mat (m3:rotation-x (radians 180))
              :tex sampler
              :uv-mult (v! 1 -1)
-             :transform (calc-trans (v! 0 0.5 0)))
+             :transform (calc-trans (v! 0 0.5 0))
+             :color-scale color-scale)
       (map-g #'draw-cube-face-pipeline (get-gpu-quad)
              :mat (m3:rotation-x (radians -90))
              :tex sampler
              :uv-mult (v! 1 -1)
-             :transform (calc-trans (v! 0 -0.5 0)))
+             :transform (calc-trans (v! 0 -0.5 0))
+             :color-scale color-scale)
       (map-g #'draw-cube-face-pipeline (get-gpu-quad)
              :mat (m3:rotation-x (radians 0))
              :tex sampler
              :uv-mult (v! 1 -1)
-             :transform (calc-trans (v! 0 -1.5 0))))))
+             :transform (calc-trans (v! 0 -1.5 0))
+             :color-scale color-scale))))
 
 ;;------------------------------------------------------------
 
-(defun %draw-sampler (sampler pos-vec2 rotation scale flip-uvs-vertically)
+(defun %draw-sampler (sampler pos-vec2 rotation scale flip-uvs-vertically
+                      color-scale)
   (let* ((tex (sampler-texture sampler))
          (tex-res (resolution tex))
          (win-res (resolution (current-viewport)))
@@ -125,7 +134,8 @@
     (map-g #'draw-texture-pipeline (get-gpu-quad)
            :tex sampler
            :transform transform
-           :uv-y-mult (if flip-uvs-vertically -1s0 1s0)))) ;; this is a bug as it samples outside of texture
+           :uv-y-mult (if flip-uvs-vertically -1s0 1s0) ;; this is a bug as it samples outside of texture
+           :color-scale color-scale)))
 
 (defun rotated-rect-size (size-v2 φ)
   ;; returns width & height
@@ -143,56 +153,84 @@
 ;;------------------------------------------------------------
 
 (defmethod draw-tex ((tex texture)
-                     &key (scale 0.9) (flip-uvs-vertically nil))
+                     &key (scale 0.9) (flip-uvs-vertically nil)
+                       (color-scale (v! 1 1 1 1)))
   (with-temp-sampler (s tex)
-    (draw-tex s :scale scale :flip-uvs-vertically flip-uvs-vertically)))
+    (draw-tex s :scale scale
+              :flip-uvs-vertically flip-uvs-vertically
+              :color-scale color-scale)))
 
 (defmethod draw-tex ((sampler sampler)
-                     &key (scale 0.9) (flip-uvs-vertically nil))
+                     &key (scale 0.9) (flip-uvs-vertically nil)
+                       (color-scale (v! 1 1 1 1)))
   (cepl-utils:with-setf (depth-test-function *cepl-context*) nil
     (if (eq (sampler-type sampler) :sampler-cube)
-        (%draw-cube-face sampler (v! -0 0) 1.5707 scale)
-        (%draw-sampler sampler (v! 0 0) 0s0 scale flip-uvs-vertically))))
+        (%draw-cube-face sampler (v! -0 0) 1.5707 scale color-scale)
+        (%draw-sampler sampler (v! 0 0) 0s0 scale flip-uvs-vertically color-scale))))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-top-left (sampler/tex &key (flip-uvs-vertically nil))
-  (draw-tex-tl sampler/tex :flip-uvs-vertically flip-uvs-vertically))
+(defun draw-tex-top-left (sampler/tex
+                          &key (flip-uvs-vertically nil)
+                            (color-scale (v! 1 1 1 1)))
+  (draw-tex-tl sampler/tex
+               :flip-uvs-vertically flip-uvs-vertically
+               :color-scale color-scale))
 
-(defmethod draw-tex-tl ((sampler sampler) &key (flip-uvs-vertically nil))
+(defmethod draw-tex-tl ((sampler sampler)
+                        &key (flip-uvs-vertically nil)
+                          (color-scale (v! 1 1 1 1)))
   (if (eq (sampler-type sampler) :sampler-cube)
-      (%draw-cube-face sampler (v! -0.5 0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! -0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
+      (%draw-cube-face sampler (v! -0.5 0.5) 1.5707 0.5 color-scale)
+      (%draw-sampler sampler (v! -0.5 0.5) 0s0 0.5 flip-uvs-vertically color-scale)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-bottom-left (sampler/tex &key (flip-uvs-vertically nil))
-  (draw-tex-bl sampler/tex :flip-uvs-vertically flip-uvs-vertically))
+(defun draw-tex-bottom-left (sampler/tex
+                             &key (flip-uvs-vertically nil)
+                               (color-scale (v! 1 1 1 1)))
+  (draw-tex-bl sampler/tex
+               :flip-uvs-vertically flip-uvs-vertically
+               :color-scale color-scale))
 
-(defmethod draw-tex-bl ((sampler sampler) &key (flip-uvs-vertically nil))
+(defmethod draw-tex-bl ((sampler sampler)
+                        &key (flip-uvs-vertically nil)
+                          (color-scale (v! 1 1 1 1)))
   (if (eq (sampler-type sampler) :sampler-cube)
-      (%draw-cube-face sampler (v! -0.5 -0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! -0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
+      (%draw-cube-face sampler (v! -0.5 -0.5) 1.5707 0.5 color-scale)
+      (%draw-sampler sampler (v! -0.5 -0.5) 0s0 0.5 flip-uvs-vertically color-scale)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-top-right (sampler/tex &key (flip-uvs-vertically nil))
-  (draw-tex-tr sampler/tex :flip-uvs-vertically flip-uvs-vertically))
+(defun draw-tex-top-right (sampler/tex
+                           &key (flip-uvs-vertically nil)
+                             (color-scale (v! 1 1 1 1)))
+  (draw-tex-tr sampler/tex
+               :flip-uvs-vertically flip-uvs-vertically
+               :color-scale color-scale))
 
-(defmethod draw-tex-tr ((sampler sampler) &key (flip-uvs-vertically nil))
+(defmethod draw-tex-tr ((sampler sampler)
+                        &key (flip-uvs-vertically nil)
+                          (color-scale (v! 1 1 1 1)))
   (if (eq (sampler-type sampler) :sampler-cube)
-      (%draw-cube-face sampler (v! 0.5 0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! 0.5 0.5) 0s0 0.5 flip-uvs-vertically)))
+      (%draw-cube-face sampler (v! 0.5 0.5) 1.5707 0.5 color-scale)
+      (%draw-sampler sampler (v! 0.5 0.5) 0s0 0.5 flip-uvs-vertically color-scale)))
 
 ;;------------------------------------------------------------
 
-(defun draw-tex-bottom-right (sampler/tex &key (flip-uvs-vertically nil))
-  (draw-tex-br sampler/tex :flip-uvs-vertically flip-uvs-vertically))
+(defun draw-tex-bottom-right (sampler/tex
+                              &key (flip-uvs-vertically nil)
+                                (color-scale (v! 1 1 1 1)))
+  (draw-tex-br sampler/tex
+               :flip-uvs-vertically flip-uvs-vertically
+               :color-scale color-scale))
 
-(defmethod draw-tex-br ((sampler sampler) &key (flip-uvs-vertically nil))
+(defmethod draw-tex-br ((sampler sampler)
+                        &key (flip-uvs-vertically nil)
+                          (color-scale (v! 1 1 1 1)))
   (if (eq (sampler-type sampler) :sampler-cube)
-      (%draw-cube-face sampler (v! 0.5 -0.5) 1.5707 0.5)
-      (%draw-sampler sampler (v! 0.5 -0.5) 0s0 0.5 flip-uvs-vertically)))
+      (%draw-cube-face sampler (v! 0.5 -0.5) 1.5707 0.5 color-scale)
+      (%draw-sampler sampler (v! 0.5 -0.5) 0s0 0.5 flip-uvs-vertically color-scale)))
 
 ;;------------------------------------------------------------
 
@@ -208,8 +246,9 @@
                    (y (tex vert)))))
     (values final (v! (x (tex vert)) uv-y))))
 
-(defun-g draw-texture-at-frag ((tc :vec2) &uniform (tex :sampler-2d))
-  (texture tex tc))
+(defun-g draw-texture-at-frag ((tc :vec2) &uniform (tex :sampler-2d)
+                               (color-scale :vec4))
+  (* (texture tex tc) color-scale))
 
 (def-g-> draw-texture-at-pipeline ()
   #'(draw-texture-at-vert g-pt)
@@ -219,7 +258,8 @@
                         &key
                           (pos (v! 0 0))
                           (centered t)
-                          (flip-uvs-vertically nil))
+                          (flip-uvs-vertically nil)
+                          (color-scale (v! 1 1 1 1)))
   (let* ((size (v! (texture-base-dimensions (sampler-texture sampler))))
          (vp-size (viewport-resolution (current-viewport)))
          (ratio (v2:/ size vp-size))
@@ -231,4 +271,5 @@
            :size size
            :pos pos
            :viewport-size vp-size
-           :uv-flip (if flip-uvs-vertically 1 0))))
+           :uv-flip (if flip-uvs-vertically 1 0)
+           :color-scale color-scale)))
