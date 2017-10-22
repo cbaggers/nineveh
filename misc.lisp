@@ -52,7 +52,7 @@
 (defun set-viewport-dimensions-to-same-as-window
     (&key (viewport (current-viewport))
        (window (cepl.context:current-surface
-                cepl.context:*cepl-context*))
+                (cepl.context:cepl-context)))
        (step-host nil))
   (when window
     (when step-host

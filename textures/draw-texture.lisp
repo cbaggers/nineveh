@@ -163,7 +163,7 @@
 (defmethod draw-tex ((sampler sampler)
                      &key (scale 0.9) (flip-uvs-vertically nil)
                        (color-scale (v! 1 1 1 1)))
-  (cepl-utils:with-setf (depth-test-function *cepl-context*) nil
+  (cepl-utils:with-setf (depth-test-function (cepl-context)) nil
     (if (eq (sampler-type sampler) :sampler-cube)
         (%draw-cube-face sampler (v! -0 0) 1.5707 scale color-scale)
         (%draw-sampler sampler (v! 0 0) 0s0 scale flip-uvs-vertically color-scale))))
