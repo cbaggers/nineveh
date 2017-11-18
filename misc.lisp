@@ -20,7 +20,7 @@
                   (format t "~%- starting ~a -" ',name)
                   (unwind-protect
                        (progn
-                         (unless cepl.context::*gl-context*
+                         (when (cepl.lifecycle:uninitialized-p)
                            (cepl:repl))
                          (let ((on-start ,on-start))
                            (when on-start
