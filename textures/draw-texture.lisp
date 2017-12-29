@@ -40,7 +40,7 @@
                             (color-scale :vec4))
   (* (texture tex tc) color-scale))
 
-(def-g-> draw-texture-pipeline ()
+(defpipeline-g draw-texture-pipeline ()
   #'(draw-texture-vert g-pt) #'(draw-texture-frag :vec2))
 
 ;;------------------------------------------------------------
@@ -55,7 +55,7 @@
   (* (texture tex (* mat (v! tc -1)))
      color-scale))
 
-(def-g-> draw-cube-face-pipeline ()
+(defpipeline-g draw-cube-face-pipeline ()
   #'(draw-cube-face-vert g-pt) #'(draw-cube-face-frag :vec2))
 
 ;;------------------------------------------------------------
@@ -250,7 +250,7 @@
                                (color-scale :vec4))
   (* (texture tex tc) color-scale))
 
-(def-g-> draw-texture-at-pipeline ()
+(defpipeline-g draw-texture-at-pipeline ()
   #'(draw-texture-at-vert g-pt)
   #'(draw-texture-at-frag :vec2))
 
