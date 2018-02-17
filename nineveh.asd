@@ -6,7 +6,8 @@
   :license "BSD 2 Clause"
   :serial t
   :depends-on (#:cepl #:cl-soil #:livesupport #:easing
-                      #:documentation-utils #:dendrite.primitives)
+                      #:documentation-utils #:dendrite.primitives
+                      #:rtg-math.vari)
   :components ((:file "package")
                ;;
                (:file "math-primitives/log")

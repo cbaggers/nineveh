@@ -1,8 +1,9 @@
 ;;;; package.lisp
 
 (uiop:define-package #:nineveh.math-primitives
-    (:use #:cl :glsl-symbols #:cepl #:rtg-math :rtg-math.base-maths
-          :documentation-utils #:vari)
+    (:use #:cl :glsl-symbols #:cepl
+          #:rtg-math #:rtg-math.base-maths
+          #:documentation-utils #:vari)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10
            :atan2
@@ -205,7 +206,7 @@
 
 (uiop:define-package #:nineveh.streams
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils #:%rtg-math)
+          :documentation-utils :cepl.defn)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :uiop
