@@ -1,6 +1,6 @@
 (in-package :nineveh.hashing)
 
-(define-docs
+(docs:define-docs
   (defun blum-blum-shub-hash
       "
 -- Signatures --

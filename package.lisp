@@ -3,7 +3,7 @@
 (uiop:define-package #:nineveh.math-primitives
     (:use #:cl :glsl-symbols #:cepl
           #:rtg-math #:rtg-math.base-maths
-          #:documentation-utils #:vari)
+          #:vari)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10
            :atan2
@@ -16,13 +16,13 @@
 
 (uiop:define-package #:nineveh.conditionals
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils #:vari #:nineveh.math-primitives)
+          #:vari #:nineveh.math-primitives)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :mix-step-if))
 
 (uiop:define-package #:nineveh.color
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils #:nineveh.math-primitives
+          #:nineveh.math-primitives
           :nineveh.conditionals)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rgb->greyscale
@@ -38,8 +38,7 @@
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
-          :nineveh.math-primitives
-          :documentation-utils)
+          :nineveh.math-primitives)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :blum-blum-shub-hash
            :blum-blum-shub-hash-low-quality
@@ -58,8 +57,7 @@
            :sgim-qpp-hash-3-per-corner))
 
 (uiop:define-package #:nineveh.shaping-functions
-    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
@@ -94,8 +92,7 @@
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
           :nineveh.shaping-functions
-          :nineveh.hashing
-          :documentation-utils)
+          :nineveh.hashing)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :value-noise
            :value-noise-deriv
@@ -130,8 +127,7 @@
 (uiop:define-package #:nineveh.random
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives
-          :nineveh.shaping-functions
-          :documentation-utils)
+          :nineveh.shaping-functions)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :rand
            :hammersley-nth-2d
@@ -140,7 +136,6 @@
 (uiop:define-package :nineveh.mesh.data.primitives
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math #:rtg-math.base-maths
           #:nineveh.math-primitives
-          #:documentation-utils
           #:dendrite.primitives)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
@@ -163,26 +158,22 @@
 
 (uiop:define-package #:nineveh.easing
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
-          #:easing-f
-          :documentation-utils)
+          #:easing-f)
   (:reexport :easing))
 
 (uiop:define-package #:nineveh.graphing
-    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths)
   (:export :graph
            :axis
            :plot))
 
 (uiop:define-package #:nineveh.normals
-    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :simple-sample-normals))
 
 (uiop:define-package #:nineveh.textures
-    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils)
+    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths)
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :sample-equirectangular-tex
            :uv->cube-map-directions
@@ -206,7 +197,7 @@
 
 (uiop:define-package #:nineveh.streams
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :documentation-utils :cepl.defn)
+          :cepl.defn)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :uiop
@@ -219,8 +210,7 @@
 
 (uiop:define-package #:nineveh.tonemapping
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
-          :nineveh.math-primitives
-          :documentation-utils)
+          :nineveh.math-primitives)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
@@ -243,8 +233,7 @@
           :nineveh.graphing
           :nineveh.normals
           :nineveh.textures
-          :nineveh.streams
-          :documentation-utils)
+          :nineveh.streams)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils

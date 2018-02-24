@@ -1,6 +1,6 @@
 (in-package :nineveh.math-primitives)
 
-(define-docs
+(docs:define-docs
   (defmacro mod-fixed-denominator
       "
 -- Args --

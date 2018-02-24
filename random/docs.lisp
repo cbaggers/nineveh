@@ -1,6 +1,6 @@
 (in-package :nineveh.random)
 
-(define-docs
+(docs:define-docs
   (defun rand
       "
 -- Arg --
