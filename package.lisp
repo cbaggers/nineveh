@@ -34,7 +34,12 @@
            :hsl->rgb
            :rgb->hcy
            :hcy->rgb
-           :rgb->hcl))
+           :rgb->hcl
+           :rgb->luma-bt709
+           :rgb->luma-bt601
+           :rgb->luma-low-accuracy-0
+           :rgb->luma-low-accuracy-1
+           :apply-luminance))
 
 (uiop:define-package #:nineveh.hashing
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
@@ -223,32 +228,33 @@
 
 (uiop:define-package #:nineveh
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
-          :nineveh.math-primitives
+          :nineveh.color
           :nineveh.conditionals
-          :nineveh.random
-          :nineveh.hashing
-          :nineveh.noise
-          :nineveh.tonemapping
-          :nineveh.shaping-functions
           :nineveh.graphing
+          :nineveh.hashing
+          :nineveh.math-primitives
+          :nineveh.noise
           :nineveh.normals
+          :nineveh.random
+          :nineveh.shaping-functions
+          :nineveh.streams
           :nineveh.textures
-          :nineveh.streams)
+          :nineveh.tonemapping)
   (:import-from :varjo
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :cepl-utils
                 :with-setf)
-  (:reexport :nineveh.math-primitives
+  (:reexport :nineveh.color
              :nineveh.conditionals
-             :nineveh.color
-             :nineveh.hashing
-             :nineveh.shaping-functions
-             :nineveh.noise
-             :nineveh.random
              :nineveh.graphing
+             :nineveh.hashing
+             :nineveh.math-primitives
+             :nineveh.noise
              :nineveh.normals
-             :nineveh.textures
+             :nineveh.random
+             :nineveh.shaping-functions
              :nineveh.streams
+             :nineveh.textures
              :nineveh.tonemapping)
   (:export
    :as-frame

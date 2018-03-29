@@ -22,6 +22,7 @@
                ;;
                (:file "color/color-space-conversions")
                (:file "color/sets")
+               (:file "color/luminance")
                ;;
                (:file "hashing/blum-blum-shub-hash")
                (:file "hashing/permutation-polynomial-hash")
