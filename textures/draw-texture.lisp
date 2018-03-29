@@ -11,26 +11,6 @@
 
 ;;------------------------------------------------------------
 
-(defun make-gpu-quad ()
-  (make-buffer-stream
-   (make-gpu-array
-    (list (list (v! -0.5   0.5 0 0) (v!  0.0   1.0))
-          (list (v! -0.5  -0.5 0 0) (v!  0.0   0.0))
-          (list (v!  0.5  -0.5 0 0) (v!  1.0   0.0))
-          (list (v! -0.5   0.5 0 0) (v!  0.0   1.0))
-          (list (v!  0.5  -0.5 0 0) (v!  1.0   0.0))
-          (list (v!  0.5   0.5 0 0) (v!  1.0   1.0)))
-    :element-type 'g-pt
-    :dimensions 6)
-   :retain-arrays t))
-
-(defvar *quad* nil)
-
-(defun get-gpu-quad ()
-  (or *quad* (setf *quad* (make-gpu-quad))))
-
-;;------------------------------------------------------------
-
 (defun-g draw-texture-vert ((vert g-pt) &uniform (transform :mat4)
                             (uv-y-mult :float))
   (values (* transform (v! (pos vert) 1s0))
@@ -65,7 +45,8 @@
          (tex-res (resolution tex))
          (win-res (resolution (current-viewport)))
          (rect-res (rotated-rect-size (v2:* tex-res (v! 3 4)) rotation))
-         (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2)))
+         (fit-scale (* (get-fit-to-rect-scale win-res rect-res) 2))
+         (quad (nineveh.internals:get-gpu-quad)))
     (labels ((calc-trans (pos)
                (m4:*
                 (m4:translation (v! pos-vec2 0))
@@ -76,37 +57,37 @@
                 (m4:rotation-z rotation)
                 (m4:scale (v! tex-res 0))
                 (m4:translation pos))))
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-x (radians 90))
              :tex sampler
              :uv-mult (v! 1 -1)
              :transform (calc-trans (v! 0 1.5 0))
              :color-scale color-scale)
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-y (radians 90))
              :tex sampler
              :uv-mult (v! -1 1)
              :transform (calc-trans (v! -1 0.5 0))
              :color-scale color-scale)
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-y (radians -90))
              :tex sampler
              :uv-mult (v! -1 1)
              :transform (calc-trans (v! 1 0.5 0))
              :color-scale color-scale)
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-x (radians 180))
              :tex sampler
              :uv-mult (v! 1 -1)
              :transform (calc-trans (v! 0 0.5 0))
              :color-scale color-scale)
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-x (radians -90))
              :tex sampler
              :uv-mult (v! 1 -1)
              :transform (calc-trans (v! 0 -0.5 0))
              :color-scale color-scale)
-      (map-g #'draw-cube-face-pipeline (get-gpu-quad)
+      (map-g #'draw-cube-face-pipeline quad
              :mat (m3:rotation-x (radians 0))
              :tex sampler
              :uv-mult (v! 1 -1)
@@ -131,7 +112,7 @@
                             (float scale)))
            (m4:rotation-z rotation)
            (m4:scale (v3:*s (v! tex-res 0) fit-scale)))))
-    (map-g #'draw-texture-pipeline (get-gpu-quad)
+    (map-g #'draw-texture-pipeline (nineveh.internals:get-gpu-quad)
            :tex sampler
            :transform transform
            :uv-y-mult (if flip-uvs-vertically -1s0 1s0) ;; this is a bug as it samples outside of texture
@@ -266,7 +247,7 @@
          (pos (if centered
                   pos
                   (v2:+ pos (v! (x ratio) 0)))))
-    (map-g #'draw-texture-at-pipeline (get-gpu-quad)
+    (map-g #'draw-texture-at-pipeline (nineveh.internals:get-gpu-quad)
            :tex sampler
            :size size
            :pos pos

@@ -7,7 +7,7 @@
   :serial t
   :depends-on (#:cepl #:cl-soil #:livesupport #:easing
                       #:documentation-utils #:dendrite.primitives
-                      #:rtg-math.vari)
+                      #:rtg-math.vari #:with-setf)
   :components ((:file "package")
                ;;
                (:file "math-primitives/log")

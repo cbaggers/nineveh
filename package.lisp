@@ -1,5 +1,12 @@
 ;;;; package.lisp
 
+(uiop:define-package #:nineveh.internals
+    (:use #:cl :glsl-symbols #:cepl
+          #:rtg-math #:rtg-math.base-maths
+          #:vari)
+  (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
+  (:export :get-gpu-quad))
+
 (uiop:define-package #:nineveh.math-primitives
     (:use #:cl :glsl-symbols #:cepl
           #:rtg-math #:rtg-math.base-maths
