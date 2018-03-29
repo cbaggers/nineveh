@@ -174,7 +174,8 @@
   (:reexport :easing))
 
 (uiop:define-package #:nineveh.graphing
-    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths)
+    (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
+          #:with-setf)
   (:export :graph
            :axis
            :plot))
