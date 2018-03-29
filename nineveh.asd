@@ -68,4 +68,6 @@
                ;;
                (:file "tonemapping/operators")
                ;;
+               (:file "sdf/2d/sdf")
+               ;;
                (:file "misc")))

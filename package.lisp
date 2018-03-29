@@ -226,6 +226,33 @@
            :tone-map-hejl-burgess-dawson
            :tone-map-uncharted2))
 
+(uiop:define-package #:nineveh.sdf.2d
+    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
+          :nineveh.math-primitives)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :cepl-utils
+                :with-setf)
+  (:export :circle
+           :intersect
+           :line
+           :mask-border-inner
+           :mask-border-outer
+           :mask-fill
+           :merge-exclude
+           :merge-simple
+           :merge-smooth
+           :pie
+           :point-light
+           :point-light-with-source
+           :rectangle
+           :rhombus
+           :rotate-ccw
+           :semicircle
+           :subtract
+           :translate
+           :triangle))
+
 (uiop:define-package #:nineveh
     (:use #:cl :glsl-symbols #:cepl :vari #:rtg-math :rtg-math.base-maths
           :nineveh.color
