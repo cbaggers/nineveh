@@ -10,6 +10,8 @@
                       #:rtg-math.vari #:with-setf)
   :components ((:file "package")
                ;;
+               (:file "internals/quad")
+               ;;
                (:file "math-primitives/log")
                (:file "math-primitives/clamping")
                (:file "math-primitives/mod")
