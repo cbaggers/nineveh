@@ -178,7 +178,8 @@
           #:with-setf)
   (:export :graph
            :axis
-           :plot))
+           :plot
+           :define-pgraph))
 
 (uiop:define-package #:nineveh.normals
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths)

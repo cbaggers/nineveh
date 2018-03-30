@@ -72,4 +72,6 @@
                ;;
                (:file "sdf/2d/sdf")
                ;;
+               (:file "graphing/particle/particle-graph")
+               ;;
                (:file "misc")))
