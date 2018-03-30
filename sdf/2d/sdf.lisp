@@ -226,7 +226,7 @@
          (- (y p)))))
 
 (defun-g pie ((p :vec2) (angle :float))
-  (let* ((angle (/ (radians angle) 2.0))
+  (let* ((angle (/ angle 2.0))
          (n (vec2 (cos angle) (sin angle))))
     (+ (* (x (abs p)) (x n))
        (* (y p) (y n)))))
