@@ -118,7 +118,7 @@
 
 #+nul
 (define-pgraph woop (:range) (i)
-  (let* ((ang (* i 0.1))
+  (let* ((ang (* i 0.01))
          (disp (* (vec2 (sin ang) (cos ang))
-                  (* i 0.01))))
-    (vec3 (x disp) (* 20 (sin i)) (y disp))))
+                  (* i 0.002))))
+    (vec3 (x disp) (* 40 (sin (* 0.1 i))) (y disp))))
