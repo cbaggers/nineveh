@@ -22,12 +22,11 @@
 ;;------------------------------------------------------------
 
 (defun-g pgraph-dot-frag ((uv :vec2)
-                          &uniform
-                          (point-color :vec4))
+                          (color :vec4))
   (let ((sdf-scale 25f0))
     (mix
      (v! 0 0 0 0)
-     point-color
+     color
      (nineveh.sdf.2d:mask-fill
       (nineveh.sdf.2d:circle (- (* uv 2 sdf-scale) (vec2 sdf-scale))
                              sdf-scale)))))
@@ -92,6 +91,7 @@
                                (world->view :mat4)
                                (proj :mat4)
                                (point-size :float)
+                               (point-color :vec4)
                                ;;
                                (min :float)
                                (by :float))
@@ -104,7 +104,8 @@
            (clip-pos (* proj view-pos)))
       (values
        clip-pos
-       texture))))
+       texture
+       point-color))))
 
 (defmethod vert-transform-for ((kind (eql :range)))
   'range-vert-transform)
@@ -130,46 +131,102 @@
                                 (world->view :mat4)
                                 (proj :mat4)
                                 (point-size :float)
+                                (point-color :vec4)
                                 ;;
                                 (x-min :float)
                                 (x-max :float)
                                 (y-min :float)
                                 (y-max :float)
-                                (by :float))
+                                (by :float)
+                                (spacing :float))
   (with-slots (position texture) vert
-    (let* ((id (* (float gl-instance-id) by))
-           (x-range (- x-max x-min))
-           (x (mod id x-range))
-           (rem (/ id x-range))
-           (y-range (- y-max y-min))
-           (y (mod rem y-range))
+    (let* ((id (float gl-instance-id))
+           (x-range (/ (- x-max x-min) by))
+           (y-range (/ (- y-max y-min) by))
+           (x (* (mod id x-range) by))
+           (y (* (/ id x-range) by))
            (input (vec2 x y))
+           (pos2 (* input spacing point-size))
            (func-result (funcall fn input))
-           (world-pos (v! (* input 2 point-size) func-result 1.0))
+           (world-pos (v! (x pos2) func-result (y pos2) 1.0))
            (view-pos (+ (* world->view world-pos)
                         (vec4 (* position point-size) 0)))
            (clip-pos (* proj view-pos)))
       (values
        clip-pos
-       texture))))
+       texture
+       point-color))))
 
 (defmethod vert-transform-for ((kind (eql :height)))
   'height-vert-transform)
 
 (defmethod args-for ((kind (eql :height)))
   '((x-min 0f0 :float (float x-min 0f0))
-    (x-max 1f0 :float (float x-max 0f0))
+    (x-max 100f0 :float (float x-max 0f0))
     (y-min 0f0 :float (float y-min 0f0))
-    (y-max 1f0 :float (float y-max 0f0))
-    (by 0.001f0 :float (float by 0f0))))
+    (y-max 100f0 :float (float y-max 0f0))
+    (by 1f0 :float (float by 0f0))
+    (spacing 1.3f0 :float (float spacing 0f0))))
 
 (defmethod instance-count-for ((kind (eql :height)))
-  `(floor (/ (* (- x-max x-min)
-                (- y-max y-min))
-             by)))
+  `(floor (* (/ (- x-max x-min) by)
+             (/ (- y-max y-min) by))))
 
 (defmethod wrap-in-func-for ((kind (eql :height)) var body)
   `(graph-func ((,var :vec2)) (the :float (progn ,@body))))
+
+;;------------------------------------------------------------
+;; Height-Col Graph
+
+(defun-g height-col-vert-transform ((fn (function (:vec2) (:float :vec4)))
+                                (vert g-pt)
+                                (world->view :mat4)
+                                (proj :mat4)
+                                (point-size :float)
+                                (point-color :vec4)
+                                ;;
+                                (x-min :float)
+                                (x-max :float)
+                                (y-min :float)
+                                (y-max :float)
+                                (by :float)
+                                (spacing :float))
+  (with-slots (position texture) vert
+    (let* ((id (float gl-instance-id))
+           (x-range (/ (- x-max x-min) by))
+           (y-range (/ (- y-max y-min) by))
+           (x (* (mod id x-range) by))
+           (y (* (/ id x-range) by))
+           (input (vec2 x y))
+           (pos2 (* input spacing point-size)))
+      (multiple-value-bind (func-result func-col)
+          (funcall fn input)
+        (let* ((world-pos (v! (x pos2) func-result (y pos2) 1.0))
+               (view-pos (+ (* world->view world-pos)
+                            (vec4 (* position point-size) 0)))
+               (clip-pos (* proj view-pos)))
+          (values
+           clip-pos
+           texture
+           func-col))))))
+
+(defmethod vert-transform-for ((kind (eql :height-color)))
+  'height-col-vert-transform)
+
+(defmethod args-for ((kind (eql :height-color)))
+  '((x-min 0f0 :float (float x-min 0f0))
+    (x-max 100f0 :float (float x-max 0f0))
+    (y-min 0f0 :float (float y-min 0f0))
+    (y-max 100f0 :float (float y-max 0f0))
+    (by 1f0 :float (float by 0f0))
+    (spacing 1.3f0 :float (float spacing 0f0))))
+
+(defmethod instance-count-for ((kind (eql :height-color)))
+  `(floor (* (/ (- x-max x-min) by)
+             (/ (- y-max y-min) by))))
+
+(defmethod wrap-in-func-for ((kind (eql :height-color)) var body)
+  `(graph-func ((,var :vec2)) ,@body))
 
 ;;------------------------------------------------------------
 
@@ -191,15 +248,16 @@
                             (world->view :mat4)
                             (point-size :float)
                             (proj :mat4)
+                            (point-color :vec4)
                             ,@(uniform-args-for kind)
                             ,@uniforms)
          (flet (,func)
            (,(vert-transform-for kind)
-             #',(first func) vert world->view proj point-size
+             #',(first func) vert world->view proj point-size point-color
              ,@(mapcar #'first (uniform-args-for kind)))))
        (defpipeline-g ,pline-name ()
          :vertex (,vert-name g-pt)
-         :fragment (pgraph-dot-frag :vec2))
+         :fragment (pgraph-dot-frag :vec2 :vec4))
        (defun ,name (position-vec3
                      direction-vec3
                      &key
