@@ -14,6 +14,7 @@
   (:import-from :varjo :dbind :vbind :dbind* :vbind* :symb)
   (:export :log10
            :atan2
+           :vmax
            :saturate
            :mod-fixed-denominator
            :mod-fixed-denominator-low-quality

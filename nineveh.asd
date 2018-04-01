@@ -18,6 +18,7 @@
                (:file "math-primitives/atan2")
                (:file "math-primitives/remap")
                (:file "math-primitives/radical-inverse")
+               (:file "math-primitives/vmax")
                (:file "math-primitives/docs")
                ;;
                (:file "conditionals/conditional-optimizations")
