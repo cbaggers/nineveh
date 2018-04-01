@@ -257,6 +257,8 @@
            :point-light-with-source
            :rectangle
            :rhombus
+           :hexagon
+           :fast-rect
            :rotate-ccw
            :semicircle
            :subtract

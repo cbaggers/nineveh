@@ -248,10 +248,19 @@
        corner-radius)))
 
 (defun-g rectangle ((p :vec2) (size :vec2))
-  (let* ((size size)
-         (d (- (abs p) size)))
+  (let* ((d (- (abs p) size)))
     (+ (min (max (x d) (y d)) 0.0)
        (length (max d 0.0)))))
+
+(defun-g fast-rect ((p :vec2) (size :vec2))
+  (vmax (- (abs p) size)))
+
+(defun-g hexagon ((p :vec2) (h :float))
+  (let* ((q (abs p)))
+    (- (max (+ (* (x q) 0.866025)
+               (* (y q) 0.5))
+            (y q))
+       h)))
 
 (defun-g line ((p :vec2) (start :vec2) (end :vec2) (line-width :float))
   (let* ((dir (- start end))
