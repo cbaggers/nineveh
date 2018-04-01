@@ -15,3 +15,17 @@
   (max (x vec) (y vec) (z vec) (w vec)))
 
 ;;------------------------------------------------------------
+
+(defun-g vmin ((vec :vec2))
+  "Returns the `min` of the vectors components"
+  (min (x vec) (y vec)))
+
+(defun-g vmin ((vec :vec3))
+  "Returns the `min` of the vectors components"
+  (min (x vec) (y vec) (z vec)))
+
+(defun-g vmin ((vec :vec4))
+  "Returns the `min` of the vectors components"
+  (min (x vec) (y vec) (z vec) (w vec)))
+
+;;------------------------------------------------------------
