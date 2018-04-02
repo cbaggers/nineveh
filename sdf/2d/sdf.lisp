@@ -273,12 +273,12 @@
 
 ;;------------------------------------------------------------
 
-(defun-g rotate-ccw ((p :vec2) (a :float))
-  (let ((m (mat2 (cos a) (sin a)
-                 (- (sin a)) (cos a))))
+(defun-g rotate-ccw ((p :vec2) (angle :float))
+  (let ((m (mat2 (cos angle) (sin angle)
+                 (- (sin angle)) (cos angle))))
     (* m p)))
 
-(defun-g translate ((p :vec2) (o :vec2))
-  (- p o))
+(defun-g translate ((p :vec2) (offset :vec2))
+  (- p offset))
 
 ;;------------------------------------------------------------
