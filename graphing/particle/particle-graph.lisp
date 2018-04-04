@@ -124,6 +124,48 @@
   `(graph-func ((,var :float)) (the :vec3 (progn ,@body))))
 
 ;;------------------------------------------------------------
+;; Range-Color Graph
+
+(defun-g range-col-vert-transform ((fn (function (:float) (:vec3 :vec4)))
+                                   (vert g-pt)
+                                   (world->view :mat4)
+                                   (proj :mat4)
+                                   (point-size :float)
+                                   (point-color :vec4)
+                                   ;;
+                                   (min :float)
+                                   (by :float))
+  (with-slots (position texture) vert
+    (let* ((input (+ min (* by (float gl-instance-id)))))
+      (multiple-value-bind (func-pos func-col) (funcall fn input)
+        (let* ((world-pos (vec4 func-pos 1.0))
+               (view-pos (+ (* world->view world-pos)
+                            (vec4 (* position point-size) 0)))
+               (clip-pos (* proj view-pos)))
+          (values
+           clip-pos
+           texture
+           func-col))))))
+
+;; HEY! change this to 'range-vert-transform and watch it break,
+;;      somethign is funky in the compiler
+(defmethod vert-transform-for ((kind (eql :range-color)))
+  'range-col-vert-transform)
+
+(defmethod args-for ((kind (eql :range-color)))
+  '((min 0f0 :float (float min 0f0))
+    (max 100f0 nil (float by 0f0))
+    (by 1f0 :float (float by 0f0))))
+
+(defmethod instance-count-for ((kind (eql :range-color)))
+  `(floor (/ (- (float max 0f0)
+                (float min 0f0))
+             (float by 0f0))))
+
+(defmethod wrap-in-func-for ((kind (eql :range-color)) var body)
+  `(graph-func ((,var :float)) (the :vec3 (progn ,@body))))
+
+;;------------------------------------------------------------
 ;; Height Graph
 
 (defun-g height-vert-transform ((fn (function (:vec2) :float))
