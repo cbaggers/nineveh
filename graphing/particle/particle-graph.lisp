@@ -35,8 +35,7 @@
 ;;
 
 (defun pgraph-world->view (pos3 dir3)
-  (m4:* (q:to-mat4 (q:inverse (q:from-direction (v! 0 1 0) dir3)))
-        (m4:translation (v3:negate pos3))))
+  (m4:look-at (v! 0 1 0) pos3 (v3:+ pos3 dir3)))
 
 (defun pgraph-view->clip ()
   (let ((vp (current-viewport)))
