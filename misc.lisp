@@ -7,6 +7,9 @@
        (swap))))
 
 (defmacro def-simple-main-loop (name (&key on-start) &body body)
+  `(define-simple-main-loop ,name (:on-start ,on-start) ,@body))
+
+(defmacro define-simple-main-loop (name (&key on-start) &body body)
   (let ((frame-var-name (symb :* name :-frame-counter*))
         (step-func-name (symb :% name :-step-func*)))
     `(progn

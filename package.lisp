@@ -297,4 +297,5 @@
              :nineveh.tonemapping)
   (:export
    :as-frame
-   :def-simple-main-loop))
+   :def-simple-main-loop
+   :define-simple-main-loop))
