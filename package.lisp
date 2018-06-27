@@ -223,6 +223,15 @@
            :buffer-streamer-push
            :buffer-streamer-push-from-range))
 
+(uiop:define-package #:nineveh.vignette
+    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
+          :cepl.defn)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :uiop
+                :ensure-list)
+  (:export :vignette :natural-vignette))
+
 (uiop:define-package #:nineveh.tonemapping
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives)

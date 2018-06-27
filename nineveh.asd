@@ -73,6 +73,8 @@
                ;;
                (:file "sdf/2d/sdf")
                ;;
+               (:file "vignette/vignette")
+               ;;
                (:file "graphing/particle/particle-graph")
                ;;
                (:file "misc")))
