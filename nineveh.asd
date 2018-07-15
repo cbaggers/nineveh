@@ -63,6 +63,7 @@
                ;;
                (:file "textures/sampling")
                (:file "textures/draw-texture")
+               (:file "textures/dirty-blit")
                (:file "textures/cube-tex-fbos")
                (:file "textures/hdr-cross-cube-map-loader")
                ;;

@@ -202,6 +202,7 @@
            :draw-tex-top-right
            :draw-tex-bottom-left
            :draw-tex-bottom-right
+           :dirty-blit-sampler
            ;;
            :load-hdr-cross-image
            :load-hdr-cross-texture
