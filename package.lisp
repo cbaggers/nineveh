@@ -241,6 +241,17 @@
                 :ensure-list)
   (:export :fxaa2))
 
+(uiop:define-package #:nineveh.distortion
+    (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
+          :cepl.defn)
+  (:import-from :varjo
+                :dbind :vbind :dbind* :vbind* :symb)
+  (:import-from :uiop
+                :ensure-list)
+  (:export :radial-distort
+           :barrel-distortion
+           :brown-conrady-distortion))
+
 (uiop:define-package #:nineveh.tonemapping
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
           :nineveh.math-primitives)

@@ -75,6 +75,8 @@
                ;;
                (:file "vignette/vignette")
                ;;
+               (:file "distortion/distortion")
+               ;;
                (:file "antialiasing/fxaa2")
                ;;
                (:file "graphing/particle/particle-graph")
