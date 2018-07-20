@@ -10,27 +10,19 @@
 ;; Photometric/digital ITU BT.709: http://www.itu.int/rec/R-REC-BT.709
 ;; https://en.wikipedia.org/wiki/Luminance_%28relative%29
 (defun-g rgb->luma-bt709 ((color :vec3))
-  (+ (* (x color) "0.2126")
-     (* (y color) "0.7152")
-     (* (z color) "0.0722")))
+  (dot color (vec3 "0.2126" "0.7152" "0.0722")))
 
 (defun-g rgb->luma-bt709 ((color :vec4))
-  (+ (* (x color) "0.2126")
-     (* (y color) "0.7152")
-     (* (z color) "0.0722")))
+  (dot (s~ color :xyz) (vec3 "0.2126" "0.7152" "0.0722")))
 
 ;; Y = 0.2126 R + 0.7152 G + 0.0722 B
 
 ;; Digital ITU BT.601 (gives more weight to the R and B components):
 (defun-g rgb->luma-bt601 ((color :vec3))
-  (+ (* (x color) "0.299")
-     (* (y color) "0.587")
-     (* (z color) "0.114")))
+  (dot color (vec3 "0.299" "0.587" "0.114")))
 
 (defun-g rgb->luma-bt601 ((color :vec4))
-  (+ (* (x color) "0.299")
-     (* (y color) "0.587")
-     (* (z color) "0.114")))
+  (dot (s~ color :xyz) (vec3 "0.299" "0.587" "0.114")))
 
 ;; If you are willing to trade accuracy for perfomance, there are two
 ;; approximation formulas for this one:
