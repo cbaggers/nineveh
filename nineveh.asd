@@ -79,6 +79,7 @@
                (:file "distortion/distortion")
                ;;
                (:file "antialiasing/fxaa2")
+               (:file "antialiasing/fxaa3")
                ;;
                (:file "graphing/particle/particle-graph")
                ;;
