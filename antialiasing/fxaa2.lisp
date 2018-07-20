@@ -1,6 +1,6 @@
 (in-package #:nineveh.anti-aliasing)
 
-(defun-g fxaa2 ((uv :vec4) (tex :sampler-2d) (rcp-frame :vec2))
+(defun-g fxaa2 ((uv :vec4) (tex :sampler-2d) (one-over-resolution :vec2))
   (let* ((fxaa-span-max 8.0)
          (fxaa-reduce-mul (/ 1.0 fxaa-span-max))
          (fxaa-reduce-min (/ 1.0 128.0))
@@ -13,7 +13,7 @@
            (texture-lod tex
                         (+ (rtg-math.vectors:s~ uv :zw)
                            (* (rtg-math.base-vectors:v2! 1 0)
-                              (rtg-math.vectors:s~ rcp-frame :xy)))
+                              (rtg-math.vectors:s~ one-over-resolution :xy)))
                         0.0)
            :xyz))
          (rgb-sw
@@ -21,7 +21,7 @@
            (texture-lod tex
                         (+ (rtg-math.vectors:s~ uv :zw)
                            (* (rtg-math.base-vectors:v2! 0 1)
-                              (rtg-math.vectors:s~ rcp-frame :xy)))
+                              (rtg-math.vectors:s~ one-over-resolution :xy)))
                         0.0)
            :xyz))
          (rgb-se
@@ -29,7 +29,7 @@
            (texture-lod tex
                         (+ (rtg-math.vectors:s~ uv :zw)
                            (* (rtg-math.base-vectors:v2! 1 1)
-                              (rtg-math.vectors:s~ rcp-frame :xy)))
+                              (rtg-math.vectors:s~ one-over-resolution :xy)))
                         0.0)
            :xyz))
          (rgb-m
@@ -61,7 +61,7 @@
                    (rtg-math.base-vectors:v2! (- fxaa-span-max)
                                               (- fxaa-span-max))
                    (* dir rcp-dir-min)))
-             (rtg-math.vectors:s~ rcp-frame :xy)))
+             (rtg-math.vectors:s~ one-over-resolution :xy)))
       (let* ((rgb-a
               (* (/ 1.0 2.0)
                  (+
