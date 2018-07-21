@@ -240,7 +240,8 @@
                 :dbind :vbind :dbind* :vbind* :symb)
   (:import-from :uiop
                 :ensure-list)
-  (:export :fxaa2 :fxaa3 :fxaa3-pass))
+  (:export :fxaa2 :fxaa2-calc-uvs
+           :fxaa3 :fxaa3-pass))
 
 (uiop:define-package #:nineveh.distortion
     (:use #:cl :glsl-symbols #:cepl #:vari #:rtg-math :rtg-math.base-maths
