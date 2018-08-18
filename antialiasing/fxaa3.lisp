@@ -711,8 +711,8 @@ Trims the algorithm from processing darks.
 ;;------------------------------------------------------------
 
 (defun-g fxaa3-pass-v ((vert :vec2))
-  (values (:noperspective (v! vert 0 1))
-          (+ (* vert 0.5) 0.5)))
+  (values (v! vert 0 1)
+          (:noperspective (+ (* vert 0.5) 0.5))))
 
 (defun-g fxaa3-pass-f ((uv :vec2)
                        &uniform
