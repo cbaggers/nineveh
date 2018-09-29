@@ -35,7 +35,7 @@
      (%init-streamer
       (cepl.streams::init-buffer-stream-from-id
        %pre% (cepl.vaos:make-vao gpu-arrays)
-       gpu-arrays nil 0 len t))
+       gpu-arrays nil 0 len 0 t))
      (make-uninitialized-streamer primitive)
      gpu-arrays)))
 
@@ -57,7 +57,7 @@
      :%start 0
      :%start-byte 0
      :length 0
-     :%index-type :uninitialized
+     :%index-type-enum 0
      :%index-type-size 0
      :managed t
      :%primitive enum-kwd
