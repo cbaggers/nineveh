@@ -43,7 +43,11 @@
                                         (,(intern "UPDATE" :ttm))))
                               ;; run step function
                               (livesupport:continuable
-                                (,step-func-name)))))
+                               (,step-func-name)))))
+                    (unless (= ,frame-var-name 0)
+                      (as-frame
+                       (with-setf (clear-color) (v! 0 1 0 1)
+                                  (cls))))
                     (setf ,frame-var-name 0)
                     (format t "~%~%- stopping ~a -~%" ',name)))
                 (format t "~%~%- ~a is already running -~%" ',name)))
