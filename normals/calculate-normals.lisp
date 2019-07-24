@@ -2,6 +2,23 @@
 
 (defun-g simple-sample-normals ((func (function (:vec2) :float))
                                 (pos :vec2)
+                                (offset :float)
+                                (scale :float))
+  (let* ((s0 (* (funcall func (+ pos (* offset (v!  0f0 -1f0))))
+                scale))
+         (s1 (* (funcall func (+ pos (* offset (v! -1f0  0f0))))
+                scale))
+         (s2 (* (funcall func (+ pos (* offset (v!  1f0  0f0))))
+                scale))
+         (s3 (* (funcall func (+ pos (* offset (v!  0f0  1f0))))
+                scale)))
+    (normalize
+     (v! (- s1 s2)
+         2f0
+         (- s0 s3)))))
+
+(defun-g simple-sample-normals ((func (function (:vec2) :float))
+                                (pos :vec2)
                                 (offset :float))
   (let ((scale 1f0)
         (s0 (funcall func (+ pos (v! (- offset)  (- offset)))))
