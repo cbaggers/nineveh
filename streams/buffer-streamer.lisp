@@ -67,13 +67,6 @@
      :arr cepl.types::+null-buffer-backed-gpu-array+
      :gpu-arrays nil)))
 
-(defn buffer-streamer-push ((c-array c-array)
-                            (streamer buffer-streamer)
-                            &optional new-primitive)
-    buffer-streamer
-  (buffer-streamer-push-from-range
-   c-array streamer 0 (first (c-array-dimensions c-array)) new-primitive))
-
 (defn buffer-streamer-push-from-range ((c-array c-array)
                                        (streamer buffer-streamer)
                                        (c-array-start c-array-index)
@@ -82,15 +75,16 @@
     buffer-streamer
   (declare (optimize (speed 3) (safety 1) (debug 1) (compilation-speed 0))
            (inline gpu-array-element-type)
-           (profile t))
+           (profile t)
+           #+sbcl(sb-ext:muffle-conditions sb-ext:compiler-note))
   (assert (= (length (c-array-dimensions c-array)) 1))
-  (assert (<= c-array-end (first (c-array-dimensions c-array))))
+  (assert (<= c-array-end (c-array-total-size c-array)))
   (let* ((g-arr (buffer-streamer-arr streamer))
          (g-len (first (gpu-array-dimensions g-arr)))
          (c-len c-array-end)
          (s-start (cepl.streams::buffer-stream-start streamer))
          (s-len (buffer-stream-length streamer))
-         (old-tail-pos (+ s-start s-len))
+         (old-tail-pos (coerce (+ s-start s-len) '(unsigned-byte 64)))
          (doesnt-wrap (< (+ old-tail-pos c-len) g-len))
          (new-start-pos (if doesnt-wrap
                             old-tail-pos
@@ -115,6 +109,13 @@
                              (* (cepl.c-arrays::c-array-element-byte-size c-array)
                                 c-len))))
     streamer))
+
+(defn buffer-streamer-push ((c-array c-array)
+                            (streamer buffer-streamer)
+                            &optional new-primitive)
+    buffer-streamer
+  (buffer-streamer-push-from-range
+   c-array streamer 0 (first (c-array-dimensions c-array)) new-primitive))
 
 (defmethod push-g ((c-arr c-array) (destination buffer-streamer))
   (buffer-streamer-push c-arr destination))
